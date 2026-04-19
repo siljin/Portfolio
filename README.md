@@ -11,16 +11,35 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000). The dev server uses Turbopack (`next dev --turbopack`).
 
-## Production
+## Production (static export)
+
+This repo uses [`output: "export"`](next.config.ts): `next build` emits plain files under **`out/`**, including **`out/index.html`** for the home page. You do not maintain a hand-written `index.html` in source; Next generates it at build time.
 
 ```bash
 npm run build
-npm start
+# Preview the exported site locally (optional):
+npx --yes serve out
 ```
+
+With static export, `next start` is not used (there is no Node server—only static files).
 
 ## Deploy
 
-The app is fully static-friendly: home and all `/projects/[slug]` routes are prerendered. Deploy to [Vercel](https://vercel.com) by importing the repo, or use any host that runs `next build` / `next start`, or configure [static export](https://nextjs.org/docs/app/building-your-application/deploying/static-exports) if you prefer plain HTML output.
+### Netlify
+
+[`netlify.toml`](netlify.toml) is configured so Netlify runs **`npm run build`** and publishes **`out/`**.
+
+1. In [Netlify](https://www.netlify.com/), add a new site from this Git repo (settings are usually picked up from `netlify.toml`).
+2. Default **Build command**: `npm run build`  
+3. Default **Publish directory**: `out`
+
+After deploy, `/` is served from the generated `index.html`; project pages are emitted as HTML under `out/projects/`.
+
+### Other hosts
+
+Any static host (S3, GitHub Pages, etc.) can upload the contents of **`out/`** after `npm run build`. See Next.js [static exports](https://nextjs.org/docs/app/building-your-application/deploying/static-exports).
+
+You can also deploy to [Vercel](https://vercel.com) with the same repo; Vercel runs `next build` and does not require the `out/` folder when using their Next.js runtime (this project is optimized for Netlify static publish via `out/`).
 
 ## Content: add a project
 

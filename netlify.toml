@@ -1,0 +1,8 @@
+# Static export: `next build` writes HTML + assets to `out/`
+# (includes `out/index.html` for the homepage — no manual rename in source.)
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "20"
