@@ -7,7 +7,7 @@ export function ProjectGrid() {
   return (
     <section id="projects">
       <div className="section-label">Builder</div>
-      <h2 className="section-title">Side Projects</h2>
+      <h2 className="section-title">Projects - AI Product Prototypes</h2>
       <p className="section-sub">
         Things I built for myself — because the best way to understand product
         is to ship one.

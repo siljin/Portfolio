@@ -36,7 +36,7 @@ export function ContactSection() {
         </a>
       </div>
       <div className="footer-bar">
-        <span>{full_name} · Product Manager · MBA</span>
+        <span>{full_name} · Software Engineer · MBA</span>
         <span>Built with intention · 2026</span>
       </div>
     </section>
