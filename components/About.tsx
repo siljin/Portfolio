@@ -8,19 +8,17 @@ export function About() {
       <div className="about-grid">
         <div className="about-text">
           <p>
-            I&apos;m an <strong>APM with 2 years of experience</strong> in B2B
-            SaaS, focused on the parts of the product journey that companies
-            often underinvest in: onboarding, activation, and retention.
+            I&apos;m an <strong>MBA candidate at UT Austin McCombs</strong> with
+            five years building enterprise software at scale, from software
+            engineer to delivery lead.
           </p>
           <p>
-            Before product, I was [background here — engineering, design,
-            consulting, etc.]. That background shapes how I think: I lead with{" "}
-            <strong>data, move fast, and write clear specs</strong>.
-          </p>
-          <p>
-            Outside work, I build tools for myself and occasionally for others.
-            I think the best PMs are also builders — the empathy for what
-            engineering actually takes is irreplaceable.
+            Before the MBA, I shipped systems most people never see but always
+            depend on: <strong>data pipelines moving millions of records</strong>
+            , APIs connecting fragmented platforms, and a{" "}
+            <strong>GenAI retrieval tool that cut analyst work by hundreds of hours a year</strong>. That background shapes how I think:
+            I read a P&amp;L and a system diagram with equal comfort, and I write
+            specs that engineering teams actually want to build.
           </p>
           <Link href="#contact" className="btn btnPrimary">
             Get in touch
