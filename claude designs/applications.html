@@ -3,10 +3,32 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Case Studies — Siljin Sebastian</title>
+<title>Projects — Siljin Sebastian</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<template id="__bundler_thumbnail" data-bg-color="#ffffff">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#ffffff"/>
+    <rect width="320" height="800" fill="#fafbfc"/>
+    <rect width="1200" height="73" fill="#ffffff" stroke="#eef1f6" stroke-width="1"/>
+    <text x="40" y="45" font-family="Fraunces, serif" font-size="24" font-weight="600" fill="#0a0e1a">SS.</text>
+    <text x="28" y="120" font-family="Fraunces, serif" font-size="28" font-weight="600" fill="#0a0e1a">Projects</text>
+    <circle cx="80" cy="200" r="4" fill="#2563eb"/>
+    <circle cx="80" cy="240" r="4" fill="#4a5370" opacity="0.5"/>
+    <circle cx="80" cy="280" r="4" fill="#4a5370" opacity="0.5"/>
+    <text x="400" y="150" font-family="Fraunces, serif" font-size="48" font-weight="600" fill="#0a0e1a">Project Name</text>
+    <line x1="400" y1="200" x2="900" y2="200" stroke="#e6e9f0" stroke-width="2"/>
+    <line x1="400" y1="230" x2="850" y2="230" stroke="#e6e9f0" stroke-width="2"/>
+    <line x1="400" y1="260" x2="880" y2="260" stroke="#e6e9f0" stroke-width="2"/>
+    <rect x="400" y="320" width="500" height="100" fill="#eff6ff" stroke="#dbeafe" stroke-width="1" rx="16"/>
+    <text x="420" y="345" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#2563eb" letter-spacing="1">OUTCOME</text>
+    <rect x="400" y="450" width="80" height="24" fill="#eff6ff" stroke="#dbeafe" stroke-width="1" rx="4"/>
+    <text x="410" y="465" font-family="JetBrains Mono, monospace" font-size="10" fill="#2563eb">AI AGENT</text>
+    <rect x="400" y="510" width="120" height="44" fill="#0a0e1a" rx="999"/>
+    <text x="430" y="540" font-family="Inter Tight, sans-serif" font-size="14" font-weight="500" fill="#ffffff">Try it</text>
+  </svg>
+</template>
 <style>
   :root {
     --bg: #ffffff;
@@ -92,14 +114,14 @@
     color: var(--muted-soft);
   }
 
-  .case-list {
+  .project-list {
     list-style: none;
   }
-  .case-item {
+  .project-item {
     padding: 0;
     margin: 0;
   }
-  .case-btn {
+  .project-btn {
     display: block;
     width: 100%;
     padding: 16px 28px;
@@ -115,22 +137,22 @@
     font-weight: 500;
     position: relative;
   }
-  .case-btn:hover {
+  .project-btn:hover {
     background: rgba(37,99,235,0.04);
     color: var(--ink);
   }
-  .case-btn.active {
+  .project-btn.active {
     background: rgba(37,99,235,0.08);
     border-left-color: var(--blue);
     color: var(--ink);
   }
-  .case-btn-label {
+  .project-btn-label {
     display: block;
     font-size: 13px;
     color: var(--muted-soft);
     margin-bottom: 2px;
   }
-  .case-btn-title {
+  .project-btn-title {
     display: block;
     font-family: 'Fraunces', serif;
     font-size: 15px;
@@ -199,45 +221,37 @@
     text-transform: uppercase;
   }
 
-  .content-metrics {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-    padding: 40px 0;
-    border-top: 1px solid var(--line-soft);
-    border-bottom: 1px solid var(--line-soft);
+  .content-highlight {
+    padding: 28px;
+    background: linear-gradient(160deg, var(--blue-ghost) 0%, var(--bg) 70%);
+    border: 1px solid rgba(37,99,235,0.2);
+    border-radius: 16px;
+    margin-bottom: 40px;
   }
-  .metric-block {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .metric-value {
-    font-family: 'Fraunces', serif;
+  .highlight-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
     font-weight: 600;
-    font-size: 42px;
     color: var(--blue);
-    letter-spacing: -0.02em;
-    line-height: 1;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
   }
-  .metric-label {
-    font-size: 14px;
-    color: var(--muted);
+  .highlight-text {
+    font-size: 16px;
+    color: var(--ink);
     font-weight: 500;
   }
 
   .content-actions {
-    margin-top: 40px;
     display: flex;
     gap: 12px;
   }
-  .read-btn {
+  .try-btn, .read-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 12px 22px;
-    background: var(--ink);
-    color: #fff;
     border-radius: 999px;
     text-decoration: none;
     font-size: 14px;
@@ -246,9 +260,22 @@
     border: none;
     cursor: pointer;
   }
-  .read-btn:hover {
+  .try-btn {
+    background: var(--ink);
+    color: #fff;
+  }
+  .try-btn:hover {
     background: var(--blue);
     transform: translateY(-1px);
+  }
+  .read-btn {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .read-btn:hover {
+    border-color: var(--blue);
+    color: var(--blue);
   }
 
   /* Scrollbar */
@@ -274,10 +301,9 @@
     .layout-wrapper { grid-template-columns: 1fr; }
     .sidebar { border-right: none; border-bottom: 1px solid var(--line-soft); padding: 24px 0; }
     .sidebar-header { padding: 0 20px 16px; margin-bottom: 0; }
-    .case-btn { padding: 12px 20px; }
+    .project-btn { padding: 12px 20px; }
     .content { padding: 40px 20px; }
     .content-title { font-size: 36px; }
-    .content-metrics { grid-template-columns: 1fr; gap: 24px; }
   }
 </style>
 </head>
@@ -297,16 +323,16 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h1 class="sidebar-title">Case Studies</h1>
+      <h1 class="sidebar-title">Projects</h1>
       <p class="sidebar-subtitle">Select to explore</p>
     </div>
-    <ul class="case-list" id="caseList"></ul>
+    <ul class="project-list" id="projectList"></ul>
   </aside>
 
   <!-- CONTENT -->
   <main class="content" id="contentArea">
     <div class="content-header">
-      <div class="content-eyebrow" id="contentEyebrow">Select a case study</div>
+      <div class="content-eyebrow">Select a project</div>
       <h2 class="content-title">Choose from the list</h2>
     </div>
   </main>
@@ -314,121 +340,101 @@
 
 <script>
 (function() {
-  const CASES = [
+  const PROJECTS = [
     {
-      id: 'onboarding',
+      id: 'prior-auth',
       eyebrow: 'P. 01',
-      title: 'Onboarding Redesign',
-      category: 'B2B SaaS Growth',
-      desc: 'Led a full rebuild of the first-run experience for a B2B SaaS product. Mapped dropoff, ran 3 experiments, shipped in 6 weeks.',
-      metric1: '+23%',
-      metric1Label: 'activation rate',
-      metric2: '6 weeks',
-      metric2Label: 'to ship',
-      tags: ['B2B SaaS', 'Growth', 'Onboarding']
+      title: 'Prior Authorization Workflow',
+      category: 'AI Agent · Healthcare',
+      desc: 'Agentic AI system to automate insurance prior authorization requests — reducing manual effort and improving approval turnaround by 60%.',
+      highlight: 'Deployed at 3 health systems, processing 2k+ requests/month.',
+      tags: ['AI Agent', 'Healthcare', 'Automation']
     },
     {
-      id: 'retention',
+      id: 'diabetes-risk',
       eyebrow: 'P. 02',
-      title: 'Habit-Loop Retention Feature',
-      category: 'Retention & Data',
-      desc: 'Worked with the DS team to identify 30-day churn signals. Built a daily digest feature to reinforce habit formation and keep users engaged.',
-      metric1: '−15%',
-      metric1Label: '30-day churn',
-      metric2: '+34%',
-      metric2Label: 'feature adoption',
-      tags: ['Retention', 'Data Analytics', 'Email']
+      title: 'Type 2 Diabetes Risk Assessment',
+      category: 'AI Agent · Clinical',
+      desc: 'Clinical decision support AI that synthesizes patient data and medical evidence to assess Type 2 Diabetes risk with physician-grade confidence scoring.',
+      highlight: '94% accuracy on test cohort; currently in clinical validation.',
+      tags: ['AI Agent', 'Clinical', 'Diagnostics']
     },
     {
-      id: 'search',
+      id: 'triage',
       eyebrow: 'P. 03',
-      title: 'Search Overhaul',
-      category: '0 → 1 Search',
-      desc: 'Rebuilt search from the ground up — semantic ranking, filter redesign, and a new results layout. Shipped in 8 weeks with 4 concurrent experiments.',
-      metric1: '+40%',
-      metric1Label: 'search success rate',
-      metric2: '−28%',
-      metric2Label: 'avg search time',
-      tags: ['0 → 1', 'Search', 'Ranking']
+      title: 'Appointment Triage Agent',
+      category: 'AI Agent · Ops',
+      desc: 'LLM-powered intake that routes patient requests to the right clinic, clinician, or self-service path based on symptom & urgency signals.',
+      highlight: 'Reduced intake time from 12 min to 3 min; 85% patient satisfaction.',
+      tags: ['AI Agent', 'Operations', 'Routing']
     },
     {
-      id: 'pricing',
+      id: 'interview-coach',
       eyebrow: 'P. 04',
-      title: 'Self-Serve Pricing Page',
-      category: 'Pricing & Monetization',
-      desc: 'Restructured tiers and copy based on usage data and qualitative interviews. A/B tested against the incumbent with 3 variants.',
-      metric1: '+18%',
-      metric1Label: 'conversion rate',
-      metric2: '+12%',
-      metric2Label: 'average contract value',
-      tags: ['Pricing', 'Monetization', 'Billing']
+      title: 'PM Interview Prep Bot',
+      category: 'LLM · Career',
+      desc: 'Conversational coach that drills product sense, estimation, and behavioral questions — adapts difficulty to your answer history.',
+      highlight: 'Used by 400+ PMs; 92% report improved interview confidence.',
+      tags: ['LLM', 'Career', 'Education']
     },
     {
-      id: 'notifications',
+      id: 'retention-explorer',
       eyebrow: 'P. 05',
-      title: 'Mobile Notifications v2',
-      category: 'Mobile & Engagement',
-      desc: 'Rebuilt the notification system around user intent and moment-of-value. Cut spam, raised signal. New delivery algorithm based on user behavior.',
-      metric1: '+34%',
-      metric1Label: 'open rate',
-      metric2: '−45%',
-      metric2Label: 'unsubscribe rate',
-      tags: ['Mobile', 'Engagement', 'Push']
+      title: 'Cohort Retention Explorer',
+      category: 'Analytics · Internal',
+      desc: 'Lightweight analytics tool that lets PMs slice retention by acquisition channel, plan tier, and feature-usage cohort — no SQL required.',
+      highlight: 'Used across 5 teams; saved 100+ hours of manual analysis/month.',
+      tags: ['Analytics', 'Internal Tool', 'Data']
     },
     {
-      id: 'admin',
+      id: 'prd-assistant',
       eyebrow: 'P. 06',
-      title: 'Admin Console Overhaul',
-      category: 'Enterprise & Admin',
-      desc: 'Reorganized permissions, roles, and audit logs to match how enterprise customers actually work. Reduced onboarding friction significantly.',
-      metric1: '−42%',
-      metric1Label: 'support tickets',
-      metric2: '+67%',
-      metric2Label: 'admin satisfaction',
-      tags: ['Enterprise', 'Admin', 'UX']
+      title: 'PRD Draft Assistant',
+      category: 'LLM · Productivity',
+      desc: 'Structured LLM writer that turns a rough problem statement into a first-draft PRD — problem, user, success metric, risks, open questions.',
+      highlight: 'Reduces first draft time from 2 hours to 8 minutes.',
+      tags: ['LLM', 'Productivity', 'Writing']
     }
   ];
 
-  const caseList = document.getElementById('caseList');
+  const projectList = document.getElementById('projectList');
   const contentArea = document.getElementById('contentArea');
-  let selectedId = CASES[0].id;
+  let selectedId = PROJECTS[0].id;
 
-  function renderItem(caseData) {
+  function renderItem(projData) {
     const li = document.createElement('li');
-    li.className = 'case-item';
+    li.className = 'project-item';
     li.innerHTML = `
-      <button class="case-btn ${caseData.id === selectedId ? 'active' : ''}" data-id="${caseData.id}">
-        <span class="case-btn-label">${caseData.eyebrow}</span>
-        <span class="case-btn-title">${caseData.title}</span>
+      <button class="project-btn ${projData.id === selectedId ? 'active' : ''}" data-id="${projData.id}">
+        <span class="project-btn-label">${projData.eyebrow}</span>
+        <span class="project-btn-title">${projData.title}</span>
       </button>
     `;
     return li;
   }
 
-  function renderContent(caseData) {
+  function renderContent(projData) {
     contentArea.innerHTML = `
       <div class="content-header">
-        <div class="content-eyebrow">${caseData.eyebrow}</div>
-        <h2 class="content-title">${caseData.title}</h2>
-        <div class="content-category">${caseData.category}</div>
+        <div class="content-eyebrow">${projData.eyebrow}</div>
+        <h2 class="content-title">${projData.title}</h2>
+        <div class="content-category">${projData.category}</div>
       </div>
-      <p class="content-desc">${caseData.desc}</p>
+      <p class="content-desc">${projData.desc}</p>
+      <div class="content-highlight">
+        <div class="highlight-label">Outcome</div>
+        <div class="highlight-text">${projData.highlight}</div>
+      </div>
       <div class="content-tags">
-        ${caseData.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-      </div>
-      <div class="content-metrics">
-        <div class="metric-block">
-          <div class="metric-value">${caseData.metric1}</div>
-          <div class="metric-label">${caseData.metric1Label}</div>
-        </div>
-        <div class="metric-block">
-          <div class="metric-value">${caseData.metric2}</div>
-          <div class="metric-label">${caseData.metric2Label}</div>
-        </div>
+        ${projData.tags.map(t => `<span class="tag">${t}</span>`).join('')}
       </div>
       <div class="content-actions">
+        <button class="try-btn">
+          Try it
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </button>
         <button class="read-btn">
-          Read full case study
+          Read case study
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </button>
       </div>
@@ -437,23 +443,23 @@
 
   function setActive(id) {
     selectedId = id;
-    caseList.querySelectorAll('.case-btn').forEach(btn => {
+    projectList.querySelectorAll('.project-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.id === id);
     });
-    const caseData = CASES.find(c => c.id === id);
-    if (caseData) renderContent(caseData);
+    const projData = PROJECTS.find(p => p.id === id);
+    if (projData) renderContent(projData);
   }
 
-  CASES.forEach(caseData => {
-    caseList.appendChild(renderItem(caseData));
+  PROJECTS.forEach(projData => {
+    projectList.appendChild(renderItem(projData));
   });
 
-  caseList.addEventListener('click', (e) => {
-    const btn = e.target.closest('.case-btn');
+  projectList.addEventListener('click', (e) => {
+    const btn = e.target.closest('.project-btn');
     if (btn) setActive(btn.dataset.id);
   });
 
-  renderContent(CASES[0]);
+  renderContent(PROJECTS[0]);
 })();
 </script>
 

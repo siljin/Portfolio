@@ -684,6 +684,37 @@ section.block {
   text-transform: uppercase;
 }
 
+.projects-content-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  padding: 40px 0;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  margin-bottom: 40px;
+}
+
+.projects-metric-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.projects-metric-value {
+  font-family: var(--font-fraunces);
+  font-weight: 600;
+  font-size: 42px;
+  color: var(--blue);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.projects-metric-label {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
 .projects-content-actions {
   display: flex;
   gap: 12px;
@@ -715,14 +746,13 @@ section.block {
 }
 
 .projects-read-btn {
-  background: transparent;
-  color: var(--ink);
-  border: 1px solid var(--line);
+  background: var(--ink);
+  color: #fff;
 }
 
 .projects-read-btn:hover {
-  border-color: var(--blue);
-  color: var(--blue);
+  background: var(--blue);
+  transform: translateY(-1px);
 }
 
 /* Scrollbar */
@@ -1419,5 +1449,10 @@ footer {
 
   .projects-content-title {
     font-size: 36px;
+  }
+
+  .projects-content-metrics {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 }
