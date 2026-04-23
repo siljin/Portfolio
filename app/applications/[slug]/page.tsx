@@ -6,7 +6,7 @@ import {
   getProjectBySlug,
   getProjectSlugs,
   type Project,
-} from "@/lib/projects";
+} from "@/lib/applications";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -37,8 +37,8 @@ export default async function ProjectPage({ params }: PageProps) {
 function ProjectDetail({ project }: { project: Project }) {
   return (
     <article className="projectPage">
-      <Link href="/#projects" className="projectPageBack">
-        ← Back to projects
+      <Link href="/#applications" className="projectPageBack">
+        ← Back to applications
       </Link>
       <span className="projectPageTag mono">{project.tag}</span>
       <h1>{project.title}</h1>

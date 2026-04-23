@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Case Studies — Siljin Sebastian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-subtle: #fafbfc;
+    --ink: #0a0e1a;
+    --muted: #4a5370;
+    --muted-soft: #6b7489;
+    --line: #e6e9f0;
+    --line-soft: #eef1f6;
+    --blue: #2563eb;
+    --blue-bright: #3b82f6;
+    --blue-soft: #dbeafe;
+    --blue-ghost: #eff6ff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px; max-width: 1360px; margin: 0 auto;
+  }
+  .logo {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 19px;
+    letter-spacing: -0.02em; color: var(--ink); text-decoration: none;
+  }
+  .logo .dot { color: var(--blue); }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500;
+    transition: color 0.2s ease, gap 0.2s ease;
+  }
+  .back-link:hover { color: var(--ink); gap: 12px; }
+  .back-link .arrow { transition: transform 0.2s ease; }
+  .back-link:hover .arrow { transform: translateX(-3px); }
+
+  /* Main layout */
+  .layout-wrapper {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    min-height: calc(100vh - 73px);
+    position: relative;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    border-right: 1px solid var(--line-soft);
+    background: var(--bg-subtle);
+    overflow-y: auto;
+    padding: 40px 0;
+  }
+  .sidebar-header {
+    padding: 0 28px 24px;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 24px;
+  }
+  .sidebar-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .sidebar-subtitle {
+    font-size: 13px;
+    color: var(--muted-soft);
+  }
+
+  .case-list {
+    list-style: none;
+  }
+  .case-item {
+    padding: 0;
+    margin: 0;
+  }
+  .case-btn {
+    display: block;
+    width: 100%;
+    padding: 16px 28px;
+    background: transparent;
+    border: none;
+    border-left: 3px solid transparent;
+    text-align: left;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+  }
+  .case-btn:hover {
+    background: rgba(37,99,235,0.04);
+    color: var(--ink);
+  }
+  .case-btn.active {
+    background: rgba(37,99,235,0.08);
+    border-left-color: var(--blue);
+    color: var(--ink);
+  }
+  .case-btn-label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted-soft);
+    margin-bottom: 2px;
+  }
+  .case-btn-title {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: currentColor;
+    letter-spacing: -0.01em;
+  }
+
+  /* Main content */
+  .content {
+    padding: 60px;
+    overflow-y: auto;
+  }
+  .content-header {
+    margin-bottom: 48px;
+  }
+  .content-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted-soft);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .content-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .content-category {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--blue);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .content-desc {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 720px;
+    margin-bottom: 32px;
+  }
+
+  .content-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--blue);
+    background: var(--blue-ghost);
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .content-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    padding: 40px 0;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .metric-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .metric-value {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 42px;
+    color: var(--blue);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .metric-label {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .content-actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 12px;
+  }
+  .read-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+  }
+  .read-btn:hover {
+    background: var(--blue);
+    transform: translateY(-1px);
+  }
+
+  /* Scrollbar */
+  .sidebar::-webkit-scrollbar,
+  .content::-webkit-scrollbar {
+    width: 8px;
+  }
+  .sidebar::-webkit-scrollbar-track,
+  .content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .sidebar::-webkit-scrollbar-thumb,
+  .content::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 4px;
+  }
+  .sidebar::-webkit-scrollbar-thumb:hover,
+  .content::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-soft);
+  }
+
+  @media (max-width: 900px) {
+    .layout-wrapper { grid-template-columns: 1fr; }
+    .sidebar { border-right: none; border-bottom: 1px solid var(--line-soft); padding: 24px 0; }
+    .sidebar-header { padding: 0 20px 16px; margin-bottom: 0; }
+    .case-btn { padding: 12px 20px; }
+    .content { padding: 40px 20px; }
+    .content-title { font-size: 36px; }
+    .content-metrics { grid-template-columns: 1fr; gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="Portfolio.html" class="logo">Siljin Sebastian<span class="dot">.</span></a>
+    <a href="Portfolio.html" class="back-link">
+      <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to portfolio
+    </a>
+  </div>
+</nav>
+
+<div class="layout-wrapper">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1 class="sidebar-title">Case Studies</h1>
+      <p class="sidebar-subtitle">Select to explore</p>
+    </div>
+    <ul class="case-list" id="caseList"></ul>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content" id="contentArea">
+    <div class="content-header">
+      <div class="content-eyebrow" id="contentEyebrow">Select a case study</div>
+      <h2 class="content-title">Choose from the list</h2>
+    </div>
+  </main>
+</div>
+
+<script>
+(function() {
+  const CASES = [
+    {
+      id: 'onboarding',
+      eyebrow: 'P. 01',
+      title: 'Onboarding Redesign',
+      category: 'B2B SaaS Growth',
+      desc: 'Led a full rebuild of the first-run experience for a B2B SaaS product. Mapped dropoff, ran 3 experiments, shipped in 6 weeks.',
+      metric1: '+23%',
+      metric1Label: 'activation rate',
+      metric2: '6 weeks',
+      metric2Label: 'to ship',
+      tags: ['B2B SaaS', 'Growth', 'Onboarding']
+    },
+    {
+      id: 'retention',
+      eyebrow: 'P. 02',
+      title: 'Habit-Loop Retention Feature',
+      category: 'Retention & Data',
+      desc: 'Worked with the DS team to identify 30-day churn signals. Built a daily digest feature to reinforce habit formation and keep users engaged.',
+      metric1: '−15%',
+      metric1Label: '30-day churn',
+      metric2: '+34%',
+      metric2Label: 'feature adoption',
+      tags: ['Retention', 'Data Analytics', 'Email']
+    },
+    {
+      id: 'search',
+      eyebrow: 'P. 03',
+      title: 'Search Overhaul',
+      category: '0 → 1 Search',
+      desc: 'Rebuilt search from the ground up — semantic ranking, filter redesign, and a new results layout. Shipped in 8 weeks with 4 concurrent experiments.',
+      metric1: '+40%',
+      metric1Label: 'search success rate',
+      metric2: '−28%',
+      metric2Label: 'avg search time',
+      tags: ['0 → 1', 'Search', 'Ranking']
+    },
+    {
+      id: 'pricing',
+      eyebrow: 'P. 04',
+      title: 'Self-Serve Pricing Page',
+      category: 'Pricing & Monetization',
+      desc: 'Restructured tiers and copy based on usage data and qualitative interviews. A/B tested against the incumbent with 3 variants.',
+      metric1: '+18%',
+      metric1Label: 'conversion rate',
+      metric2: '+12%',
+      metric2Label: 'average contract value',
+      tags: ['Pricing', 'Monetization', 'Billing']
+    },
+    {
+      id: 'notifications',
+      eyebrow: 'P. 05',
+      title: 'Mobile Notifications v2',
+      category: 'Mobile & Engagement',
+      desc: 'Rebuilt the notification system around user intent and moment-of-value. Cut spam, raised signal. New delivery algorithm based on user behavior.',
+      metric1: '+34%',
+      metric1Label: 'open rate',
+      metric2: '−45%',
+      metric2Label: 'unsubscribe rate',
+      tags: ['Mobile', 'Engagement', 'Push']
+    },
+    {
+      id: 'admin',
+      eyebrow: 'P. 06',
+      title: 'Admin Console Overhaul',
+      category: 'Enterprise & Admin',
+      desc: 'Reorganized permissions, roles, and audit logs to match how enterprise customers actually work. Reduced onboarding friction significantly.',
+      metric1: '−42%',
+      metric1Label: 'support tickets',
+      metric2: '+67%',
+      metric2Label: 'admin satisfaction',
+      tags: ['Enterprise', 'Admin', 'UX']
+    }
+  ];
+
+  const caseList = document.getElementById('caseList');
+  const contentArea = document.getElementById('contentArea');
+  let selectedId = CASES[0].id;
+
+  function renderItem(caseData) {
+    const li = document.createElement('li');
+    li.className = 'case-item';
+    li.innerHTML = `
+      <button class="case-btn ${caseData.id === selectedId ? 'active' : ''}" data-id="${caseData.id}">
+        <span class="case-btn-label">${caseData.eyebrow}</span>
+        <span class="case-btn-title">${caseData.title}</span>
+      </button>
+    `;
+    return li;
+  }
+
+  function renderContent(caseData) {
+    contentArea.innerHTML = `
+      <div class="content-header">
+        <div class="content-eyebrow">${caseData.eyebrow}</div>
+        <h2 class="content-title">${caseData.title}</h2>
+        <div class="content-category">${caseData.category}</div>
+      </div>
+      <p class="content-desc">${caseData.desc}</p>
+      <div class="content-tags">
+        ${caseData.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+      </div>
+      <div class="content-metrics">
+        <div class="metric-block">
+          <div class="metric-value">${caseData.metric1}</div>
+          <div class="metric-label">${caseData.metric1Label}</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-value">${caseData.metric2}</div>
+          <div class="metric-label">${caseData.metric2Label}</div>
+        </div>
+      </div>
+      <div class="content-actions">
+        <button class="read-btn">
+          Read full case study
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    `;
+  }
+
+  function setActive(id) {
+    selectedId = id;
+    caseList.querySelectorAll('.case-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.id === id);
+    });
+    const caseData = CASES.find(c => c.id === id);
+    if (caseData) renderContent(caseData);
+  }
+
+  CASES.forEach(caseData => {
+    caseList.appendChild(renderItem(caseData));
+  });
+
+  caseList.addEventListener('click', (e) => {
+    const btn = e.target.closest('.case-btn');
+    if (btn) setActive(btn.dataset.id);
+  });
+
+  renderContent(CASES[0]);
+})();
+</script>
+
+</body>
+</html>

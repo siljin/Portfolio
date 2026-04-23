@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p '/Users/siljin/Desktop/Github/PM-Portfolio/app/applications/[slug]')",
+      "Bash(cp '/Users/siljin/Desktop/Github/PM-Portfolio/app/projects/[slug]/page.tsx' '/Users/siljin/Desktop/Github/PM-Portfolio/app/applications/[slug]/page.tsx')"
+    ]
+  }
+}

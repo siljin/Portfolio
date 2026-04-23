@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projects — Siljin Sebastian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<template id="__bundler_thumbnail" data-bg-color="#ffffff">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#ffffff"/>
+    <rect width="320" height="800" fill="#fafbfc"/>
+    <rect width="1200" height="73" fill="#ffffff" stroke="#eef1f6" stroke-width="1"/>
+    <text x="40" y="45" font-family="Fraunces, serif" font-size="24" font-weight="600" fill="#0a0e1a">SS.</text>
+    <text x="28" y="120" font-family="Fraunces, serif" font-size="28" font-weight="600" fill="#0a0e1a">Projects</text>
+    <circle cx="80" cy="200" r="4" fill="#2563eb"/>
+    <circle cx="80" cy="240" r="4" fill="#4a5370" opacity="0.5"/>
+    <circle cx="80" cy="280" r="4" fill="#4a5370" opacity="0.5"/>
+    <text x="400" y="150" font-family="Fraunces, serif" font-size="48" font-weight="600" fill="#0a0e1a">Project Name</text>
+    <line x1="400" y1="200" x2="900" y2="200" stroke="#e6e9f0" stroke-width="2"/>
+    <line x1="400" y1="230" x2="850" y2="230" stroke="#e6e9f0" stroke-width="2"/>
+    <line x1="400" y1="260" x2="880" y2="260" stroke="#e6e9f0" stroke-width="2"/>
+    <rect x="400" y="320" width="500" height="100" fill="#eff6ff" stroke="#dbeafe" stroke-width="1" rx="16"/>
+    <text x="420" y="345" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#2563eb" letter-spacing="1">OUTCOME</text>
+    <rect x="400" y="450" width="80" height="24" fill="#eff6ff" stroke="#dbeafe" stroke-width="1" rx="4"/>
+    <text x="410" y="465" font-family="JetBrains Mono, monospace" font-size="10" fill="#2563eb">AI AGENT</text>
+    <rect x="400" y="510" width="120" height="44" fill="#0a0e1a" rx="999"/>
+    <text x="430" y="540" font-family="Inter Tight, sans-serif" font-size="14" font-weight="500" fill="#ffffff">Try it</text>
+  </svg>
+</template>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-subtle: #fafbfc;
+    --ink: #0a0e1a;
+    --muted: #4a5370;
+    --muted-soft: #6b7489;
+    --line: #e6e9f0;
+    --line-soft: #eef1f6;
+    --blue: #2563eb;
+    --blue-bright: #3b82f6;
+    --blue-soft: #dbeafe;
+    --blue-ghost: #eff6ff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px; max-width: 1360px; margin: 0 auto;
+  }
+  .logo {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 19px;
+    letter-spacing: -0.02em; color: var(--ink); text-decoration: none;
+  }
+  .logo .dot { color: var(--blue); }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500;
+    transition: color 0.2s ease, gap 0.2s ease;
+  }
+  .back-link:hover { color: var(--ink); gap: 12px; }
+  .back-link .arrow { transition: transform 0.2s ease; }
+  .back-link:hover .arrow { transform: translateX(-3px); }
+
+  /* Main layout */
+  .layout-wrapper {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    min-height: calc(100vh - 73px);
+    position: relative;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    border-right: 1px solid var(--line-soft);
+    background: var(--bg-subtle);
+    overflow-y: auto;
+    padding: 40px 0;
+  }
+  .sidebar-header {
+    padding: 0 28px 24px;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 24px;
+  }
+  .sidebar-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .sidebar-subtitle {
+    font-size: 13px;
+    color: var(--muted-soft);
+  }
+
+  .project-list {
+    list-style: none;
+  }
+  .project-item {
+    padding: 0;
+    margin: 0;
+  }
+  .project-btn {
+    display: block;
+    width: 100%;
+    padding: 16px 28px;
+    background: transparent;
+    border: none;
+    border-left: 3px solid transparent;
+    text-align: left;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+  }
+  .project-btn:hover {
+    background: rgba(37,99,235,0.04);
+    color: var(--ink);
+  }
+  .project-btn.active {
+    background: rgba(37,99,235,0.08);
+    border-left-color: var(--blue);
+    color: var(--ink);
+  }
+  .project-btn-label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted-soft);
+    margin-bottom: 2px;
+  }
+  .project-btn-title {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: currentColor;
+    letter-spacing: -0.01em;
+  }
+
+  /* Main content */
+  .content {
+    padding: 60px;
+    overflow-y: auto;
+  }
+  .content-header {
+    margin-bottom: 48px;
+  }
+  .content-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted-soft);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .content-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .content-category {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--blue);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .content-desc {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 720px;
+    margin-bottom: 32px;
+  }
+
+  .content-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--blue);
+    background: var(--blue-ghost);
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .content-highlight {
+    padding: 28px;
+    background: linear-gradient(160deg, var(--blue-ghost) 0%, var(--bg) 70%);
+    border: 1px solid rgba(37,99,235,0.2);
+    border-radius: 16px;
+    margin-bottom: 40px;
+  }
+  .highlight-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--blue);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .highlight-text {
+    font-size: 16px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .content-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .try-btn, .read-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+  }
+  .try-btn {
+    background: var(--ink);
+    color: #fff;
+  }
+  .try-btn:hover {
+    background: var(--blue);
+    transform: translateY(-1px);
+  }
+  .read-btn {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .read-btn:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
+  /* Scrollbar */
+  .sidebar::-webkit-scrollbar,
+  .content::-webkit-scrollbar {
+    width: 8px;
+  }
+  .sidebar::-webkit-scrollbar-track,
+  .content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .sidebar::-webkit-scrollbar-thumb,
+  .content::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 4px;
+  }
+  .sidebar::-webkit-scrollbar-thumb:hover,
+  .content::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-soft);
+  }
+
+  @media (max-width: 900px) {
+    .layout-wrapper { grid-template-columns: 1fr; }
+    .sidebar { border-right: none; border-bottom: 1px solid var(--line-soft); padding: 24px 0; }
+    .sidebar-header { padding: 0 20px 16px; margin-bottom: 0; }
+    .project-btn { padding: 12px 20px; }
+    .content { padding: 40px 20px; }
+    .content-title { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="Portfolio.html" class="logo">Siljin Sebastian<span class="dot">.</span></a>
+    <a href="Portfolio.html" class="back-link">
+      <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to portfolio
+    </a>
+  </div>
+</nav>
+
+<div class="layout-wrapper">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1 class="sidebar-title">Projects</h1>
+      <p class="sidebar-subtitle">Select to explore</p>
+    </div>
+    <ul class="project-list" id="projectList"></ul>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content" id="contentArea">
+    <div class="content-header">
+      <div class="content-eyebrow">Select a project</div>
+      <h2 class="content-title">Choose from the list</h2>
+    </div>
+  </main>
+</div>
+
+<script>
+(function() {
+  const PROJECTS = [
+    {
+      id: 'prior-auth',
+      eyebrow: 'P. 01',
+      title: 'Prior Authorization Workflow',
+      category: 'AI Agent · Healthcare',
+      desc: 'Agentic AI system to automate insurance prior authorization requests — reducing manual effort and improving approval turnaround by 60%.',
+      highlight: 'Deployed at 3 health systems, processing 2k+ requests/month.',
+      tags: ['AI Agent', 'Healthcare', 'Automation']
+    },
+    {
+      id: 'diabetes-risk',
+      eyebrow: 'P. 02',
+      title: 'Type 2 Diabetes Risk Assessment',
+      category: 'AI Agent · Clinical',
+      desc: 'Clinical decision support AI that synthesizes patient data and medical evidence to assess Type 2 Diabetes risk with physician-grade confidence scoring.',
+      highlight: '94% accuracy on test cohort; currently in clinical validation.',
+      tags: ['AI Agent', 'Clinical', 'Diagnostics']
+    },
+    {
+      id: 'triage',
+      eyebrow: 'P. 03',
+      title: 'Appointment Triage Agent',
+      category: 'AI Agent · Ops',
+      desc: 'LLM-powered intake that routes patient requests to the right clinic, clinician, or self-service path based on symptom & urgency signals.',
+      highlight: 'Reduced intake time from 12 min to 3 min; 85% patient satisfaction.',
+      tags: ['AI Agent', 'Operations', 'Routing']
+    },
+    {
+      id: 'interview-coach',
+      eyebrow: 'P. 04',
+      title: 'PM Interview Prep Bot',
+      category: 'LLM · Career',
+      desc: 'Conversational coach that drills product sense, estimation, and behavioral questions — adapts difficulty to your answer history.',
+      highlight: 'Used by 400+ PMs; 92% report improved interview confidence.',
+      tags: ['LLM', 'Career', 'Education']
+    },
+    {
+      id: 'retention-explorer',
+      eyebrow: 'P. 05',
+      title: 'Cohort Retention Explorer',
+      category: 'Analytics · Internal',
+      desc: 'Lightweight analytics tool that lets PMs slice retention by acquisition channel, plan tier, and feature-usage cohort — no SQL required.',
+      highlight: 'Used across 5 teams; saved 100+ hours of manual analysis/month.',
+      tags: ['Analytics', 'Internal Tool', 'Data']
+    },
+    {
+      id: 'prd-assistant',
+      eyebrow: 'P. 06',
+      title: 'PRD Draft Assistant',
+      category: 'LLM · Productivity',
+      desc: 'Structured LLM writer that turns a rough problem statement into a first-draft PRD — problem, user, success metric, risks, open questions.',
+      highlight: 'Reduces first draft time from 2 hours to 8 minutes.',
+      tags: ['LLM', 'Productivity', 'Writing']
+    }
+  ];
+
+  const projectList = document.getElementById('projectList');
+  const contentArea = document.getElementById('contentArea');
+  let selectedId = PROJECTS[0].id;
+
+  function renderItem(projData) {
+    const li = document.createElement('li');
+    li.className = 'project-item';
+    li.innerHTML = `
+      <button class="project-btn ${projData.id === selectedId ? 'active' : ''}" data-id="${projData.id}">
+        <span class="project-btn-label">${projData.eyebrow}</span>
+        <span class="project-btn-title">${projData.title}</span>
+      </button>
+    `;
+    return li;
+  }
+
+  function renderContent(projData) {
+    contentArea.innerHTML = `
+      <div class="content-header">
+        <div class="content-eyebrow">${projData.eyebrow}</div>
+        <h2 class="content-title">${projData.title}</h2>
+        <div class="content-category">${projData.category}</div>
+      </div>
+      <p class="content-desc">${projData.desc}</p>
+      <div class="content-highlight">
+        <div class="highlight-label">Outcome</div>
+        <div class="highlight-text">${projData.highlight}</div>
+      </div>
+      <div class="content-tags">
+        ${projData.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+      </div>
+      <div class="content-actions">
+        <button class="try-btn">
+          Try it
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </button>
+        <button class="read-btn">
+          Read case study
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    `;
+  }
+
+  function setActive(id) {
+    selectedId = id;
+    projectList.querySelectorAll('.project-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.id === id);
+    });
+    const projData = PROJECTS.find(p => p.id === id);
+    if (projData) renderContent(projData);
+  }
+
+  PROJECTS.forEach(projData => {
+    projectList.appendChild(renderItem(projData));
+  });
+
+  projectList.addEventListener('click', (e) => {
+    const btn = e.target.closest('.project-btn');
+    if (btn) setActive(btn.dataset.id);
+  });
+
+  renderContent(PROJECTS[0]);
+})();
+</script>
+
+</body>
+</html>

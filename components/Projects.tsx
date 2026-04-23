@@ -1,4 +1,4 @@
-export function CaseStudies() {
+export function Projects() {
   const cases = [
     {
       title: "Habit-Loop Retention Feature",
@@ -20,32 +20,32 @@ export function CaseStudies() {
 
   return (
     <div className="container">
-      <section className="block" id="work">
+      <section className="block" id="projects">
         <div className="section-head">
           <div className="eyebrow">Work</div>
-          <h2 className="section-title">Case <em>studies.</em></h2>
+          <h2 className="section-title">Research & <em>Projects.</em></h2>
           <p className="section-desc">
             A selection of the problems I&apos;ve worked on, the decisions I made, and what happened.
           </p>
         </div>
 
-        <div className="cases">
+        <div className="projects">
           {cases.map((c) => (
-            <article key={c.title} className="case-card">
-              <div className="case-visual">
+            <article key={c.title} className="project-card">
+              <div className="project-visual">
                 <span className="placeholder">Screenshot / Mockup</span>
               </div>
-              <div className="case-body">
-                <div className="case-tags">
+              <div className="project-body">
+                <div className="project-tags">
                   {c.tags.map((tag) => (
                     <span key={tag} className="tag">
                       {tag}
                     </span>
                   ))}
                 </div>
-                <h3 className="case-title">{c.title}</h3>
-                <p className="case-desc">{c.description}</p>
-                <div className="case-footer">
+                <h3 className="project-title">{c.title}</h3>
+                <p className="project-desc">{c.description}</p>
+                <div className="project-footer">
                   <div className="metric">
                     <div className="metric-value">{c.metric}</div>
                     <div className="metric-label">{c.metricLabel}</div>
@@ -61,7 +61,7 @@ export function CaseStudies() {
             </article>
           ))}
 
-          <a href="/case-studies" className="view-all" aria-label="View all case studies">
+          <a href="/projects" className="view-all" aria-label="View all case studies">
             <div className="stack">
               <div className="stack-layer back-2"></div>
               <div className="stack-layer back-1"></div>
@@ -72,7 +72,7 @@ export function CaseStudies() {
                     <path d="M7 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2" />
                   </svg>
                 </div>
-                <div className="va-title">View all case studies</div>
+                <div className="va-title">View all projects</div>
                 <div className="va-desc">The full archive — shipped work, deep-dives, and retros.</div>
                 <span className="va-btn">
                   View all

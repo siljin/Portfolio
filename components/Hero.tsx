@@ -20,7 +20,7 @@ export function Hero() {
             {heroParagraph}
           </p>
           <div className="hero-cta fade-up d5">
-            <a href="#work" className="btn btn-primary">
+            <a href="#applications" className="btn btn-primary">
               View My Work
               <svg className="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M12 5v14M5 13l7 7 7-7" />

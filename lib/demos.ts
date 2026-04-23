@@ -13,7 +13,7 @@ export const demos: Demo[] = [
     title: "Prototype Name One",
     buildNote: "Built with Vercel + Claude API. Solves X for Y users.",
     href: "#",
-    coverSrc: "/images/projects/placeholder.svg",
+    coverSrc: "/images/applications/placeholder.svg",
     tag: "Product · Demo",
   },
   {
@@ -21,7 +21,7 @@ export const demos: Demo[] = [
     title: "Prototype Name Two",
     buildNote: "Built with Lovable + n8n. Automates Z workflow.",
     href: "#",
-    coverSrc: "/images/projects/placeholder.svg",
+    coverSrc: "/images/applications/placeholder.svg",
     tag: "Product · Demo",
   },
   {
@@ -29,7 +29,7 @@ export const demos: Demo[] = [
     title: "Prototype Name Three",
     buildNote: "Built with Bolt + OpenAI. Reduces friction in X.",
     href: "#",
-    coverSrc: "/images/projects/placeholder.svg",
+    coverSrc: "/images/applications/placeholder.svg",
     tag: "Product · Demo",
   },
   {
@@ -37,7 +37,7 @@ export const demos: Demo[] = [
     title: "Prototype Name Four",
     buildNote: "Built with Cursor + Python. Surfaces insights from Y.",
     href: "#",
-    coverSrc: "/images/projects/placeholder.svg",
+    coverSrc: "/images/applications/placeholder.svg",
     tag: "Product · Demo",
   },
   {
@@ -45,7 +45,7 @@ export const demos: Demo[] = [
     title: "Prototype Name Five",
     buildNote: "Built with Emergent. End-to-end AI agent for Z.",
     href: "#",
-    coverSrc: "/images/projects/placeholder.svg",
+    coverSrc: "/images/applications/placeholder.svg",
     tag: "Product · Demo",
   },
   {
@@ -53,7 +53,7 @@ export const demos: Demo[] = [
     title: "Prototype Name Six",
     buildNote: "Built with Google AI Studio. Tests hypothesis about X.",
     href: "#",
-    coverSrc: "/images/projects/placeholder.svg",
+    coverSrc: "/images/applications/placeholder.svg",
     tag: "Product · Demo",
   },
 ];

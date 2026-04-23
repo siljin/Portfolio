@@ -1,29 +1,29 @@
-import type { Project } from "@/lib/projects";
+import type { Project } from "@/lib/applications";
 
-type ProjectCardProps = {
+type ApplicationCardProps = {
   project: Project;
 };
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ApplicationCard({ project }: ApplicationCardProps) {
   const tags = project.tag.split(" · ");
 
   return (
-    <article className="project-card">
-      <div className="project-icon">
+    <article className="application-card">
+      <div className="application-icon">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d={project.iconPath} />
         </svg>
       </div>
-      <h3 className="project-title">{project.title}</h3>
-      <p className="project-desc">{project.descriptor}</p>
-      <div className="project-tags">
+      <h3 className="application-title">{project.title}</h3>
+      <p className="application-desc">{project.descriptor}</p>
+      <div className="application-tags">
         {tags.map((tag) => (
           <span key={tag} className="tag">
             {tag}
           </span>
         ))}
       </div>
-      <div className="project-actions">
+      <div className="application-actions">
         <a href="#" className="read-link">
           Read
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

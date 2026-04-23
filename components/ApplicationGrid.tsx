@@ -1,27 +1,29 @@
-import { getProjects } from "@/lib/projects";
-import { ProjectCard } from "./ProjectCard";
+import Link from "next/link";
+import { getProjects } from "@/lib/applications";
+import { ApplicationCard } from "./ApplicationCard";
 
-export function ProjectGrid() {
-  const projects = getProjects();
+export function ApplicationGrid() {
+  const allProjects = getProjects();
+  const projects = allProjects.slice(0, 2);
 
   return (
-    <div className="projects-band">
+    <div className="applications-band">
       <div className="container">
-        <section className="block" id="projects">
+        <section className="block" id="applications">
           <div className="section-head">
             <div className="eyebrow">Builder</div>
-            <h2 className="section-title">AI product <em>prototypes.</em></h2>
+            <h2 className="section-title">AI <em>applications.</em></h2>
             <p className="section-desc">
               Things I built for myself — because the best way to understand product is to ship one.
             </p>
           </div>
 
-          <div className="projects">
+          <div className="applications">
             {projects.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
+              <ApplicationCard key={p.slug} project={p} />
             ))}
 
-            <a href="/projects" className="view-all" aria-label="View all projects">
+            <Link href="/applications" className="view-all" aria-label="View all applications">
               <div className="stack">
                 <div className="stack-layer back-2"></div>
                 <div className="stack-layer back-1"></div>
@@ -32,18 +34,18 @@ export function ProjectGrid() {
                       <path d="M7 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2" />
                     </svg>
                   </div>
-                  <div className="va-title">View all projects</div>
-                  <div className="va-desc">Everything I've built on the side — prototypes, experiments, tools.</div>
+                  <div className="va-title">View all applications</div>
+                  <div className="va-desc">Everything I&apos;ve built on the side — prototypes, experiments, tools.</div>
                   <span className="va-btn">
                     View all
                     <svg className="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M5 12h14M13 5l7 7-7 7" />
                     </svg>
                   </span>
-                  {/* <div className="va-count">8 projects</div> */}
+                  {/* <div className="va-count">8 applications</div> */}
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
         </section>
       </div>
