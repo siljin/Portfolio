@@ -10,4 +10,11 @@ export const email = "siljin.sebastian@my.utexas.edu";
 export const linkedIn_url = "https://www.linkedin.com/in/siljin-sebastian";
 
 /** Google Drive resume link. Replace with your shareable link. */
-export const resume_url = "https://drive.google.com/file/d/1wh7q-wC6gQ3hVg4sc71qMicYpceL-KsF/view?usp=sharing";
+export const resume_url = "https://drive.google.com/file/d/1LX175lj78ZXR3jjjPOFQYOcEg830SIzS/view?usp=drive_link";
+
+/** Project demo URLs */
+export const priorAuthUrl = "https://udify.app/workflow/Nd1XsLQUc9O6QoVp";
+export const diabetesRiskUrl = "https://udify.app/workflow/A32PxMNwfQoqZrxN";
+
+/** Hero paragraph text */
+export const heroParagraph = "Engineering taught me how to build. The longer I built, the more I wanted to understand why systems work the way they do, who they actually serve, and what it would take to redesign them. The hardest problems are the ones where incentives are misaligned, users are misunderstood, and the product is solving for the wrong thing entirely. Now I am learning to find those problems before building the solution.";

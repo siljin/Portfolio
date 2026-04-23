@@ -1,3 +1,5 @@
+import { priorAuthUrl, diabetesRiskUrl } from "./global-variables";
+
 export type ProjectSection = {
   title: string;
   paragraphs: string[];
@@ -9,6 +11,8 @@ export type Project = {
   descriptor: string;
   tag: string;
   coverSrc: string;
+  tryItUrl: string;
+  iconPath: string;
   sections: ProjectSection[];
 };
 
@@ -19,6 +23,8 @@ const projects: Project[] = [
     descriptor: "Agentic AI system to automate insurance prior authorization requests—reducing manual effort and improving approval turnaround.",
     tag: "AI Agent · Healthcare",
     coverSrc: "/images/projects/prior-auth.svg",
+    tryItUrl: priorAuthUrl,
+    iconPath: "M3 12h4l2-5 3 10 2-6 2 4h4",
     sections: [
       {
         title: "Context",
@@ -46,6 +52,8 @@ const projects: Project[] = [
     descriptor: "Clinical decision support AI that synthesizes patient data and medical evidence to assess Type 2 Diabetes risk with physician-grade confidence scoring.",
     tag: "AI Agent · Clinical · Diagnostics",
     coverSrc: "/images/projects/diabetes-diagnosis.svg",
+    tryItUrl: diabetesRiskUrl,
+    iconPath: "M3 12h4l2-5 3 10 2-6 2 4h4",
     sections: [
       {
         title: "Context",

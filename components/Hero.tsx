@@ -1,49 +1,55 @@
 "use client";
 
-import Link from "next/link";
-import { full_name, resume_url } from "@/lib/global-variables";
+import { resume_url, heroParagraph } from "@/lib/global-variables";
 
 export function Hero() {
   return (
-    <section id="hero">
-      <div className="hero-bg-grid" aria-hidden />
-      <div className="hero-bg-glow" aria-hidden />
+    <div className="hero-frame">
+      <div className="hero-card">
+        <div className="hero-grid"></div>
+        <div className="hero-content">
+          <div className="hero-eyebrow fade-up d2">
+            <span className="pulse"></span>
+            Available
+          </div>
+          <div className="hero-greeting fade-up d2">Hi, I&apos;m</div>
+          <h1 className="hero-name fade-up d3">
+            Siljin <span className="accent">Sebastian.</span>
+          </h1>
+          <p className="hero-intro fade-up d4">
+            {heroParagraph}
+          </p>
+          <div className="hero-cta fade-up d5">
+            <a href="#work" className="btn btn-primary">
+              View My Work
+              <svg className="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M12 5v14M5 13l7 7 7-7" />
+              </svg>
+            </a>
+            <a href={resume_url} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+              View Resume
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+              </svg>
+            </a>
+          </div>
+        </div>
 
-      <div className="hero-inner">
-        <p className="hero-intro">Hi, I&apos;m</p>
-        <h1 className="hero h1">{full_name}</h1>
-        <p className="hero-bio">
-          I started as an engineer, but the more I built, the more I cared
-          about who I was building for and why. I went back to get my MBA to
-          sharpen my product thinking, business strategy, and user intuition,
-          with a clear aim to build things that meaningfully improve
-          people&apos;s lives.
-        </p>
-        <div className="heroActions">
-          <Link href="#work" className="btn btnPrimary">
-            View My Work
-            <svg width="14" height="14" fill="none" viewBox="0 0 16 16">
-              <path
-                d="M8 3l5 5-5 5M3 8h10"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </Link>
-          <Link href={resume_url} target="_blank" className="btn btnGhost">
-            View Resume
-            <svg width="13" height="13" fill="none" viewBox="0 0 16 16">
-              <path
-                d="M3 13h10M8 3v7m-3.5-3.5L8 10l3.5-3.5"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </Link>
+        <div className="hero-meta fade-up d6">
+          <div className="meta-item">
+            <div className="label">Based in</div>
+            <div className="value">Austin, Texas</div>
+          </div>
+          <div className="meta-item">
+            <div className="label">Background</div>
+            <div className="value">Computer Engineer → MBA</div>
+          </div>
+          <div className="meta-item">
+            <div className="label">Focus</div>
+            <div className="value">Strategy, Product-led growth, AI</div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
