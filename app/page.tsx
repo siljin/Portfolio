@@ -1,22 +1,19 @@
 import { CaseStudies } from "@/components/CaseStudies";
 import { ContactSection } from "@/components/ContactSection";
 import { Hero } from "@/components/Hero";
+import { PeekHint } from "@/components/PeekHint";
 import { ProjectGrid } from "@/components/ProjectGrid";
-import { Reveal } from "@/components/Reveal";
 
 export default function Home() {
   return (
     <main>
+      <div className="grid-bg"></div>
+      <div className="ambient"></div>
       <Hero />
-      <Reveal>
-        <CaseStudies />
-      </Reveal>
-      <Reveal>
-        <ProjectGrid />
-      </Reveal>
-      <Reveal>
-        <ContactSection />
-      </Reveal>
+      <PeekHint />
+      <CaseStudies />
+      <ProjectGrid />
+      <ContactSection />
     </main>
   );
 }

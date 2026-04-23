@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siljin Sebastian — Product Manager & MBA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-subtle: #fafbfc;
+    --ink: #0a0e1a;
+    --ink-soft: #1a2033;
+    --muted: #4a5370;
+    --muted-soft: #6b7489;
+    --line: #e6e9f0;
+    --line-soft: #eef1f6;
+    --blue: #2563eb;
+    --blue-bright: #3b82f6;
+    --blue-soft: #dbeafe;
+    --blue-ghost: #eff6ff;
+    --dark: #0b1120;
+    --dark-2: #111a2e;
+    --font-fraunces: 'Fraunces', serif;
+    --font-body: 'Inter Tight', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── Atmosphere layers ── */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .ambient::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+    filter: blur(40px);
+  }
+  .ambient::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%);
+    filter: blur(40px);
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-fraunces);
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--blue); }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-resume {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 7px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-resume:hover { background: var(--blue); color: #fff; }
+
+  /* ── Hero frame ── */
+  .hero-frame {
+    position: relative;
+    z-index: 1;
+    padding: 20px 28px 40px;
+  }
+  .hero-card {
+    max-width: 1360px;
+    margin: 0 auto;
+    background: var(--dark);
+    border-radius: 32px;
+    padding: 52px 64px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 1px 2px rgba(10,14,26,0.04),
+      0 30px 60px -20px rgba(10,14,26,0.25),
+      0 0 0 1px rgba(255,255,255,0.02) inset;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(59,130,246,0.35) 0%, transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .hero-card::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%);
+    filter: blur(50px);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 70% 30%, black 0%, transparent 70%);
+    mask-image: radial-gradient(ellipse 80% 80% at 70% 30%, black 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; }
+
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #93c5fd;
+    padding: 6px 14px;
+    border: 1px solid rgba(147,197,253,0.2);
+    background: rgba(59,130,246,0.08);
+    border-radius: 999px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.7s ease both;
+    animation-delay: 0.05s;
+  }
+  .pill-dot {
+    width: 6px;
+    height: 6px;
+    background: #60a5fa;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .hero-greeting {
+    font-family: var(--font-fraunces);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 24px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    animation: fadeUp 0.7s ease both;
+    animation-delay: 0.15s;
+  }
+
+  .hero-name {
+    font-family: var(--font-fraunces);
+    font-weight: 500;
+    font-size: clamp(44px, 6.5vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    color: #fff;
+    margin-bottom: 22px;
+    animation: fadeUp 0.7s ease both;
+    animation-delay: 0.25s;
+  }
+  .hero-name em {
+    font-style: italic;
+    font-weight: 400;
+    color: #60a5fa;
+  }
+
+  .hero-intro {
+    font-size: 17px;
+    line-height: 1.55;
+    color: #c8d1e0;
+    max-width: 620px;
+    margin-bottom: 30px;
+    animation: fadeUp 0.7s ease both;
+    animation-delay: 0.35s;
+  }
+  .hero-intro strong { color: #fff; font-weight: 500; }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s ease both;
+    animation-delay: 0.45s;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--dark);
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #60a5fa; color: #fff; transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: transparent;
+    color: #e6ebf5;
+    border: 1px solid rgba(255,255,255,0.2);
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: #60a5fa; color: #60a5fa; }
+  .btn-arrow { transition: transform 0.25s ease; }
+  .btn-primary:hover .btn-arrow, .btn-ghost:hover .btn-arrow { transform: translateX(3px); }
+
+  .hero-meta {
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    animation: fadeUp 0.7s ease both;
+    animation-delay: 0.55s;
+  }
+  .meta-item label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 5px;
+  }
+  .meta-item span {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: #e6ebf5;
+  }
+
+  /* ── Peek hint ── */
+  .peek-hint {
+    position: relative;
+    z-index: 1;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 28px 28px 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .peek-hint::before {
+    content: '';
+    width: 120px;
+    flex-shrink: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--line));
+  }
+  .peek-hint::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .peek-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+    white-space: nowrap;
+  }
+
+  /* ── Sections ── */
+  section { position: relative; z-index: 1; }
+
+  .section-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 100px 40px;
+  }
+
+  .section-head { margin-bottom: 56px; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 20px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--blue);
+  }
+
+  .section-title {
+    font-family: var(--font-fraunces);
+    font-weight: 500;
+    font-size: clamp(40px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .section-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--blue);
+  }
+
+  .section-desc {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 600px;
+  }
+
+  /* ── Case Study Cards ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  .case-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), border-color 0.35s, box-shadow 0.35s;
+    cursor: pointer;
+  }
+  .case-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--blue-bright);
+    box-shadow: 0 24px 48px -20px rgba(37,99,235,0.2);
+  }
+
+  .card-visual {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, var(--blue-ghost) 0%, #f5f8ff 60%, var(--bg-subtle) 100%);
+    border-bottom: 1px solid var(--line-soft);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .card-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(37,99,235,0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .card-visual::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    right: 12%;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(59,130,246,0.25) 0%, transparent 70%);
+    filter: blur(20px);
+    transition: transform 0.35s, opacity 0.35s;
+  }
+  .case-card:hover .card-visual::after {
+    transform: scale(1.2) translateY(-10px);
+  }
+  .card-placeholder {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.8);
+    border: 1px dashed var(--blue);
+    border-radius: 4px;
+  }
+
+  .card-body {
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--blue-ghost);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .card-title {
+    font-family: var(--font-fraunces);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .card-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 24px;
+    flex: 1;
+  }
+  .card-footer {
+    padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .card-metric-val {
+    font-family: var(--font-fraunces);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--blue);
+    line-height: 1;
+  }
+  .card-metric-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .card-read {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s, gap 0.2s;
+  }
+  .card-read:hover { color: var(--blue); gap: 10px; }
+
+  /* ── Square project card (Prior Authorization) ── */
+  .square-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), border-color 0.35s, box-shadow 0.35s;
+  }
+  .square-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--blue-bright);
+    box-shadow: 0 24px 48px -20px rgba(37,99,235,0.15);
+  }
+  .square-card-glow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .square-card-top {
+    padding: 24px 24px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+  }
+  .square-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--blue), var(--blue-bright));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px -8px rgba(37,99,235,0.4);
+    flex-shrink: 0;
+  }
+  .square-card-icon svg { width: 22px; height: 22px; color: white; }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #16a34a;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .status-dot {
+    width: 5px;
+    height: 5px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  .square-card-body {
+    padding: 0 24px 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .square-card-title {
+    font-family: var(--font-fraunces);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .square-card-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .metric-box {
+    background: var(--blue-ghost);
+    border: 1px solid var(--blue-soft);
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .metric-box-val {
+    font-family: var(--font-fraunces);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--blue);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .metric-box-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+    line-height: 1.3;
+  }
+  .feature-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .feature-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    background: var(--bg-subtle);
+    border: 1px solid var(--line);
+    padding: 4px 9px;
+    border-radius: 6px;
+  }
+  .feature-chip svg { width: 10px; height: 10px; color: var(--blue); flex-shrink: 0; }
+  .square-card-footer {
+    padding: 12px 24px 16px;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+  .square-card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .square-card-tags .tag { font-size: 9px; }
+  .card-try-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    width: 100%;
+    padding: 12px;
+    background: var(--blue);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .card-try-btn:hover { background: var(--blue-bright); transform: translateY(-1px); }
+  .card-try-btn svg { width: 16px; height: 16px; }
+
+  /* ── Projects section ── */
+  .projects-section {
+    background: var(--bg-subtle);
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .project-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 32px;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), border-color 0.35s, box-shadow 0.35s;
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--blue-bright);
+    box-shadow: 0 24px 48px -20px rgba(37,99,235,0.15);
+  }
+  .project-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--blue), var(--blue-bright));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px -8px rgba(37,99,235,0.4);
+    margin-bottom: 24px;
+  }
+  .project-icon svg { width: 22px; height: 22px; color: white; }
+  .project-title {
+    font-family: var(--font-fraunces);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .project-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  /* ── Contact ── */
+  .contact-section { overflow: hidden; }
+  .contact-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 120px 40px 80px;
+    text-align: center;
+    position: relative;
+  }
+  .contact-inner::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .contact-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .contact-eyebrow::before, .contact-eyebrow::after {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--blue);
+  }
+  .contact-title {
+    font-family: var(--font-fraunces);
+    font-weight: 500;
+    font-size: clamp(48px, 7vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .contact-title em { font-style: italic; font-weight: 400; color: var(--blue); }
+  .contact-desc {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto 48px;
+    position: relative;
+  }
+  .contact-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .btn-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 14px 26px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-dark:hover { background: var(--blue); transform: translateY(-1px); }
+  .btn-outlined {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 14px 26px;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outlined:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* ── Footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--line-soft);
+    padding: 32px 0;
+  }
+  .footer-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--muted-soft);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-inner { padding: 16px 20px; }
+    .hero-frame { padding: 12px 14px 28px; }
+    .hero-card { padding: 40px 28px; border-radius: 24px; }
+    .hero-meta { grid-template-columns: 1fr; gap: 18px; }
+    .section-inner { padding: 72px 20px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .footer-inner { padding: 0 20px; }
+    .peek-hint { padding: 20px 20px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- atmosphere -->
+<div class="grid-bg"></div>
+<div class="ambient"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Siljin<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">About</a></li>
+    </ul>
+    <a href="#" class="nav-resume">Resume</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero-frame">
+  <div class="hero-card">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-pill">
+        <span class="pill-dot"></span>
+        Open to Product Manager roles · 2026
+      </div>
+      <div class="hero-greeting">Hi, I'm</div>
+      <h1 class="hero-name">Siljin <em>Sebastian.</em></h1>
+      <p class="hero-intro">
+        <strong>Product Manager & MBA candidate</strong> at UT Austin McCombs — bridging clinical workflows, AI systems, and user-centered design to ship products that matter in healthcare and enterprise tech.
+      </p>
+      <div class="hero-ctas">
+        <a href="#work" class="btn-primary">
+          View My Work
+          <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" class="btn-ghost">
+          View Resume
+          <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <label>Based in</label>
+          <span>Austin, TX</span>
+        </div>
+        <div class="meta-item">
+          <label>Background</label>
+          <span>Software Engineering</span>
+        </div>
+        <div class="meta-item">
+          <label>Focus</label>
+          <span>AI · Healthcare · PM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- peek -->
+<div class="peek-hint">
+  <span class="peek-text">Scroll · Case Studies</span>
+</div>
+
+<!-- ── CASE STUDIES ── -->
+<section id="work">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Work</div>
+      <h2 class="section-title">Case <em>studies.</em></h2>
+      <p class="section-desc">Strategic and product analyses from my MBA coursework and independent projects.</p>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- Card 1: Prior Authorization (square-style enriched) -->
+      <div class="square-card">
+        <div class="square-card-glow"></div>
+        <div class="square-card-top">
+          <div class="square-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            Live Prototype
+          </div>
+        </div>
+        <div class="square-card-body">
+          <div class="square-card-title">Prior Authorization Workflow</div>
+          <p class="square-card-desc">AI-powered automation reducing manual effort in healthcare prior authorization processes, integrated across EHR systems.</p>
+          <div class="metrics-grid">
+            <div class="metric-box">
+              <div class="metric-box-val">78%</div>
+              <div class="metric-box-label">Manual Effort Reduction</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-val">2.1×</div>
+              <div class="metric-box-label">Approval Speed</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-val">94%</div>
+              <div class="metric-box-label">Accuracy Rate</div>
+            </div>
+          </div>
+          <div class="feature-chips">
+            <span class="feature-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+              EHR Integration
+            </span>
+            <span class="feature-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+              Auto-routing
+            </span>
+            <span class="feature-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+              Audit trail
+            </span>
+            <span class="feature-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+              HIPAA compliant
+            </span>
+          </div>
+        </div>
+        <div class="square-card-footer">
+          <div class="square-card-tags">
+            <span class="tag">AI Agent</span>
+            <span class="tag">Healthcare</span>
+          </div>
+          <a href="#" class="card-read">
+            Read
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <a href="https://your-prototype-url.com" target="_blank" class="card-try-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          Try it
+        </a>
+      </div>
+
+      <!-- Card 2: Waystar Strategic Analysis -->
+      <div class="case-card">
+        <div class="card-visual">
+          <span class="card-placeholder">Strategy Deck</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag">B2B SaaS</span>
+            <span class="tag">Strategy</span>
+            <span class="tag">Healthcare</span>
+          </div>
+          <h3 class="card-title">Waystar Strategic Analysis</h3>
+          <p class="card-desc">Conducted a full competitive analysis of Waystar's position in the $35B+ RCM market. Mapped an 8-stage value chain, ran Porter's Five Forces, and benchmarked against 7 competitors including Epic, R1, and Optum. Identified a 2026–2028 window to build an inimitable data moat through a CDI-to-denial feedback loop.</p>
+          <div class="card-footer">
+            <div>
+              <div class="card-metric-val">$250M</div>
+              <div class="card-metric-label">Projected net new ARR opportunity</div>
+            </div>
+            <a href="#" class="card-read">
+              Read
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: MBA Tech Club Website -->
+      <div class="case-card">
+        <div class="card-visual">
+          <span class="card-placeholder">mbatechclub.netlify.app</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag">Web Dev</span>
+            <span class="tag">Design</span>
+            <span class="tag">Netlify</span>
+          </div>
+          <h3 class="card-title">MBA Tech Club Website</h3>
+          <p class="card-desc">Designed and built the official website for the MBA Tech Club at UT Austin McCombs. Central hub for members featuring program info, interactive Texas Tech Trivia, executive team showcase, and CTAs to drive engagement. Deployed on Netlify.</p>
+          <div class="card-footer">
+            <div>
+              <div class="card-metric-val">4</div>
+              <div class="card-metric-label">Core program pillars showcased</div>
+            </div>
+            <a href="https://mbatechclub.netlify.app/" target="_blank" class="card-read">
+              Visit
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects" class="projects-section">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Builder</div>
+      <h2 class="section-title">Side <em>projects.</em></h2>
+      <p class="section-desc">AI tools and experiments built to solve real workflow problems.</p>
+    </div>
+    <div class="cards-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div class="project-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2h-2"/>
+          </svg>
+        </div>
+        <h3 class="project-title">Type 2 Diabetes Risk Assessment</h3>
+        <p class="project-desc">A Dify-powered AI workflow that assesses patient risk for Type 2 Diabetes using structured clinical inputs. Built to demonstrate how AI agents can augment early diagnostic screening in clinical settings.</p>
+        <div class="project-tags">
+          <span class="tag">AI Agent</span>
+          <span class="tag">Clinical</span>
+          <span class="tag">Diagnostics</span>
+          <span class="tag">Dify</span>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card">
+        <div class="project-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </div>
+        <h3 class="project-title">Search UX Overhaul</h3>
+        <p class="project-desc">Redesigned the search experience for an enterprise product, implementing semantic filtering, query intent detection, and faceted results. Resulted in a 40% improvement in task completion rate and reduced zero-result searches by half.</p>
+        <div class="project-tags">
+          <span class="tag">UX</span>
+          <span class="tag">Search</span>
+          <span class="tag">Enterprise</span>
+          <span class="tag">Product</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact" class="contact-section">
+  <div class="contact-inner">
+    <div class="contact-eyebrow">Contact</div>
+    <h2 class="contact-title">Let's build<br><em>something real.</em></h2>
+    <p class="contact-desc">Open to PM roles, consulting projects, and conversations about AI in healthcare. Say hello.</p>
+    <div class="contact-actions">
+      <a href="mailto:siljin.sebastian@my.utexas.edu" class="btn-dark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        siljin.sebastian@my.utexas.edu
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="btn-outlined">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <span>Siljin Sebastian · Software Engineer · MBA</span>
+    <span>Built with intention · 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>
