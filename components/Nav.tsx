@@ -15,7 +15,7 @@ export function Nav() {
             Open to internships - 2026
           </span>
           <a href="#applications">Applications</a>
-          <a href="#work">Work</a>
+          <a href="#projects">Projects</a>
           {/* <a href="#about">About</a> */}
           <a href="#contact">Contact</a>
           <a href={resume_url} className="nav-resume" target="_blank" rel="noopener noreferrer">

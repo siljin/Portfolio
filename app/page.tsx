@@ -1,4 +1,4 @@
-import { CaseStudies } from "@/components/CaseStudies";
+import { Projects } from "@/components/Projects";
 import { ContactSection } from "@/components/ContactSection";
 import { Hero } from "@/components/Hero";
 import { PeekHint } from "@/components/PeekHint";
@@ -12,7 +12,7 @@ export default function Home() {
       <Hero />
       <PeekHint />
       <ApplicationGrid />
-      <CaseStudies />
+      <Projects />
       <ContactSection />
     </main>
   );
