@@ -1,12 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { getProjects } from "@/lib/projects";
 
 export default function ProjectsPage() {
   const cases = getProjects();
-  const [selectedId, setSelectedId] = useState(cases[0]?.id || "");
+  const searchParams = useSearchParams();
+  const queryId = searchParams.get("id");
+  const [selectedId, setSelectedId] = useState(queryId || cases[0]?.id || "");
+
+  useEffect(() => {
+    if (queryId) {
+      setSelectedId(queryId);
+    }
+  }, [queryId]);
 
   const selectedCase = cases.find((c) => c.id === selectedId);
 
