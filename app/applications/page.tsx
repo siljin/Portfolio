@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { getProjects } from "@/lib/applications";
 
-export default function ProjectsPage() {
+function ProjectsContent() {
   const projects = getProjects();
   const searchParams = useSearchParams();
   const queryId = searchParams.get("id");
@@ -146,5 +147,13 @@ export default function ProjectsPage() {
         </main>
       </div>
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProjectsContent />
+    </Suspense>
   );
 }
