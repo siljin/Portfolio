@@ -14,7 +14,7 @@ export function ApplicationGrid() {
             <div className="eyebrow">Builder</div>
             <h2 className="section-title">AI <em>applications.</em></h2>
             <p className="section-desc">
-              Things I built for myself — because the best way to understand product is to ship one.
+              Things I built - because the best way to understand product is to ship one.
             </p>
           </div>
 

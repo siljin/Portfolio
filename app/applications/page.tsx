@@ -1,12 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { getProjects } from "@/lib/applications";
 
 export default function ProjectsPage() {
   const projects = getProjects();
-  const [selectedId, setSelectedId] = useState(projects[0]?.id || "");
+  const searchParams = useSearchParams();
+  const queryId = searchParams.get("id");
+  const [selectedId, setSelectedId] = useState(queryId || projects[0]?.id || "");
+
+  useEffect(() => {
+    if (queryId) {
+      setSelectedId(queryId);
+    }
+  }, [queryId]);
 
   const selectedProject = projects.find((p) => p.id === selectedId);
 
@@ -38,7 +47,7 @@ export default function ProjectsPage() {
         {/* SIDEBAR */}
         <aside className="projects-sidebar">
           <div className="projects-sidebar-header">
-            <h1 className="projects-sidebar-title">Projects</h1>
+            <h1 className="projects-sidebar-title">Applications</h1>
             <p className="projects-sidebar-subtitle">Select to explore</p>
           </div>
           <ul className="projects-list">
@@ -69,35 +78,6 @@ export default function ProjectsPage() {
                 <h2 className="projects-content-title">
                   {selectedProject.title}
                 </h2>
-                {selectedProject.category && (
-                  <div className="projects-content-category">
-                    {selectedProject.category}
-                  </div>
-                )}
-              </div>
-
-              <p className="projects-content-desc">
-                {selectedProject.descriptor}
-              </p>
-
-              {/* {selectedProject.highlight && (
-                <div className="projects-content-highlight">
-                  <div className="projects-highlight-label">Outcome</div>
-                  <div className="projects-highlight-text">
-                    {selectedProject.highlight}
-                  </div>
-                </div>
-              )} */}
-
-              <div className="projects-content-tags">
-                {selectedProject.tag.split(" · ").map((tag) => (
-                  <span key={tag} className="projects-tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <div className="projects-content-actions">
                 {selectedProject.tryItUrl && (
                   <a
                     href={selectedProject.tryItUrl}
@@ -114,27 +94,48 @@ export default function ProjectsPage() {
                       stroke="currentColor"
                       strokeWidth="2.5"
                     >
-                      <path d="M7 17L17 7M7 7h10v10" />
+                      <path d="M5 12h14M17 12l-4-4M17 12l-4 4" />
                     </svg>
                   </a>
                 )}
-                <Link
-                  href={`/applications/${selectedProject.slug}`}
-                  className="projects-read-btn"
-                >
-                  Read case study
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M5 12h14M13 5l7 7-7 7" />
-                  </svg>
-                </Link>
               </div>
+
+              <p className="projects-content-desc">
+                {selectedProject.descriptor}
+              </p>
+
+              {selectedProject.highlight && (
+                <div className="projects-content-highlight">
+                  <div className="projects-highlight-label">Highlight</div>
+                  <div className="projects-highlight-text">
+                    {selectedProject.highlight}
+                  </div>
+                </div>
+              )}
+
+              <div className="projects-content-tags">
+                {selectedProject.tag.split(" · ").map((tag) => (
+                  <span key={tag} className="projects-tag">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {selectedProject.sections && selectedProject.sections.length > 0 && (
+                <div className="projects-content-sections">
+                  {selectedProject.sections.map((section) => (
+                    <section key={section.title} className="content-section">
+                      <h3 className="section-subtitle">{section.title}</h3>
+                      {section.paragraphs.map((paragraph, idx) => (
+                        <p key={idx} className="section-paragraph">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </section>
+                  ))}
+                </div>
+              )}
+
             </>
           ) : (
             <div className="projects-content-header">

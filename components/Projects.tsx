@@ -1,22 +1,17 @@
+import { getProjects } from "@/lib/projects";
+
 export function Projects() {
-  const cases = [
-    {
-      title: "Habit-Loop Retention Feature",
-      description:
-        "Worked with the DS team to identify 30-day churn signals. Built a daily digest feature to reinforce habit formation.",
-      tags: ["Retention", "Data"],
-      metric: "−15%",
-      metricLabel: "30-day churn",
-    },
-    {
-      title: "Search Overhaul",
-      description:
-        "Rebuilt search from the ground up — semantic ranking, filter redesign, and a new results layout. Shipped in 8 weeks.",
-      tags: ["0→1", "Search"],
-      metric: "+40%",
-      metricLabel: "search success rate",
-    },
-  ];
+  const allProjects = getProjects();
+  const cases = allProjects.slice(0, 2).map((project) => ({
+    id: project.id,
+    title: project.title,
+    description: project.desc,
+    tags: project.tags,
+    metric: project.metric1,
+    metricLabel: project.metric1Label,
+    deckUrl: project.deckUrl,
+    imageSrc: project.imageSrc,
+  }));
 
   return (
     <div className="container">
@@ -33,7 +28,11 @@ export function Projects() {
           {cases.map((c) => (
             <article key={c.title} className="project-card">
               <div className="project-visual">
-                <span className="placeholder">Screenshot / Mockup</span>
+                {c.imageSrc ? (
+                  <img src={c.imageSrc} alt={c.title} />
+                ) : (
+                  <span className="placeholder">Screenshot / Mockup</span>
+                )}
               </div>
               <div className="project-body">
                 <div className="project-tags">
@@ -50,7 +49,7 @@ export function Projects() {
                     <div className="metric-value">{c.metric}</div>
                     <div className="metric-label">{c.metricLabel}</div>
                   </div>
-                  <a href="#" className="read-link">
+                  <a href={`/projects?id=${c.id || ''}`} className="read-link">
                     Read
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M5 12h14M13 5l7 7-7 7" />

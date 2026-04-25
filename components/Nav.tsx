@@ -1,21 +1,22 @@
 "use client";
 
+import Link from "next/link";
 import { resume_url } from "@/lib/global-variables";
 
 export function Nav() {
   return (
     <nav>
       <div className="nav-inner">
-        <a href="#" className="logo">
+        <Link href="/" className="logo">
           Siljin Sebastian<span className="dot">.</span>
-        </a>
+        </Link>
         <div className="nav-links">
           <span className="nav-status">
             <span className="pulse"></span>
             Open to internships - 2026
           </span>
-          <a href="#applications">Applications</a>
-          <a href="#projects">Projects</a>
+          <Link href="/applications">Applications</Link>
+          <Link href="/projects">Projects</Link>
           {/* <a href="#about">About</a> */}
           <a href="#contact">Contact</a>
           <a href={resume_url} className="nav-resume" target="_blank" rel="noopener noreferrer">

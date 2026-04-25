@@ -8,10 +8,10 @@ export function Hero() {
       <div className="hero-card">
         <div className="hero-grid"></div>
         <div className="hero-content">
-          <div className="hero-eyebrow fade-up d2">
+          {/* <div className="hero-eyebrow fade-up d2">
             <span className="pulse"></span>
             Available
-          </div>
+          </div> */}
           <div className="hero-greeting fade-up d2">Hi, I&apos;m</div>
           <h1 className="hero-name fade-up d3">
             Siljin <span className="accent">Sebastian.</span>

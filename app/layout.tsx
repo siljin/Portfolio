@@ -24,9 +24,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${full_name} — Product Manager`,
+  title: `${full_name}`,
   description:
-    "Product Manager portfolio: projects, AI prototypes, and how I ship outcomes for users and teams.",
+    "Portfolio: projects, AI prototypes, and how I ship outcomes for users and teams.",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
