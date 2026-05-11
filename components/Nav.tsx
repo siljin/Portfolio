@@ -1,7 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { resume_url } from "@/lib/global-variables";
+import {
+  nav_status_text,
+  resume_url,
+  show_nav_status,
+} from "@/lib/global-variables";
 
 export function Nav() {
   return (
@@ -11,10 +15,12 @@ export function Nav() {
           Siljin Sebastian<span className="dot">.</span>
         </Link>
         <div className="nav-links">
-          <span className="nav-status">
-            <span className="pulse"></span>
-            Open to internships - 2026
-          </span>
+          {show_nav_status && (
+            <span className="nav-status">
+              <span className="pulse"></span>
+              {nav_status_text}
+            </span>
+          )}
           <Link href="/applications">Applications</Link>
           <Link href="/projects">Projects</Link>
           {/* <a href="#about">About</a> */}
