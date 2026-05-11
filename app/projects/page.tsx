@@ -11,6 +11,7 @@ function ProjectsContent() {
   const searchParams = useSearchParams();
   const queryId = searchParams.get("id");
   const [selectedId, setSelectedId] = useState(queryId || cases[0]?.id || "");
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   useEffect(() => {
     if (queryId) {
@@ -44,23 +45,49 @@ function ProjectsContent() {
         </div>
       </nav>
 
-      <div className="projects-layout-wrapper">
+      <div
+        className={`projects-layout-wrapper applications-layout ${
+          isSidebarExpanded ? "is-expanded" : ""
+        }`}
+      >
         {/* SIDEBAR */}
         <aside className="projects-sidebar">
           <div className="projects-sidebar-header">
+            <button
+              type="button"
+              className="sidebar-toggle-btn"
+              onClick={() => setIsSidebarExpanded((prev) => !prev)}
+              aria-label={isSidebarExpanded ? "Collapse sidebar" : "Expand sidebar"}
+              aria-expanded={isSidebarExpanded}
+              aria-controls="projects-sidebar-list"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M11.5 4.5V19.5" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+            </button>
             <h1 className="projects-sidebar-title">Case Studies</h1>
             <p className="projects-sidebar-subtitle">Select to explore</p>
           </div>
-          <ul className="projects-list">
-            {cases.map((caseItem) => (
+          <ul className="projects-list" id="projects-sidebar-list">
+            {cases.map((caseItem, index) => (
               <li key={caseItem.id} className="projects-item">
                 <button
                   className={`projects-btn ${
                     selectedId === caseItem.id ? "active" : ""
                   }`}
                   onClick={() => setSelectedId(caseItem.id)}
+                  aria-label={caseItem.title}
                 >
-                  <span className="projects-btn-title">{caseItem.title}</span>
+                  <span className="projects-btn-icon" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="projects-btn-tooltip" aria-hidden="true">
+                    {caseItem.title}
+                  </span>
+                  <span className="projects-btn-copy">
+                    <span className="projects-btn-title">{caseItem.title}</span>
+                  </span>
                 </button>
               </li>
             ))}
