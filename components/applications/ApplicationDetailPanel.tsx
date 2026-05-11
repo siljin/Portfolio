@@ -34,7 +34,6 @@ export function ApplicationDetailPanel({
   return (
     <main className="projects-content">
       <div className="projects-content-header">
-        <div className="projects-content-eyebrow">{project.eyebrow}</div>
         <h2 className="projects-content-title">{project.title}</h2>
         <div className="projects-content-actions">
           {project.tryItUrl && (

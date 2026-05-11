@@ -514,6 +514,10 @@ section.block {
   position: relative;
 }
 
+.applications-layout {
+  grid-template-columns: auto 1fr;
+}
+
 .projects-sidebar {
   border-right: 1px solid var(--line-soft);
   background: var(--bg-subtle);
@@ -593,6 +597,142 @@ section.block {
   font-weight: 600;
   color: currentColor;
   letter-spacing: -0.01em;
+}
+
+.projects-btn-icon {
+  display: none;
+}
+
+/* Applications page: minimized sidebar with click-toggle expansion */
+.applications-layout .projects-sidebar {
+  width: 56px;
+  padding: 8px 0;
+  overflow: visible;
+  transition: width 220ms ease;
+}
+
+.applications-layout.is-expanded .projects-sidebar {
+  width: 320px;
+  overflow-y: auto;
+  overflow-x: visible;
+}
+
+.applications-layout .projects-sidebar-header {
+  padding: 0 8px 10px;
+  margin-bottom: 6px;
+}
+
+.applications-layout .sidebar-toggle-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--muted);
+  margin: 0 auto 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.applications-layout .sidebar-toggle-btn:hover {
+  color: var(--ink);
+  border-color: rgba(37, 99, 235, 0.35);
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.applications-layout .sidebar-toggle-btn:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.applications-layout .projects-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px;
+  position: relative;
+}
+
+.applications-layout .projects-btn-icon {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  background: rgba(37, 99, 235, 0.06);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.applications-layout .projects-btn-copy {
+  width: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-6px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, max-height 0.18s ease;
+}
+
+.applications-layout .projects-sidebar-title,
+.applications-layout .projects-sidebar-subtitle {
+  max-height: 0;
+  overflow: hidden;
+  margin: 0;
+  opacity: 0;
+  transform: translateX(-6px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, max-height 0.18s ease;
+}
+
+.applications-layout.is-expanded .projects-sidebar-title,
+.applications-layout.is-expanded .projects-sidebar-subtitle,
+.applications-layout.is-expanded .projects-btn-copy {
+  width: auto;
+  max-height: 120px;
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.applications-layout .projects-btn.active .projects-btn-icon {
+  color: var(--blue);
+  background: rgba(37, 99, 235, 0.14);
+}
+
+.applications-layout .projects-btn-tooltip {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-6px);
+  background: #0f1115;
+  color: #fff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 10;
+}
+
+.applications-layout:not(.is-expanded) .projects-btn:hover .projects-btn-tooltip,
+.applications-layout:not(.is-expanded) .projects-btn:focus-visible .projects-btn-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.applications-layout.is-expanded .projects-btn-tooltip {
+  display: none;
 }
 
 .projects-content {
@@ -1490,6 +1630,35 @@ footer {
 
   .projects-btn {
     padding: 12px 20px;
+  }
+
+  .applications-layout .projects-sidebar {
+    width: 100%;
+    padding: 24px 0;
+  }
+
+  .applications-layout.is-expanded .projects-sidebar {
+    width: 100%;
+  }
+
+  .applications-layout .projects-sidebar-title,
+  .applications-layout .projects-sidebar-subtitle,
+  .applications-layout .projects-btn-copy {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .applications-layout .projects-btn {
+    padding: 12px 20px;
+  }
+
+  .applications-layout .sidebar-toggle-btn {
+    display: none;
+  }
+
+  .applications-layout .projects-btn-tooltip {
+    display: none;
   }
 
   .projects-content {

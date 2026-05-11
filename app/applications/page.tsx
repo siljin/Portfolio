@@ -13,6 +13,7 @@ function ProjectsContent() {
   const searchParams = useSearchParams();
   const queryId = searchParams.get("id");
   const [selectedId, setSelectedId] = useState(queryId || projects[0]?.id || "");
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [showArchModal, setShowArchModal] = useState(false);
   const [showSeqModal, setShowSeqModal] = useState(false);
 
@@ -28,10 +29,16 @@ function ProjectsContent() {
     <>
       <ApplicationsNav />
 
-      <div className="projects-layout-wrapper">
+      <div
+        className={`projects-layout-wrapper applications-layout ${
+          isSidebarExpanded ? "is-expanded" : ""
+        }`}
+      >
         <ApplicationsSidebar
           projects={projects}
           selectedId={selectedId}
+          isExpanded={isSidebarExpanded}
+          onToggleExpand={() => setIsSidebarExpanded((prev) => !prev)}
           onSelect={(id) => {
             setSelectedId(id);
             setShowArchModal(false);
