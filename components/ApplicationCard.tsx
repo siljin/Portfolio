@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Project } from "@/lib/applications";
 
 type ApplicationCardProps = {
@@ -11,7 +12,14 @@ export function ApplicationCard({ project }: ApplicationCardProps) {
     <article className="application-card">
       <div className={`application-icon ${project.iconPath.startsWith('/') ? 'image-icon' : ''}`}>
         {project.iconPath.startsWith('/') ? (
-          <img src={project.iconPath} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <Image
+            src={project.iconPath}
+            alt={project.title}
+            width={88}
+            height={88}
+            sizes="88px"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
         ) : (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d={project.iconPath} />

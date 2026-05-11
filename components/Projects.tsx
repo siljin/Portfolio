@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getProjects } from "@/lib/projects";
 
 export function Projects() {
@@ -29,7 +30,13 @@ export function Projects() {
             <article key={c.title} className="project-card">
               <div className="project-visual">
                 {c.imageSrc ? (
-                  <img src={c.imageSrc} alt={c.title} />
+                  <Image
+                    src={c.imageSrc}
+                    alt={c.title}
+                    width={800}
+                    height={450}
+                    sizes="(max-width: 700px) 100vw, 50vw"
+                  />
                 ) : (
                   <span className="placeholder">Screenshot / Mockup</span>
                 )}
