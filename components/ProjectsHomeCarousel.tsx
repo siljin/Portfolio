@@ -11,10 +11,10 @@ import {
 } from "react";
 
 const SCROLL_LOCK_FALLBACK_MS = 450;
-/** Slight under-measure of scrollport so ceil card widths fully cover the viewport (hides 4th-tile hairline). */
-const VIEWPORT_TRIM_X = 3;
 const MIN_CARD_WIDTH = 200;
 const GAP_FALLBACK = 34;
+/** Matches `.project-card--home-strip:hover { transform: scale(1.02) }`. */
+const HOVER_SCALE = 1.02;
 
 export type HomeProjectCase = {
   id: string;
@@ -117,21 +117,33 @@ export function ProjectsHomeCarousel({
     const nextSlots = slotsForViewport(inner);
 
     const cs = getComputedStyle(el);
-    const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-    const contentW = Math.max(0, el.clientWidth - padX - VIEWPORT_TRIM_X);
+    const padLeftPx = parseFloat(cs.paddingLeft);
+    const padRightPx = parseFloat(cs.paddingRight);
+    const padX = padLeftPx + padRightPx;
 
     const track = trackRef.current;
-    const gapPx = track
-      ? parseFloat(
-          getComputedStyle(track).columnGap ||
-            getComputedStyle(track).gap ||
-            "",
-        ) || GAP_FALLBACK
+    const trackStyle = track ? getComputedStyle(track) : null;
+    const gapPx = trackStyle
+      ? parseFloat(trackStyle.columnGap || trackStyle.gap || "") ||
+        GAP_FALLBACK
       : GAP_FALLBACK;
+    // The track's negative margin-left pulls cards into the scroll element's
+    // padding-left, so the leftmost card sits at x = padLeft + trackMarginLeft,
+    // not at padLeft. Size cards so the rightmost visible card reaches the
+    // scrollport's right edge while reserving room on its right for the hover
+    // scale (center-origin scale(1.02) grows each side by 0.5% of cardWidth).
+    const trackMarginLeftPx = trackStyle
+      ? parseFloat(trackStyle.marginLeft)
+      : 0;
+    const trackOffsetLeft = padLeftPx + trackMarginLeftPx;
+    const visibleWidth = Math.max(0, el.clientWidth - trackOffsetLeft);
     const gutter = (nextSlots - 1) * gapPx;
+    const hoverGrowthPerSide = (HOVER_SCALE - 1) / 2;
     const nextCardW = Math.max(
       MIN_CARD_WIDTH,
-      Math.ceil((contentW - gutter) / nextSlots),
+      Math.floor(
+        (visibleWidth - gutter) / (nextSlots + hoverGrowthPerSide),
+      ),
     );
 
     // Trailing pad so the last (possibly short) page is reachable as left-aligned.
