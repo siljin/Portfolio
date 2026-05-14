@@ -107,6 +107,8 @@ export type SiteLabels = {
   expandSidebar: string;
   projectImagePlaceholder: string;
   backToApplications: string;
+  projectsCarouselPrevious: string;
+  projectsCarouselNext: string;
 };
 
 export type SiteContent = {
@@ -147,7 +149,6 @@ export type SiteContent = {
     applicationsSection: HomeSectionBlock;
     applicationsViewAll: ViewAllCard;
     projectsSection: HomeSectionBlock;
-    projectsViewAll: ViewAllCard;
   };
   archive: {
     backToPortfolio: string;

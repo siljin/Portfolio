@@ -954,12 +954,120 @@ section.block {
   background: var(--muted-soft);
 }
 
-/* Case Studies */
-.projects {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+/* Home: case study carousel (archive pages use .projects-content etc.) */
+/* Bleed past .container horizontal padding so the strip lines up with .hero-card outer edges */
+.projects-home {
+  width: calc(100% + 56px);
+  margin-inline: -28px;
+}
+
+.projects-home__scroll {
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* Extra left for hover; generous right inset so the 4th card never peeks (incl. subpixel). */
+  padding: 52px 22px 44px 22px;
+}
+
+.projects-home__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.projects-home__track {
+  display: flex;
   align-items: stretch;
+  gap: 34px;
+  margin-left: -16px;
+  margin-right: -22px;
+  width: calc(100% + 38px);
+}
+
+.project-card--home-strip {
+  box-sizing: border-box;
+  flex: 0 0 var(--projects-home-card-width, 280px);
+  width: var(--projects-home-card-width, 280px);
+  min-width: var(--projects-home-card-width, 280px);
+  max-width: var(--projects-home-card-width, 280px);
+  transform-origin: center bottom;
+  transition:
+    transform 0.32s cubic-bezier(0.33, 1, 0.68, 1),
+    border-color 0.3s ease,
+    box-shadow 0.32s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.project-card--home-strip:hover,
+.project-card--home-strip:focus-within {
+  z-index: 2;
+  border-color: var(--blue-bright);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:
+    0 8px 24px -8px rgba(15, 23, 42, 0.12),
+    0 28px 56px -16px rgba(37, 99, 235, 0.35);
+}
+
+.project-card--home-strip:hover .project-visual::after,
+.project-card--home-strip:focus-within .project-visual::after {
+  transform: translate(-20px, 10px) scale(1.15);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card--home-strip {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .project-card--home-strip:hover,
+  .project-card--home-strip:focus-within {
+    transform: none;
+    box-shadow: 0 12px 28px -12px rgba(37, 99, 235, 0.22);
+  }
+
+  .project-card--home-strip:hover .project-visual::after,
+  .project-card--home-strip:focus-within .project-visual::after {
+    transform: none;
+  }
+}
+
+.projects-home__controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.projects-home__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.projects-home__arrow:hover:not(:disabled) {
+  border-color: var(--blue-bright);
+  color: var(--blue);
+}
+
+.projects-home__arrow:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.projects-home__arrow:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+.projects-home__arrow:disabled svg {
+  opacity: 0.9;
 }
 
 .project-card {
@@ -968,15 +1076,12 @@ section.block {
   border: 1px solid var(--line);
   border-radius: 20px;
   overflow: hidden;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.35s ease, box-shadow 0.35s ease;
   display: flex;
   flex-direction: column;
 }
 
 .project-card:hover {
   border-color: var(--blue-bright);
-  transform: translateY(-4px);
-  box-shadow: 0 24px 48px -20px rgba(37, 99, 235, 0.2);
 }
 
 .project-visual {
@@ -1009,10 +1114,6 @@ section.block {
   top: 15%;
   right: 12%;
   transition: transform 0.6s ease;
-}
-
-.project-card:hover .project-visual::after {
-  transform: translate(-20px, 10px) scale(1.1);
 }
 
 .project-visual img {
@@ -1595,8 +1696,12 @@ footer {
     padding: 0 20px;
   }
 
-  .cases,
-  .projects {
+  .projects-home {
+    width: calc(100% + 40px);
+    margin-inline: -20px;
+  }
+
+  .cases {
     grid-template-columns: 1fr;
     gap: 20px;
   }

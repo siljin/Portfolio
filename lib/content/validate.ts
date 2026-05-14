@@ -230,7 +230,11 @@ export function validateSite(data: unknown): asserts data is SiteContent {
   });
 
   const home = root.home as Record<string, unknown>;
-  for (const sectionKey of ["applicationsSection", "applicationsViewAll", "projectsSection", "projectsViewAll"]) {
+  for (const sectionKey of [
+    "applicationsSection",
+    "applicationsViewAll",
+    "projectsSection",
+  ]) {
     if (!(sectionKey in home)) throw new Error(`${ctx}.home.${sectionKey} missing`);
     const block = home[sectionKey] as Record<string, unknown>;
     if (sectionKey.endsWith("ViewAll")) {
@@ -279,6 +283,8 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     "expandSidebar",
     "projectImagePlaceholder",
     "backToApplications",
+    "projectsCarouselPrevious",
+    "projectsCarouselNext",
   ];
   for (const lk of labelKeys) {
     assertNonEmptyString(labels[lk], `labels.${String(lk)}`, ctx);

@@ -61,12 +61,6 @@
       "titleBeforeEm": "Research & ",
       "titleEmphasis": "Projects.",
       "description": "A selection of the problems I've worked on, the decisions I made, and what happened."
-    },
-    "projectsViewAll": {
-      "ariaLabel": "View all case studies",
-      "title": "View all projects",
-      "description": "The full archive — shipped work, deep-dives, and retros.",
-      "buttonLabel": "View all"
     }
   },
   "archive": {
@@ -100,7 +94,9 @@
     "collapseSidebar": "Collapse sidebar",
     "expandSidebar": "Expand sidebar",
     "projectImagePlaceholder": "Screenshot / Mockup",
-    "backToApplications": "← Back to applications"
+    "backToApplications": "← Back to applications",
+    "projectsCarouselPrevious": "Scroll projects left",
+    "projectsCarouselNext": "Scroll projects right"
   },
   "contact": {
     "eyebrow": "Contact",
