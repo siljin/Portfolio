@@ -214,12 +214,29 @@ export function validateSite(data: unknown): asserts data is SiteContent {
   assertNonEmptyString(hero.greeting, "hero.greeting", ctx);
   assertNonEmptyString(hero.nameBeforeAccent, "hero.nameBeforeAccent", ctx);
   assertNonEmptyString(hero.nameAccent, "hero.nameAccent", ctx);
-  assertNonEmptyString(hero.intro, "hero.intro", ctx);
-  assertNonEmptyString(hero.secondaryCtaLabel, "hero.secondaryCtaLabel", ctx);
-  if (typeof hero.primaryCta !== "object" || hero.primaryCta === null) throw new Error(`${ctx}.hero.primaryCta`);
-  const pct = hero.primaryCta as Record<string, unknown>;
-  assertNonEmptyString(pct.label, "hero.primaryCta.label", ctx);
-  assertNonEmptyString(pct.href, "hero.primaryCta.href", ctx);
+  if (typeof hero.intro !== "object" || hero.intro === null) throw new Error(`${ctx}.hero.intro`);
+  const introBlock = hero.intro as Record<string, unknown>;
+  assertNonEmptyString(introBlock.lead, "hero.intro.lead", ctx);
+  assertNonEmptyString(introBlock.highlight, "hero.intro.highlight", ctx);
+  assertNonEmptyString(introBlock.tail, "hero.intro.tail", ctx);
+  assertNonEmptyString(introBlock.closing, "hero.intro.closing", ctx);
+
+  if (typeof hero.poem !== "object" || hero.poem === null) throw new Error(`${ctx}.hero.poem`);
+  const poem = hero.poem as Record<string, unknown>;
+  assertNonEmptyString(poem.poet, "hero.poem.poet", ctx);
+  if (!Array.isArray(poem.lines) || poem.lines.length !== 4) {
+    throw new Error(`${ctx}.hero.poem.lines must be an array of exactly 4 strings`);
+  }
+  poem.lines.forEach((line, i) => {
+    assertNonEmptyString(line, `hero.poem.lines[${i}]`, ctx);
+  });
+
+  if (hero.photoSrc !== undefined && typeof hero.photoSrc !== "string") {
+    throw new Error(`${ctx}.hero.photoSrc must be a string when set`);
+  }
+  if (hero.photoCaption !== undefined && typeof hero.photoCaption !== "string") {
+    throw new Error(`${ctx}.hero.photoCaption must be a string when set`);
+  }
   if (!Array.isArray(hero.meta) || hero.meta.length === 0) throw new Error(`${ctx}.hero.meta`);
   hero.meta.forEach((row, i) => {
     if (typeof row !== "object" || row === null) throw new Error(`${ctx}.hero.meta[${i}]`);
@@ -276,6 +293,7 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     "sequenceModalTitle",
     "highlight",
     "viewDeck",
+    "checkItOut",
     "read",
     "viewAll",
     "collapseSidebar",

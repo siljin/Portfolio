@@ -35,8 +35,9 @@ export function Projects() {
               description={project.desc}
               metric={project.metric1}
               metricLabel={project.metric1Label}
-              readHref={`/projects?id=${project.id}`}
-              readLabel={labels.read}
+              detailHref={`/projects?id=${project.id}`}
+              actionHref={project.deckUrl}
+              actionLabel={labels.viewDeck}
             />
           ))}
         </HomeCarousel>

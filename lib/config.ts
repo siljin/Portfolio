@@ -16,6 +16,7 @@ export type AppConfig = {
   };
   urls: {
     resume: string;
+    github: string;
   };
 };
 
@@ -88,6 +89,7 @@ function assertAppConfig(c: unknown): asserts c is AppConfig {
   const urls = root.urls as Record<string, unknown> | undefined;
   if (!urls) throw new Error("config/application.yml: `urls` block is required");
   assertString(urls.resume, "urls.resume");
+  assertString(urls.github, "urls.github");
 }
 
 let cached: AppConfig | null = null;

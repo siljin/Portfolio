@@ -3,8 +3,9 @@ import { getSite } from "@/lib/site";
 export function ContactSection() {
   const { contact, urls } = getSite();
   return (
-    <div className="container">
-      <section className="contact-block" id="contact">
+    <div className="contact-band">
+      <div className="container">
+        <section className="contact-block" id="contact">
         <div className="contact-inner">
           <div className="contact-eyebrow">{contact.eyebrow}</div>
           <h3 className="contact-title">
@@ -33,7 +34,8 @@ export function ContactSection() {
             </a>
           </div>
         </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }
