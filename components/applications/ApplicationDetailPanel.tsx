@@ -1,5 +1,8 @@
+"use client";
+
 import type { Project } from "@/lib/applications";
 import { DiagramModal } from "@/components/DiagramModal";
+import { getSite } from "@/lib/site";
 
 type ApplicationDetailPanelProps = {
   project?: Project;
@@ -20,12 +23,14 @@ export function ApplicationDetailPanel({
   onCloseArchitecture,
   onCloseSequence,
 }: ApplicationDetailPanelProps) {
+  const { labels, applicationsEmptyState } = getSite();
+
   if (!project) {
     return (
       <main className="projects-content">
         <div className="projects-content-header">
-          <div className="projects-content-eyebrow">Select a project</div>
-          <h2 className="projects-content-title">Choose from the list</h2>
+          <div className="projects-content-eyebrow">{applicationsEmptyState.eyebrow}</div>
+          <h2 className="projects-content-title">{applicationsEmptyState.title}</h2>
         </div>
       </main>
     );
@@ -43,7 +48,7 @@ export function ApplicationDetailPanel({
               rel="noopener noreferrer"
               className="projects-try-btn"
             >
-              Try it
+              {labels.tryItApplications}
               <svg
                 width="12"
                 height="12"
@@ -57,13 +62,13 @@ export function ApplicationDetailPanel({
             </a>
           )}
           {project.architectureDiagram && (
-            <button onClick={onOpenArchitecture} className="projects-try-btn">
-              View Architecture
+            <button type="button" onClick={onOpenArchitecture} className="projects-try-btn">
+              {labels.viewArchitecture}
             </button>
           )}
           {project.sequenceDiagram && (
-            <button onClick={onOpenSequence} className="projects-try-btn">
-              Sequence Diagram
+            <button type="button" onClick={onOpenSequence} className="projects-try-btn">
+              {labels.sequenceDiagram}
             </button>
           )}
         </div>
@@ -73,7 +78,7 @@ export function ApplicationDetailPanel({
 
       {project.highlight && (
         <div className="projects-content-highlight">
-          <div className="projects-highlight-label">Highlight</div>
+          <div className="projects-highlight-label">{labels.highlight}</div>
           <div className="projects-highlight-text">{project.highlight}</div>
         </div>
       )}
@@ -86,7 +91,7 @@ export function ApplicationDetailPanel({
         ))}
       </div>
 
-      {project.sections?.length > 0 && (
+      {project.sections?.length ? (
         <div className="projects-content-sections">
           {project.sections.map((section) => (
             <section key={section.title} className="content-section">
@@ -99,11 +104,11 @@ export function ApplicationDetailPanel({
             </section>
           ))}
         </div>
-      )}
+      ) : null}
 
       {showArchModal && project.architectureDiagram && (
         <DiagramModal
-          title="Architecture Diagram"
+          title={labels.architectureModalTitle}
           projectTitle={project.title}
           diagramUrl={project.architectureDiagram}
           onClose={onCloseArchitecture}
@@ -112,7 +117,7 @@ export function ApplicationDetailPanel({
 
       {showSeqModal && project.sequenceDiagram && (
         <DiagramModal
-          title="Sequence Diagram"
+          title={labels.sequenceModalTitle}
           projectTitle={project.title}
           diagramUrl={project.sequenceDiagram}
           onClose={onCloseSequence}

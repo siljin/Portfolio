@@ -1,0 +1,122 @@
+{
+  "identity": {
+    "fullName": "Siljin Sebastian",
+    "logoDot": ".",
+    "footerRole": "Software Engineer",
+    "footerDegree": "MBA"
+  },
+  "urls": {
+    "email": "siljin.sebastian@my.utexas.edu",
+    "linkedIn": "https://www.linkedin.com/in/siljin-sebastian",
+    "resume": "https://drive.google.com/file/d/1LX175lj78ZXR3jjjPOFQYOcEg830SIzS/view?usp=drive_link"
+  },
+  "seo": {
+    "defaultDescription": "Portfolio: projects, AI prototypes, and how I ship outcomes for users and teams."
+  },
+  "metadata": {
+    "applicationDetailTitleSeparator": " — ",
+    "fallbackProjectListTitle": "Project"
+  },
+  "nav": {
+    "showStatus": false,
+    "statusText": "Open to internships - 2026",
+    "links": [
+      { "label": "Applications", "href": "/applications" },
+      { "label": "Projects", "href": "/projects" },
+      { "label": "Contact", "href": "#contact" }
+    ],
+    "resumeLabel": "Resume"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "nameBeforeAccent": "Siljin ",
+    "nameAccent": "Sebastian.",
+    "intro": "Engineering taught me how to build. The longer I built, the more I wanted to understand why systems work the way they do, who they actually serve, and what it would take to redesign them. The hardest problems are the ones where incentives are misaligned, users are misunderstood, and the product is solving for the wrong thing entirely. Now I am learning to find those problems before building the solution.",
+    "primaryCta": {
+      "label": "View My Work",
+      "href": "#applications"
+    },
+    "secondaryCtaLabel": "View Resume",
+    "meta": [
+      { "label": "Based in", "value": "Austin, Texas" },
+      { "label": "Background", "value": "Computer Engineer → MBA" },
+      { "label": "Focus", "value": "Strategy, Product-led growth, AI" }
+    ]
+  },
+  "home": {
+    "applicationsSection": {
+      "eyebrow": "Builder",
+      "titleBeforeEm": "AI ",
+      "titleEmphasis": "applications.",
+      "description": "Things I built - because the best way to understand product is to ship one."
+    },
+    "applicationsViewAll": {
+      "ariaLabel": "View all applications",
+      "title": "View all applications",
+      "description": "Everything I've built on the side — prototypes, experiments, tools.",
+      "buttonLabel": "View all"
+    },
+    "projectsSection": {
+      "eyebrow": "Work",
+      "titleBeforeEm": "Research & ",
+      "titleEmphasis": "Projects.",
+      "description": "A selection of the problems I've worked on, the decisions I made, and what happened."
+    },
+    "projectsViewAll": {
+      "ariaLabel": "View all case studies",
+      "title": "View all projects",
+      "description": "The full archive — shipped work, deep-dives, and retros.",
+      "buttonLabel": "View all"
+    }
+  },
+  "archive": {
+    "backToPortfolio": "Back to portfolio"
+  },
+  "applicationsArchive": {
+    "sidebarTitle": "Applications",
+    "sidebarSubtitle": "Select to explore"
+  },
+  "projectsArchive": {
+    "sidebarTitle": "Case Studies",
+    "sidebarSubtitle": "Select to explore",
+    "emptyEyebrow": "Select a case study",
+    "emptyTitle": "Choose from the list"
+  },
+  "applicationsEmptyState": {
+    "eyebrow": "Select a project",
+    "title": "Choose from the list"
+  },
+  "labels": {
+    "tryIt": "Try It",
+    "tryItApplications": "Try it",
+    "viewArchitecture": "View Architecture",
+    "sequenceDiagram": "Sequence Diagram",
+    "architectureModalTitle": "Architecture Diagram",
+    "sequenceModalTitle": "Sequence Diagram",
+    "highlight": "Highlight",
+    "viewDeck": "View Deck",
+    "read": "Read",
+    "viewAll": "View all",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar",
+    "projectImagePlaceholder": "Screenshot / Mockup",
+    "backToApplications": "← Back to applications"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "titleStart": "Let's talk about ",
+    "titleEmphasis": "AI & Product.",
+    "description": "Happy to chat.",
+    "linkedInButton": "LinkedIn"
+  },
+  "footer": {
+    "tagline": "Built with intention",
+    "year": "2026"
+  },
+  "system": {
+    "loading": "Loading...",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "That project or URL does not exist.",
+    "notFoundCta": "Back home"
+  }
+}

@@ -1,14 +1,21 @@
-import { full_name } from "@/lib/global-variables";
+import { getSite } from "@/lib/site";
 
 export function SiteFooter() {
+  const { identity, footer } = getSite();
   return (
     <footer>
       <div className="footer-inner">
         <span>
-          {full_name}<span className="sep">·</span>Software Engineer<span className="sep">·</span>MBA
+          {identity.fullName}
+          <span className="sep">·</span>
+          {identity.footerRole}
+          <span className="sep">·</span>
+          {identity.footerDegree}
         </span>
         <span>
-          Built with intention<span className="sep">·</span>2026
+          {footer.tagline}
+          <span className="sep">·</span>
+          {footer.year}
         </span>
       </div>
     </footer>

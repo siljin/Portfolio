@@ -1,6 +1,6 @@
 # PM Portfolio
 
-Single-page portfolio for a Product Manager, built with **Next.js 15** (App Router), **Geist** typography, and validated JSON content under `content/`.
+Single-page portfolio for a Product Manager, built with **Next.js 15** (App Router), **Geist** typography, and JSON content under `content/` (checked at build time in `lib/content/loaders.ts`).
 
 ## Development
 
@@ -47,43 +47,45 @@ Content now lives in JSON files:
 
 - [`content/applications/applications.json`](content/applications/applications.json)
 - [`content/projects/projects.json`](content/projects/projects.json)
-- [`content/demos/demos.json`](content/demos/demos.json)
+- [`content/demos/demos.json`](content/demos/demos.json) — optional demo list (validated at build; add UI when needed)
+- [`content/site/site.json`](content/site/site.json) — site copy, nav, hero, footer, shared UI labels, and URLs
 
-Validation and loading are centralized in:
+Types and runtime checks:
 
-- [`lib/content/schemas.ts`](lib/content/schemas.ts)
-- [`lib/content/loaders.ts`](lib/content/loaders.ts)
+- [`lib/content/types.ts`](lib/content/types.ts) — TypeScript shapes for content JSON
+- [`lib/content/validate.ts`](lib/content/validate.ts) — build-time validation (throws with clear errors)
+- [`lib/content/loaders.ts`](lib/content/loaders.ts) — `loadApplications`, `loadPortfolioProjects`, `loadSite`, plus demos validation on import
 
 Adapter modules (`lib/*.ts`) expose stable getters used by pages/components:
 
 - [`lib/applications.ts`](lib/applications.ts)
 - [`lib/projects.ts`](lib/projects.ts)
-- [`lib/demos.ts`](lib/demos.ts)
+- [`lib/site.ts`](lib/site.ts) — `getSite()` for [`content/site/site.json`](content/site/site.json)
 
 ### Required field conventions
 
 - Keep `id` and `slug` unique within each dataset.
-- Image paths must start with `/images/` (schema-enforced).
+- Image paths for covers and diagrams must start with `/images/` (enforced in loaders).
 - Preserve existing field names used by UI (for example `coverSrc`, `sections`, `tag`, `descriptor`).
 
 ### Add or edit an application safely
 
 1. Update [`content/applications/applications.json`](content/applications/applications.json).
 2. Add/verify assets under [`public/images/`](public/images/).
-3. Run `npm run build` to validate schemas and static route generation.
+3. Run `npm run build` to run content validation and static route generation.
 4. Run `npm run lint` to confirm no new lint issues.
 
-If JSON is malformed or fields are invalid, the build fails with content validation errors from the loaders/schemas layer.
+If JSON is malformed or fields are invalid, the build fails with errors from the loaders/validation layer.
 
 ## Structure
 
 - [`app/page.tsx`](app/page.tsx) — home sections
 - [`app/applications/page.tsx`](app/applications/page.tsx), [`app/applications/[slug]/page.tsx`](app/applications/[slug]/page.tsx) — applications views
-- [`app/projects/page.tsx`](app/projects/page.tsx) — case-study archive
-- [`components/`](components/) — UI sections and client motion (`Hero` spotlight, `Reveal` on scroll)
+- [`app/projects/page.tsx`](app/projects/page.tsx) — case-study archive (uses [`components/projects/ProjectsCaseArchive.tsx`](components/projects/ProjectsCaseArchive.tsx))
+- [`components/`](components/) — UI sections (`Hero`, archive layouts, etc.)
 - [`content/`](content/) — editable JSON content
-- [`lib/content/`](lib/content/) — validation schemas and JSON loaders
-- [`lib/projects.ts`](lib/projects.ts), [`lib/applications.ts`](lib/applications.ts), [`lib/demos.ts`](lib/demos.ts), [`lib/skills.ts`](lib/skills.ts) — data adapters
+- [`lib/content/`](lib/content/) — content types, validation, and JSON loaders
+- [`lib/projects.ts`](lib/projects.ts), [`lib/applications.ts`](lib/applications.ts), [`lib/site.ts`](lib/site.ts) — data adapters
 
 ## License
 

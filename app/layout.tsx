@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { Nav } from "@/components/Nav";
 import { SiteFooter } from "@/components/SiteFooter";
-import { full_name } from "@/lib/global-variables";
+import { getSite } from "@/lib/site";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -23,15 +23,17 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: `${full_name}`,
-  description:
-    "Portfolio: projects, AI prototypes, and how I ship outcomes for users and teams.",
-  icons: {
-    icon: "/favicon.svg",
-    apple: "/favicon.svg",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const site = getSite();
+  return {
+    title: site.identity.fullName,
+    description: site.seo.defaultDescription,
+    icons: {
+      icon: "/favicon.svg",
+      apple: "/favicon.svg",
+    },
+  };
+}
 
 export default function RootLayout({
   children,

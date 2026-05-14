@@ -1,4 +1,4 @@
-import type { ApplicationContent } from "./content/schemas";
+import type { ApplicationContent } from "./content/types";
 import { loadApplications } from "./content/loaders";
 
 export type ProjectSection = ApplicationContent["sections"][number];

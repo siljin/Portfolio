@@ -1,17 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import type { Project } from "@/lib/applications";
+import { getSite } from "@/lib/site";
 
 type ApplicationCardProps = {
   project: Project;
 };
 
 export function ApplicationCard({ project }: ApplicationCardProps) {
+  const { labels } = getSite();
   const tags = project.tag.split(" · ");
 
   return (
     <article className="application-card">
-      <div className={`application-icon ${project.iconPath.startsWith('/') ? 'image-icon' : ''}`}>
-        {project.iconPath.startsWith('/') ? (
+      <div className={`application-icon ${project.iconPath.startsWith("/") ? "image-icon" : ""}`}>
+        {project.iconPath.startsWith("/") ? (
           <Image
             src={project.iconPath}
             alt={project.title}
@@ -37,13 +41,13 @@ export function ApplicationCard({ project }: ApplicationCardProps) {
       </div>
       <div className="application-actions">
         <a href={`/applications?id=${project.id}`} className="read-link">
-          Read
+          {labels.read}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>
         </a>
         <a href={project.tryItUrl} target="_blank" rel="noopener noreferrer" className="try-btn">
-          Try it
+          {labels.tryItApplications}
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M7 17L17 7M7 7h10v10" />
           </svg>

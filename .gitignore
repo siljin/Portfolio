@@ -35,3 +35,11 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# cursor
+node_modules
+.next
+out
+.DS_Store
+*.pem
+.env*.local

@@ -1,4 +1,4 @@
-import type { PortfolioProjectContent } from "./content/schemas";
+import type { PortfolioProjectContent } from "./content/types";
 import { loadPortfolioProjects } from "./content/loaders";
 
 export type ProjectSection = NonNullable<

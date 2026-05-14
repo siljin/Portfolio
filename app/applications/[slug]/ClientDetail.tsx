@@ -5,15 +5,17 @@ import Link from "next/link";
 import { useState } from "react";
 import { DiagramModal } from "@/components/DiagramModal";
 import type { Project } from "@/lib/applications";
+import { getSite } from "@/lib/site";
 
 export default function ClientDetail({ project }: { project: Project }) {
   const [showArchModal, setShowArchModal] = useState(false);
   const [showSeqModal, setShowSeqModal] = useState(false);
+  const { labels } = getSite();
 
   return (
     <article className="projectPage">
       <Link href="/#applications" className="projectPageBack">
-        ← Back to applications
+        {labels.backToApplications}
       </Link>
       <span className="projectPageTag mono">{project.tag}</span>
       <h1>{project.title}</h1>
@@ -29,22 +31,24 @@ export default function ClientDetail({ project }: { project: Project }) {
 
       <div className="projectPageActions">
         <Link href={project.tryItUrl} className="projectPageBtn">
-          Try It
+          {labels.tryIt}
         </Link>
         {project.architectureDiagram && (
           <button
+            type="button"
             onClick={() => setShowArchModal(true)}
             className="projectPageBtn projectPageBtn--secondary"
           >
-            View Architecture
+            {labels.viewArchitecture}
           </button>
         )}
         {project.sequenceDiagram && (
           <button
+            type="button"
             onClick={() => setShowSeqModal(true)}
             className="projectPageBtn projectPageBtn--secondary"
           >
-            Sequence Diagram
+            {labels.sequenceDiagram}
           </button>
         )}
       </div>
@@ -70,7 +74,7 @@ export default function ClientDetail({ project }: { project: Project }) {
 
       {showArchModal && project.architectureDiagram && (
         <DiagramModal
-          title="Architecture Diagram"
+          title={labels.architectureModalTitle}
           projectTitle={project.title}
           diagramUrl={project.architectureDiagram}
           onClose={() => setShowArchModal(false)}
@@ -79,7 +83,7 @@ export default function ClientDetail({ project }: { project: Project }) {
 
       {showSeqModal && project.sequenceDiagram && (
         <DiagramModal
-          title="Sequence Diagram"
+          title={labels.sequenceModalTitle}
           projectTitle={project.title}
           diagramUrl={project.sequenceDiagram}
           onClose={() => setShowSeqModal(false)}

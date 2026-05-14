@@ -1,14 +1,18 @@
+import type {
+  ApplicationContent,
+  PortfolioProjectContent,
+  SiteContent,
+} from "./types";
 import {
-  applicationsSchema,
-  demosSchema,
-  portfolioProjectsSchema,
-  type ApplicationContent,
-  type DemoContent,
-  type PortfolioProjectContent,
-} from "./schemas";
+  validateApplication,
+  validateDemosJson,
+  validatePortfolioProject,
+  validateSite,
+} from "./validate";
 import applicationsJson from "@/content/applications/applications.json";
 import projectsJson from "@/content/projects/projects.json";
 import demosJson from "@/content/demos/demos.json";
+import siteJson from "@/content/site/site.json";
 
 type WithIdentity = {
   id?: string;
@@ -40,17 +44,36 @@ function withIntegrityChecks<T extends WithIdentity>(
   return items;
 }
 
+function validateApplicationsArray(data: unknown): ApplicationContent[] {
+  if (!Array.isArray(data)) {
+    throw new Error("content/applications/applications.json: root must be an array");
+  }
+  data.forEach((item, i) => validateApplication(item, i));
+  return data as ApplicationContent[];
+}
+
+function validatePortfolioArray(data: unknown): PortfolioProjectContent[] {
+  if (!Array.isArray(data)) {
+    throw new Error("content/projects/projects.json: root must be an array");
+  }
+  data.forEach((item, i) => validatePortfolioProject(item, i));
+  return data as PortfolioProjectContent[];
+}
+
 export function loadApplications(): ApplicationContent[] {
-  const data = applicationsSchema.parse(applicationsJson);
+  const data = validateApplicationsArray(applicationsJson);
   return withIntegrityChecks(data, "content/applications/applications.json");
 }
 
 export function loadPortfolioProjects(): PortfolioProjectContent[] {
-  const data = portfolioProjectsSchema.parse(projectsJson);
+  const data = validatePortfolioArray(projectsJson);
   return withIntegrityChecks(data, "content/projects/projects.json");
 }
 
-export function loadDemos(): DemoContent[] {
-  const data = demosSchema.parse(demosJson);
-  return withIntegrityChecks(data, "content/demos/demos.json");
+/** Validates `content/demos/demos.json` when this module loads (no UI surface yet). */
+withIntegrityChecks(validateDemosJson(demosJson), "content/demos/demos.json");
+
+export function loadSite(): SiteContent {
+  validateSite(siteJson);
+  return siteJson;
 }

@@ -1,4 +1,7 @@
+"use client";
+
 import type { Project } from "@/lib/applications";
+import { getSite } from "@/lib/site";
 
 type ApplicationsSidebarProps = {
   projects: Project[];
@@ -15,6 +18,8 @@ export function ApplicationsSidebar({
   onToggleExpand,
   onSelect,
 }: ApplicationsSidebarProps) {
+  const { applicationsArchive, labels } = getSite();
+
   function getIconText(index: number) {
     return String(index + 1).padStart(2, "0");
   }
@@ -26,7 +31,7 @@ export function ApplicationsSidebar({
           type="button"
           className="sidebar-toggle-btn"
           onClick={onToggleExpand}
-          aria-label={isExpanded ? "Collapse sidebar" : "Expand sidebar"}
+          aria-label={isExpanded ? labels.collapseSidebar : labels.expandSidebar}
           aria-expanded={isExpanded}
           aria-controls="applications-sidebar-list"
         >
@@ -35,8 +40,8 @@ export function ApplicationsSidebar({
             <path d="M11.5 4.5V19.5" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         </button>
-        <h1 className="projects-sidebar-title">Applications</h1>
-        <p className="projects-sidebar-subtitle">Select to explore</p>
+        <h1 className="projects-sidebar-title">{applicationsArchive.sidebarTitle}</h1>
+        <p className="projects-sidebar-subtitle">{applicationsArchive.sidebarSubtitle}</p>
       </div>
       <ul className="projects-list" id="applications-sidebar-list">
         {projects.map((project, index) => (

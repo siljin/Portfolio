@@ -1,32 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import {
-  nav_status_text,
-  resume_url,
-  show_nav_status,
-} from "@/lib/global-variables";
+import { getSite } from "@/lib/site";
+
+function NavItem({ href, label }: { href: string; label: string }) {
+  if (href.startsWith("#")) {
+    return <a href={href}>{label}</a>;
+  }
+  return <Link href={href}>{label}</Link>;
+}
 
 export function Nav() {
+  const { nav, urls, identity } = getSite();
   return (
     <nav>
       <div className="nav-inner">
         <Link href="/" className="logo">
-          Siljin Sebastian<span className="dot">.</span>
+          {identity.fullName}
+          <span className="dot">{identity.logoDot}</span>
         </Link>
         <div className="nav-links">
-          {show_nav_status && (
+          {nav.showStatus && (
             <span className="nav-status">
               <span className="pulse"></span>
-              {nav_status_text}
+              {nav.statusText}
             </span>
           )}
-          <Link href="/applications">Applications</Link>
-          <Link href="/projects">Projects</Link>
-          {/* <a href="#about">About</a> */}
-          <a href="#contact">Contact</a>
-          <a href={resume_url} className="nav-resume" target="_blank" rel="noopener noreferrer">
-            Resume
+          {nav.links.map((link) => (
+            <NavItem key={link.href + link.label} href={link.href} label={link.label} />
+          ))}
+          <a href={urls.resume} className="nav-resume" target="_blank" rel="noopener noreferrer">
+            {nav.resumeLabel}
             <svg
               width="12"
               height="12"

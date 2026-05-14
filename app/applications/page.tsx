@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
 import { getProjects } from "@/lib/applications";
 import { ApplicationsNav } from "@/components/applications/ApplicationsNav";
 import { ApplicationsSidebar } from "@/components/applications/ApplicationsSidebar";
 import { ApplicationDetailPanel } from "@/components/applications/ApplicationDetailPanel";
+import { getSite } from "@/lib/site";
 
 function ProjectsContent() {
   const projects = getProjects();
@@ -60,8 +60,9 @@ function ProjectsContent() {
 }
 
 export default function Page() {
+  const loading = getSite().system.loading;
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>{loading}</div>}>
       <ProjectsContent />
     </Suspense>
   );

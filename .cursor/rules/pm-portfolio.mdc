@@ -9,7 +9,7 @@ Next.js 15 App Router, static export (`output: "export"` in `next.config.ts`). B
 
 ## Content
 
-Authoritative data is **JSON under `content/`**, validated with Zod in `lib/content/schemas.ts` and loaded via `lib/content/loaders.ts`. Adapters: `lib/applications.ts`, `lib/projects.ts`, `lib/demos.ts`. Images live under `public/images/`; paths in JSON must start with `/images/`.
+Authoritative data is **JSON under `content/`** (applications, projects, optional demos, and `content/site/site.json` for site-wide copy). Types live in `lib/content/types.ts`; build-time checks in `lib/content/validate.ts` and `lib/content/loaders.ts`. Use `lib/site.ts` (`getSite()`) for site JSON. Adapters: `lib/applications.ts`, `lib/projects.ts`. Images live under `public/images/`; paths in JSON must start with `/images/` where loaders enforce it.
 
 Do **not** introduce Sanity or another headless CMS unless the product owner explicitly asks; this site is file-based content only.
 

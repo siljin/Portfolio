@@ -1,8 +1,12 @@
 import Image from "next/image";
 import { getProjects } from "@/lib/projects";
+import { getSite } from "@/lib/site";
 
 export function Projects() {
   const allProjects = getProjects();
+  const { home, labels } = getSite();
+  const s = home.projectsSection;
+  const v = home.projectsViewAll;
   const cases = allProjects.slice(0, 2).map((project) => ({
     id: project.id,
     title: project.title,
@@ -18,11 +22,12 @@ export function Projects() {
     <div className="container">
       <section className="block" id="projects">
         <div className="section-head">
-          <div className="eyebrow">Work</div>
-          <h2 className="section-title">Research & <em>Projects.</em></h2>
-          <p className="section-desc">
-            A selection of the problems I&apos;ve worked on, the decisions I made, and what happened.
-          </p>
+          <div className="eyebrow">{s.eyebrow}</div>
+          <h2 className="section-title">
+            {s.titleBeforeEm}
+            <em>{s.titleEmphasis}</em>
+          </h2>
+          <p className="section-desc">{s.description}</p>
         </div>
 
         <div className="projects">
@@ -38,7 +43,7 @@ export function Projects() {
                     sizes="(max-width: 700px) 100vw, 50vw"
                   />
                 ) : (
-                  <span className="placeholder">Screenshot / Mockup</span>
+                  <span className="placeholder">{labels.projectImagePlaceholder}</span>
                 )}
               </div>
               <div className="project-body">
@@ -56,8 +61,8 @@ export function Projects() {
                     <div className="metric-value">{c.metric}</div>
                     <div className="metric-label">{c.metricLabel}</div>
                   </div>
-                  <a href={`/projects?id=${c.id || ''}`} className="read-link">
-                    Read
+                  <a href={`/projects?id=${c.id}`} className="read-link">
+                    {labels.read}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M5 12h14M13 5l7 7-7 7" />
                     </svg>
@@ -67,7 +72,7 @@ export function Projects() {
             </article>
           ))}
 
-          <a href="/projects" className="view-all" aria-label="View all case studies">
+          <a href="/projects" className="view-all" aria-label={v.ariaLabel}>
             <div className="stack">
               <div className="stack-layer back-2"></div>
               <div className="stack-layer back-1"></div>
@@ -78,15 +83,14 @@ export function Projects() {
                     <path d="M7 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2" />
                   </svg>
                 </div>
-                <div className="va-title">View all projects</div>
-                <div className="va-desc">The full archive — shipped work, deep-dives, and retros.</div>
+                <div className="va-title">{v.title}</div>
+                <div className="va-desc">{v.description}</div>
                 <span className="va-btn">
-                  View all
+                  {v.buttonLabel}
                   <svg className="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path d="M5 12h14M13 5l7 7-7 7" />
                   </svg>
                 </span>
-                {/* <div className="va-count">12 studies</div> */}
               </div>
             </div>
           </a>
