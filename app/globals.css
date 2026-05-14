@@ -984,6 +984,12 @@ section.block {
   width: calc(100% + 38px);
 }
 
+.projects-home__spacer {
+  flex: 0 0 auto;
+  align-self: stretch;
+  pointer-events: none;
+}
+
 .project-card--home-strip {
   box-sizing: border-box;
   flex: 0 0 var(--projects-home-card-width, 280px);

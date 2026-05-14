@@ -10,12 +10,11 @@ import {
   useState,
 } from "react";
 
-const GAP_PX = 26;
-const SCROLL_EPS = 2;
 const SCROLL_LOCK_FALLBACK_MS = 450;
-const DRIFT_RESET_PX = 4;
 /** Slight under-measure of scrollport so ceil card widths fully cover the viewport (hides 4th-tile hairline). */
 const VIEWPORT_TRIM_X = 3;
+const MIN_CARD_WIDTH = 200;
+const GAP_FALLBACK = 34;
 
 export type HomeProjectCase = {
   id: string;
@@ -35,11 +34,22 @@ type ProjectsHomeCarouselProps = {
   carouselNext: string;
 };
 
-/** Visible columns from viewport width (must match CSS intent). */
 function slotsForViewport(innerWidth: number): number {
   if (innerWidth < 640) return 1;
   if (innerWidth < 1024) return 2;
   return 3;
+}
+
+/** scrollLeft that would align cardEl's left to the scrollport's inner-left (inside padding). */
+function targetScrollLeftToAlignCard(
+  scrollEl: HTMLElement,
+  cardEl: HTMLElement,
+  padLeftPx: number,
+): number {
+  const scrollRect = scrollEl.getBoundingClientRect();
+  const cardRect = cardEl.getBoundingClientRect();
+  const delta = cardRect.left - (scrollRect.left + padLeftPx);
+  return Math.round(scrollEl.scrollLeft + delta);
 }
 
 export function ProjectsHomeCarousel({
@@ -51,43 +61,24 @@ export function ProjectsHomeCarousel({
 }: ProjectsHomeCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const pendingScrollRef = useRef<{
-    targetIndex: number;
+  const pageTargetsRef = useRef<number[]>([]);
+  const pendingPageRef = useRef<{
+    pageIndex: number;
     direction: -1 | 1;
   } | null>(null);
   const scrollLockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   );
+
+  const [slots, setSlots] = useState<number>(3);
   const [cardWidthPx, setCardWidthPx] = useState<number | null>(null);
+  const [trackPadEndPx, setTrackPadEndPx] = useState<number>(0);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
 
-  const syncScrollButtons = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const { scrollLeft, clientWidth, scrollWidth } = el;
-    setCanPrev(scrollLeft > SCROLL_EPS);
-    setCanNext(scrollLeft + clientWidth < scrollWidth - SCROLL_EPS);
-  }, []);
-
-  const measure = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const inner =
-      typeof window !== "undefined" ? window.innerWidth : 1024;
-    const slots = slotsForViewport(inner);
-    const gutter = (slots - 1) * GAP_PX;
-    const cs = getComputedStyle(el);
-    const padX =
-      parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-    const contentW = Math.max(
-      0,
-      el.clientWidth - padX - VIEWPORT_TRIM_X,
-    );
-    /* Ceil so slots*width + gutters >= contentW — avoids slack where the next tile peeks */
-    const next = Math.max(200, Math.ceil((contentW - gutter) / slots));
-    setCardWidthPx(next);
-  }, []);
+  const N = cases.length;
+  const pageCount = Math.max(1, Math.ceil(N / Math.max(1, slots)));
+  const lastPageIndex = pageCount - 1;
 
   const clearScrollLockTimer = useCallback(() => {
     if (scrollLockTimerRef.current != null) {
@@ -96,108 +87,179 @@ export function ProjectsHomeCarousel({
     }
   }, []);
 
+  const currentPageIndex = useCallback((): number => {
+    const el = scrollRef.current;
+    const targets = pageTargetsRef.current;
+    if (!el || targets.length === 0) return 0;
+    const x = el.scrollLeft;
+    let best = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < targets.length; i++) {
+      const d = Math.abs(targets[i] - x);
+      if (d < bestDist) {
+        bestDist = d;
+        best = i;
+      }
+    }
+    return best;
+  }, []);
+
+  const syncButtons = useCallback(() => {
+    const k = currentPageIndex();
+    setCanPrev(k > 0);
+    setCanNext(k < lastPageIndex);
+  }, [currentPageIndex, lastPageIndex]);
+
+  const measure = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const inner = typeof window !== "undefined" ? window.innerWidth : 1024;
+    const nextSlots = slotsForViewport(inner);
+
+    const cs = getComputedStyle(el);
+    const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+    const contentW = Math.max(0, el.clientWidth - padX - VIEWPORT_TRIM_X);
+
+    const track = trackRef.current;
+    const gapPx = track
+      ? parseFloat(
+          getComputedStyle(track).columnGap ||
+            getComputedStyle(track).gap ||
+            "",
+        ) || GAP_FALLBACK
+      : GAP_FALLBACK;
+    const gutter = (nextSlots - 1) * gapPx;
+    const nextCardW = Math.max(
+      MIN_CARD_WIDTH,
+      Math.ceil((contentW - gutter) / nextSlots),
+    );
+
+    // Trailing pad so the last (possibly short) page is reachable as left-aligned.
+    const nextPageCount = Math.max(1, Math.ceil(N / nextSlots));
+    const lastPageStart = (nextPageCount - 1) * nextSlots;
+    const lastPageCount = Math.max(1, N - lastPageStart);
+    const lastPageWidth =
+      lastPageCount * nextCardW + Math.max(0, lastPageCount - 1) * gapPx;
+    const scrollportInnerW = Math.max(0, el.clientWidth - padX);
+    const padEnd = Math.max(0, scrollportInnerW - lastPageWidth);
+
+    setSlots(nextSlots);
+    setCardWidthPx(nextCardW);
+    setTrackPadEndPx(padEnd);
+  }, [N]);
+
+  const recomputePageTargets = useCallback(() => {
+    const el = scrollRef.current;
+    const track = trackRef.current;
+    if (!el || !track) {
+      pageTargetsRef.current = [];
+      return;
+    }
+    const cards = (Array.from(track.children) as HTMLElement[]).slice(0, N);
+    if (cards.length === 0) {
+      pageTargetsRef.current = [];
+      return;
+    }
+    const padLeft = parseFloat(getComputedStyle(el).paddingLeft);
+    const count = Math.max(
+      1,
+      Math.ceil(cards.length / Math.max(1, slots)),
+    );
+    const targets: number[] = [];
+    for (let k = 0; k < count; k++) {
+      const idx = Math.min(cards.length - 1, k * slots);
+      const t = targetScrollLeftToAlignCard(el, cards[idx], padLeft);
+      targets.push(Math.max(0, t));
+    }
+    pageTargetsRef.current = targets;
+  }, [N, slots]);
+
   const applyScrollLock = useCallback(() => {
     const el = scrollRef.current;
     const track = trackRef.current;
-    const p = pendingScrollRef.current;
-    if (!el || !track || !p) return;
-    const cards = Array.from(track.children) as HTMLElement[];
-    const card = cards[p.targetIndex];
+    if (!el || !track) return;
+    const cards = (Array.from(track.children) as HTMLElement[]).slice(0, N);
+    if (cards.length === 0) return;
+    const padLeft = parseFloat(getComputedStyle(el).paddingLeft);
+
+    const pending = pendingPageRef.current;
+    const k = pending ? pending.pageIndex : currentPageIndex();
+    const startIdx = Math.min(cards.length - 1, k * slots);
+    const card = cards[startIdx];
     if (!card) {
-      pendingScrollRef.current = null;
+      pendingPageRef.current = null;
       clearScrollLockTimer();
       return;
     }
-    const raw = card.offsetLeft;
+    const target = Math.max(
+      0,
+      targetScrollLeftToAlignCard(el, card, padLeft),
+    );
     el.scrollLeft =
-      p.direction === 1 ? Math.ceil(raw) : Math.floor(raw);
-    pendingScrollRef.current = null;
+      pending?.direction === 1 ? Math.ceil(target) : Math.floor(target);
+
+    pendingPageRef.current = null;
     clearScrollLockTimer();
-    syncScrollButtons();
-  }, [clearScrollLockTimer, syncScrollButtons]);
+    syncButtons();
+  }, [N, clearScrollLockTimer, currentPageIndex, slots, syncButtons]);
 
-  /** After layout changes, kill subpixel drift at the start of the strip. */
-  const alignScrollAfterMeasure = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el || pendingScrollRef.current) return;
-    if (el.scrollLeft > 0 && el.scrollLeft < DRIFT_RESET_PX) {
-      el.scrollLeft = 0;
-    }
-  }, []);
-
+  // Phase 1: measure on mount and when card count changes.
   useLayoutEffect(() => {
     measure();
-    requestAnimationFrame(() => {
-      alignScrollAfterMeasure();
-      syncScrollButtons();
-    });
-  }, [alignScrollAfterMeasure, cases.length, measure, syncScrollButtons]);
+  }, [measure]);
 
+  // Phase 2: after layout (new card width, pad, slot count) commits, recompute
+  // page targets from real DOM rects, snap to the nearest valid page, sync buttons.
+  useLayoutEffect(() => {
+    if (cardWidthPx == null) return;
+    recomputePageTargets();
+    applyScrollLock();
+    syncButtons();
+  }, [
+    cardWidthPx,
+    trackPadEndPx,
+    slots,
+    N,
+    applyScrollLock,
+    recomputePageTargets,
+    syncButtons,
+  ]);
+
+  // Event wiring: resize, scroll, scrollend.
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-
-    const ro = new ResizeObserver(() => {
-      measure();
-      requestAnimationFrame(() => {
-        alignScrollAfterMeasure();
-        syncScrollButtons();
-      });
-    });
+    const ro = new ResizeObserver(() => measure());
     ro.observe(el);
-
-    const onWin = () => {
-      measure();
-      requestAnimationFrame(() => {
-        alignScrollAfterMeasure();
-        syncScrollButtons();
-      });
-    };
-    window.addEventListener("resize", onWin);
-    el.addEventListener("scroll", syncScrollButtons, { passive: true });
+    const onResize = () => measure();
+    window.addEventListener("resize", onResize);
+    el.addEventListener("scroll", syncButtons, { passive: true });
     el.addEventListener("scrollend", applyScrollLock);
-
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", onWin);
-      el.removeEventListener("scroll", syncScrollButtons);
+      window.removeEventListener("resize", onResize);
+      el.removeEventListener("scroll", syncButtons);
       el.removeEventListener("scrollend", applyScrollLock);
       clearScrollLockTimer();
     };
-  }, [
-    alignScrollAfterMeasure,
-    applyScrollLock,
-    clearScrollLockTimer,
-    measure,
-    syncScrollButtons,
-  ]);
+  }, [applyScrollLock, clearScrollLockTimer, measure, syncButtons]);
 
   const scrollByPage = useCallback(
     (direction: -1 | 1) => {
       const el = scrollRef.current;
-      const track = trackRef.current;
-      if (!el || !track) return;
-      const cards = Array.from(track.children) as HTMLElement[];
-      if (cards.length === 0) return;
-
-      const { scrollLeft } = el;
-      let active = 0;
-      for (let i = 0; i < cards.length; i++) {
-        if (cards[i].offsetLeft <= scrollLeft + SCROLL_EPS) active = i;
-      }
-
-      const target = Math.max(
-        0,
-        Math.min(cards.length - 1, active + direction),
-      );
+      const targets = pageTargetsRef.current;
+      if (!el || targets.length === 0) return;
+      const k = currentPageIndex();
+      const next = Math.max(0, Math.min(lastPageIndex, k + direction));
+      if (next === k) return;
       const reduceMotion =
         typeof window !== "undefined" &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      pendingScrollRef.current = { targetIndex: target, direction };
+      pendingPageRef.current = { pageIndex: next, direction };
       clearScrollLockTimer();
       el.scrollTo({
-        left: cards[target].offsetLeft,
+        left: targets[next],
         behavior: reduceMotion ? "auto" : "smooth",
       });
       if (reduceMotion) {
@@ -208,7 +270,12 @@ export function ProjectsHomeCarousel({
         }, SCROLL_LOCK_FALLBACK_MS);
       }
     },
-    [applyScrollLock, clearScrollLockTimer],
+    [
+      applyScrollLock,
+      clearScrollLockTimer,
+      currentPageIndex,
+      lastPageIndex,
+    ],
   );
 
   const scrollStyle =
@@ -275,6 +342,13 @@ export function ProjectsHomeCarousel({
               </div>
             </article>
           ))}
+          {trackPadEndPx > 0 ? (
+            <div
+              className="projects-home__spacer"
+              aria-hidden="true"
+              style={{ width: `${trackPadEndPx}px` }}
+            />
+          ) : null}
         </div>
       </div>
 
