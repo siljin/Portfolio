@@ -12,7 +12,6 @@ export function ContactSection() {
             {contact.titleStart}
             <em>{contact.titleEmphasis}</em>
           </h3>
-          <p className="contact-desc">{contact.description}</p>
           <div className="contact-actions">
             <a href={`mailto:${urls.email}`} className="email-btn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

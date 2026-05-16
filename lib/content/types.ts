@@ -168,7 +168,6 @@ export type SiteContent = {
     eyebrow: string;
     titleStart: string;
     titleEmphasis: string;
-    description: string;
     linkedInButton: string;
   };
   footer: {

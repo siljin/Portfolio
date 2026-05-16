@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { getSite } from "@/lib/site";
 
-const CHAR_SPEED_MS = 36;
-const LINE_PAUSE_MS = 480;
-const FLIP_DELAY_MS = 500;
+const FLIP_DELAY_MS = 800;
+const LINE_GAP_MS = 1200;
+const POET_DELAY_MS = 520;
 
 function initialsOf(name: string): string {
   return name
@@ -23,55 +23,18 @@ export function Hero() {
   const initials = initialsOf(identity.fullName);
 
   const [flipped, setFlipped] = useState(false);
-  const [typed, setTyped] = useState<string[]>([]);
-  const [activeLine, setActiveLine] = useState<number>(-1);
-  const [showPoet, setShowPoet] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const startedRef = useRef(false);
 
   useEffect(() => {
     if (!flipped || startedRef.current) return;
     startedRef.current = true;
+    const t = setTimeout(() => setRevealed(true), FLIP_DELAY_MS);
+    return () => clearTimeout(t);
+  }, [flipped]);
 
-    const lines = hero.poem.lines;
-    const timeouts: ReturnType<typeof setTimeout>[] = [];
-    const intervals: ReturnType<typeof setInterval>[] = [];
-
-    const typeLine = (lineIdx: number) => {
-      if (lineIdx >= lines.length) {
-        setActiveLine(-1);
-        const t = setTimeout(() => setShowPoet(true), LINE_PAUSE_MS);
-        timeouts.push(t);
-        return;
-      }
-      const text = lines[lineIdx];
-      let charIdx = 0;
-      setTyped((prev) => [...prev, ""]);
-      setActiveLine(lineIdx);
-
-      const interval = setInterval(() => {
-        charIdx++;
-        setTyped((prev) => {
-          const next = [...prev];
-          next[lineIdx] = text.slice(0, charIdx);
-          return next;
-        });
-        if (charIdx >= text.length) {
-          clearInterval(interval);
-          const next = setTimeout(() => typeLine(lineIdx + 1), LINE_PAUSE_MS);
-          timeouts.push(next);
-        }
-      }, CHAR_SPEED_MS);
-      intervals.push(interval);
-    };
-
-    const initial = setTimeout(() => typeLine(0), FLIP_DELAY_MS);
-    timeouts.push(initial);
-
-    return () => {
-      timeouts.forEach(clearTimeout);
-      intervals.forEach(clearInterval);
-    };
-  }, [flipped, hero.poem.lines]);
+  const lineCount = hero.poem.lines.length;
+  const poetDelaySec = (lineCount * LINE_GAP_MS + POET_DELAY_MS) / 1000;
 
   return (
     <div className="hero-frame">
@@ -120,14 +83,26 @@ export function Hero() {
               <div className="photo-back">
                 <div className="poem-mark" aria-hidden="true">&ldquo;</div>
                 <div className="poem-lines">
-                  {typed.map((text, i) => (
-                    <div key={i} className="poem-line">
-                      {text}
-                      {i === activeLine && <span className="poem-cursor" aria-hidden="true" />}
-                    </div>
+                  {hero.poem.lines.map((line, i) => (
+                    <p
+                      key={i}
+                      className={`poem-line${revealed ? " fade-up" : ""}`}
+                      style={
+                        revealed
+                          ? { animationDelay: `${(i * LINE_GAP_MS) / 1000}s` }
+                          : undefined
+                      }
+                    >
+                      {line}
+                    </p>
                   ))}
                 </div>
-                {showPoet && <div className="poem-poet">— {hero.poem.poet}</div>}
+                <p
+                  className={`poem-poet${revealed ? " fade-up" : ""}`}
+                  style={revealed ? { animationDelay: `${poetDelaySec}s` } : undefined}
+                >
+                  — {hero.poem.poet}
+                </p>
               </div>
             </div>
           </button>

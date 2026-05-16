@@ -311,7 +311,6 @@ export function validateSite(data: unknown): asserts data is SiteContent {
   assertNonEmptyString(contact.eyebrow, "contact.eyebrow", ctx);
   assertNonEmptyString(contact.titleStart, "contact.titleStart", ctx);
   assertNonEmptyString(contact.titleEmphasis, "contact.titleEmphasis", ctx);
-  assertNonEmptyString(contact.description, "contact.description", ctx);
   assertNonEmptyString(contact.linkedInButton, "contact.linkedInButton", ctx);
 
   const footer = root.footer as Record<string, unknown>;
