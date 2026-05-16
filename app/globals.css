@@ -26,6 +26,8 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
+  min-height: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -42,17 +44,10 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1 0 auto;
-}
-
-footer {
-  flex-shrink: 0;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-auto-rows: 0;
 }
 
 /* Ambient page effects */
@@ -1757,6 +1752,7 @@ section.block {
   border-bottom: 1px solid rgba(37, 99, 235, 0.12);
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
 .contact-block {
