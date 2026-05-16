@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export type HomeCardProps = {
   imageSrc?: string;
@@ -8,8 +9,9 @@ export type HomeCardProps = {
   description: string;
   metric: string;
   metricLabel: string;
-  readHref: string;
-  readLabel: string;
+  detailHref: string;
+  actionHref: string;
+  actionLabel: string;
 };
 
 export function HomeCard({
@@ -20,11 +22,15 @@ export function HomeCard({
   description,
   metric,
   metricLabel,
-  readHref,
-  readLabel,
+  detailHref,
+  actionHref,
+  actionLabel,
 }: HomeCardProps) {
   return (
     <article className="project-card project-card--home-strip">
+      <Link href={detailHref} className="project-card__stretched">
+        <span className="sr-only">{title}</span>
+      </Link>
       <div className="project-visual">
         {imageSrc ? (
           <Image
@@ -53,18 +59,23 @@ export function HomeCard({
             <div className="metric-value">{metric}</div>
             <div className="metric-label">{metricLabel}</div>
           </div>
-          <a href={readHref} className="read-link">
-            {readLabel}
+          <a
+            href={actionHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="read-link"
+          >
+            {actionLabel}
             <svg
-              width="14"
-              height="14"
+              width="12"
+              height="12"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.5"
               aria-hidden={true}
             >
-              <path d="M5 12h14M13 5l7 7-7 7" />
+              <path d="M7 17L17 7M9 7h8v8" />
             </svg>
           </a>
         </div>

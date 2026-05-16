@@ -65,11 +65,6 @@ export type HeroMetaRow = {
   value: string;
 };
 
-export type HeroCta = {
-  label: string;
-  href: string;
-};
-
 export type HomeSectionBlock = {
   eyebrow: string;
   titleBeforeEm: string;
@@ -103,6 +98,7 @@ export type SiteLabels = {
   sequenceModalTitle: string;
   highlight: string;
   viewDeck: string;
+  checkItOut: string;
   read: string;
   viewAll: string;
   collapseSidebar: string;
@@ -139,9 +135,18 @@ export type SiteContent = {
     greeting: string;
     nameBeforeAccent: string;
     nameAccent: string;
-    intro: string;
-    primaryCta: HeroCta;
-    secondaryCtaLabel: string;
+    intro: {
+      lead: string;
+      highlight: string;
+      tail: string;
+      closing: string;
+    };
+    poem: {
+      lines: [string, string, string, string];
+      poet: string;
+    };
+    photoSrc?: string;
+    photoCaption?: string;
     meta: HeroMetaRow[];
   };
   home: {
@@ -163,7 +168,6 @@ export type SiteContent = {
     eyebrow: string;
     titleStart: string;
     titleEmphasis: string;
-    description: string;
     linkedInButton: string;
   };
   footer: {

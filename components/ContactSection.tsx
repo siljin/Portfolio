@@ -3,15 +3,15 @@ import { getSite } from "@/lib/site";
 export function ContactSection() {
   const { contact, urls } = getSite();
   return (
-    <div className="container">
-      <section className="contact-block" id="contact">
+    <div className="contact-band">
+      <div className="container">
+        <section className="contact-block" id="contact">
         <div className="contact-inner">
           <div className="contact-eyebrow">{contact.eyebrow}</div>
           <h3 className="contact-title">
             {contact.titleStart}
             <em>{contact.titleEmphasis}</em>
           </h3>
-          <p className="contact-desc">{contact.description}</p>
           <div className="contact-actions">
             <a href={`mailto:${urls.email}`} className="email-btn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -33,7 +33,8 @@ export function ContactSection() {
             </a>
           </div>
         </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

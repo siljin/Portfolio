@@ -21,3 +21,5 @@ urls:
   # Public link for the "Resume" button in the nav. Env can override this, but
   # the checked-in fallback keeps clean/deploy builds from requiring .env.local.
   resume: ${RESUME_URL:-https://drive.google.com/file/d/1LX175lj78ZXR3jjjPOFQYOcEg830SIzS/view?usp=drive_link}
+  # Public GitHub profile, surfaced in the footer.
+  github: ${GITHUB_URL:-https://github.com/siljin}

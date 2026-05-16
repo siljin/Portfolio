@@ -54,7 +54,7 @@ export default function RootLayout({
           resumeUrl={urls.resume}
         />
         {children}
-        <SiteFooter />
+        <SiteFooter githubUrl={urls.github} />
       </body>
     </html>
   );

@@ -36,8 +36,9 @@ export function Applications() {
                 description={app.descriptor}
                 metric={app.metric}
                 metricLabel={app.metricLabel}
-                readHref={`/applications?id=${app.id}`}
-                readLabel={labels.read}
+                detailHref={`/applications?id=${app.id}`}
+                actionHref={app.tryItUrl}
+                actionLabel={labels.checkItOut}
               />
             ))}
           </HomeCarousel>

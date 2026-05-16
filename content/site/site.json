@@ -28,17 +28,29 @@
   "hero": {
     "greeting": "Hi, I'm",
     "nameBeforeAccent": "Siljin ",
-    "nameAccent": "Sebastian.",
-    "intro": "Engineering taught me how to build. The longer I built, the more I wanted to understand why systems work the way they do, who they actually serve, and what it would take to redesign them. The hardest problems are the ones where incentives are misaligned, users are misunderstood, and the product is solving for the wrong thing entirely. Now I am learning to find those problems before building the solution.",
-    "primaryCta": {
-      "label": "View My Work",
-      "href": "#applications"
+    "nameAccent": "Sebastian",
+    "intro": {
+      "lead": "Quietly ambitious, loudly curious. Figuring out life one rabbit hole at a time.",
+      "highlight": "On a quest to build that one beautiful product.",
+      "tail": "What follows is the 10% worth showing. The other 90%, though messy, is a story for another day, preferably over coffee.",
+      "closing": "Welcome!"
     },
-    "secondaryCtaLabel": "View Resume",
+    "poem": {
+      "lines": [
+        "Let everything happen to you.",
+        "Beauty and terror.",
+        "Just keep going.",
+        "No feeling is final."
+      ],
+      "poet": "Rainer Maria Rilke"
+    },
+    "photoSrc": "/images/hero-photo.jpeg",
+    "photoCaption": "Me and my creator!",
     "meta": [
       { "label": "Based in", "value": "Austin, Texas" },
       { "label": "Background", "value": "Computer Engineer → MBA" },
-      { "label": "Focus", "value": "Strategy, Product-led growth, AI" }
+      { "label": "Focus", "value": "Strategy, Product-led growth, AI" },
+      { "label": "Fun Fact", "value": "I'm a certified SCUBA Diver" }
     ]
   },
   "home": {
@@ -87,6 +99,7 @@
     "sequenceModalTitle": "Sequence Diagram",
     "highlight": "Highlight",
     "viewDeck": "View Deck",
+    "checkItOut": "Check it out",
     "read": "Read",
     "viewAll": "View all",
     "collapseSidebar": "Collapse sidebar",
@@ -100,7 +113,6 @@
     "eyebrow": "Contact",
     "titleStart": "Let's talk about ",
     "titleEmphasis": "AI & Product.",
-    "description": "Happy to chat.",
     "linkedInButton": "LinkedIn"
   },
   "footer": {
