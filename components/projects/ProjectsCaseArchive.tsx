@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { renderBlocks } from "@/components/detail/renderBlock";
 import { getSite } from "@/lib/site";
 import type { Project } from "@/lib/projects";
 
@@ -103,41 +104,47 @@ export function ProjectsCaseArchive({ cases }: ProjectsCaseArchiveProps) {
                 ) : null}
               </div>
 
-              <p className="projects-content-desc">{selectedCase.desc}</p>
+              {selectedCase.detail ? (
+                <div className="detail-blocks">{renderBlocks(selectedCase.detail.blocks)}</div>
+              ) : (
+                <>
+                  <p className="projects-content-desc">{selectedCase.desc}</p>
 
-              <div className="projects-content-tags">
-                {selectedCase.tags.map((tag) => (
-                  <span key={tag} className="projects-tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
+                  <div className="projects-content-tags">
+                    {selectedCase.tags.map((tag) => (
+                      <span key={tag} className="projects-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
 
-              <div className="projects-content-metrics">
-                <div className="projects-metric-block">
-                  <div className="projects-metric-value">{selectedCase.metric1}</div>
-                  <div className="projects-metric-label">{selectedCase.metric1Label}</div>
-                </div>
-                <div className="projects-metric-block">
-                  <div className="projects-metric-value">{selectedCase.metric2}</div>
-                  <div className="projects-metric-label">{selectedCase.metric2Label}</div>
-                </div>
-              </div>
+                  <div className="projects-content-metrics">
+                    <div className="projects-metric-block">
+                      <div className="projects-metric-value">{selectedCase.metric1}</div>
+                      <div className="projects-metric-label">{selectedCase.metric1Label}</div>
+                    </div>
+                    <div className="projects-metric-block">
+                      <div className="projects-metric-value">{selectedCase.metric2}</div>
+                      <div className="projects-metric-label">{selectedCase.metric2Label}</div>
+                    </div>
+                  </div>
 
-              {selectedCase.sections && selectedCase.sections.length > 0 ? (
-                <div className="projects-content-sections">
-                  {selectedCase.sections.map((section) => (
-                    <section key={section.title} className="content-section">
-                      <h3 className="section-subtitle">{section.title}</h3>
-                      {section.paragraphs.map((paragraph, idx) => (
-                        <p key={idx} className="section-paragraph">
-                          {paragraph}
-                        </p>
+                  {selectedCase.sections && selectedCase.sections.length > 0 ? (
+                    <div className="projects-content-sections">
+                      {selectedCase.sections.map((section) => (
+                        <section key={section.title} className="content-section">
+                          <h3 className="section-subtitle">{section.title}</h3>
+                          {section.paragraphs.map((paragraph, idx) => (
+                            <p key={idx} className="section-paragraph">
+                              {paragraph}
+                            </p>
+                          ))}
+                        </section>
                       ))}
-                    </section>
-                  ))}
-                </div>
-              ) : null}
+                    </div>
+                  ) : null}
+                </>
+              )}
             </>
           ) : (
             <div className="projects-content-header">

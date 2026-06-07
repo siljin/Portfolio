@@ -2,6 +2,7 @@
 
 import type { Project } from "@/lib/applications";
 import { DiagramModal } from "@/components/DiagramModal";
+import { renderBlocks } from "@/components/detail/renderBlock";
 import { getSite } from "@/lib/site";
 
 type ApplicationDetailPanelProps = {
@@ -74,37 +75,43 @@ export function ApplicationDetailPanel({
         </div>
       </div>
 
-      <p className="projects-content-desc">{project.descriptor}</p>
+      {project.detail ? (
+        <div className="detail-blocks">{renderBlocks(project.detail.blocks)}</div>
+      ) : (
+        <>
+          <p className="projects-content-desc">{project.descriptor}</p>
 
-      {project.highlight && (
-        <div className="projects-content-highlight">
-          <div className="projects-highlight-label">{labels.highlight}</div>
-          <div className="projects-highlight-text">{project.highlight}</div>
-        </div>
-      )}
+          {project.highlight && (
+            <div className="projects-content-highlight">
+              <div className="projects-highlight-label">{labels.highlight}</div>
+              <div className="projects-highlight-text">{project.highlight}</div>
+            </div>
+          )}
 
-      <div className="projects-content-tags">
-        {project.tag.split(" · ").map((tag) => (
-          <span key={tag} className="projects-tag">
-            {tag}
-          </span>
-        ))}
-      </div>
+          <div className="projects-content-tags">
+            {project.tag.split(" · ").map((tag) => (
+              <span key={tag} className="projects-tag">
+                {tag}
+              </span>
+            ))}
+          </div>
 
-      {project.sections?.length ? (
-        <div className="projects-content-sections">
-          {project.sections.map((section) => (
-            <section key={section.title} className="content-section">
-              <h3 className="section-subtitle">{section.title}</h3>
-              {section.paragraphs.map((paragraph, idx) => (
-                <p key={idx} className="section-paragraph">
-                  {paragraph}
-                </p>
+          {project.sections?.length ? (
+            <div className="projects-content-sections">
+              {project.sections.map((section) => (
+                <section key={section.title} className="content-section">
+                  <h3 className="section-subtitle">{section.title}</h3>
+                  {section.paragraphs.map((paragraph, idx) => (
+                    <p key={idx} className="section-paragraph">
+                      {paragraph}
+                    </p>
+                  ))}
+                </section>
               ))}
-            </section>
-          ))}
-        </div>
-      ) : null}
+            </div>
+          ) : null}
+        </>
+      )}
 
       {showArchModal && project.architectureDiagram && (
         <DiagramModal

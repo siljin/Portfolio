@@ -1,5 +1,23 @@
 /** Type-only definitions for JSON under `content/`. Runtime checks live in `validate.ts` / `loaders.ts`. */
 
+/**
+ * Detail-page visual blocks. Each item in `detail.blocks[]` is one of these
+ * discriminated shapes; the renderer in `components/detail/renderBlock.tsx`
+ * switches on `kind` to pick the matching component. Adding a new block kind
+ * = new entry here + new validator branch + new component.
+ */
+export type DetailBlock =
+  | { kind: "lede"; text: string }
+  | { kind: "heading"; text: string }
+  | { kind: "tagRow"; tags: string[] }
+  | { kind: "previewPane"; image: string; url?: string; caption?: string; chrome?: "browser" | "none" }
+  | { kind: "metaStrip"; cells: { label: string; value: string }[] }
+  | { kind: "cta"; label: string; href: string; note?: string };
+
+export type DetailContent = {
+  blocks: DetailBlock[];
+};
+
 export type ApplicationSection = {
   title: string;
   paragraphs: string[];
@@ -23,6 +41,7 @@ export type ApplicationContent = {
   sections: ApplicationSection[];
   architectureDiagram?: string;
   sequenceDiagram?: string;
+  detail?: DetailContent;
 };
 
 export type PortfolioSection = {
@@ -44,6 +63,7 @@ export type PortfolioProjectContent = {
   deckUrl: string;
   sections?: PortfolioSection[];
   imageSrc?: string;
+  detail?: DetailContent;
 };
 
 export type DemoContent = {

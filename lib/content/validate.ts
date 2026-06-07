@@ -2,6 +2,8 @@ import type {
   ApplicationContent,
   ApplicationSection,
   DemoContent,
+  DetailBlock,
+  DetailContent,
   PortfolioProjectContent,
   PortfolioSection,
   SiteContent,
@@ -27,6 +29,67 @@ function assertNonEmptyString(value: unknown, field: string, context: string): a
   if (typeof value !== "string" || value.length === 0) {
     throw new Error(`${context}: ${field} must be a non-empty string`);
   }
+}
+
+/**
+ * Strict per-kind validator for detail blocks. Unknown `kind` throws so typos
+ * fail at load time rather than silently rendering nothing.
+ */
+function validateDetailBlock(b: unknown, ctx: string): asserts b is DetailBlock {
+  if (typeof b !== "object" || b === null) throw new Error(`${ctx}: expected object`);
+  const o = b as Record<string, unknown>;
+  if (typeof o.kind !== "string") throw new Error(`${ctx}: missing string "kind"`);
+  switch (o.kind) {
+    case "lede":
+      assertNonEmptyString(o.text, "text", ctx);
+      return;
+    case "heading":
+      assertNonEmptyString(o.text, "text", ctx);
+      return;
+    case "tagRow":
+      if (!Array.isArray(o.tags) || o.tags.length === 0) {
+        throw new Error(`${ctx}: tags must be a non-empty array`);
+      }
+      o.tags.forEach((t, i) => assertNonEmptyString(t, `tags[${i}]`, ctx));
+      return;
+    case "previewPane":
+      assertNonEmptyString(o.image, "image", ctx);
+      assertImagePath(o.image as string, "image", ctx, false);
+      if (o.url !== undefined) assertNonEmptyString(o.url, "url", ctx);
+      if (o.caption !== undefined) assertNonEmptyString(o.caption, "caption", ctx);
+      if (o.chrome !== undefined && o.chrome !== "browser" && o.chrome !== "none") {
+        throw new Error(`${ctx}: chrome must be "browser" or "none"`);
+      }
+      return;
+    case "metaStrip":
+      if (!Array.isArray(o.cells) || o.cells.length === 0) {
+        throw new Error(`${ctx}: cells must be a non-empty array`);
+      }
+      o.cells.forEach((cell, i) => {
+        const cellCtx = `${ctx}.cells[${i}]`;
+        if (typeof cell !== "object" || cell === null) throw new Error(`${cellCtx}: expected object`);
+        const c = cell as Record<string, unknown>;
+        assertNonEmptyString(c.label, "label", cellCtx);
+        assertNonEmptyString(c.value, "value", cellCtx);
+      });
+      return;
+    case "cta":
+      assertNonEmptyString(o.label, "label", ctx);
+      assertNonEmptyString(o.href, "href", ctx);
+      if (o.note !== undefined) assertNonEmptyString(o.note, "note", ctx);
+      return;
+    default:
+      throw new Error(`${ctx}: unknown block kind ${JSON.stringify(o.kind)}`);
+  }
+}
+
+function validateDetailContent(d: unknown, ctx: string): asserts d is DetailContent {
+  if (typeof d !== "object" || d === null) throw new Error(`${ctx}: expected object`);
+  const o = d as Record<string, unknown>;
+  if (!Array.isArray(o.blocks) || o.blocks.length === 0) {
+    throw new Error(`${ctx}: blocks must be a non-empty array`);
+  }
+  o.blocks.forEach((b, i) => validateDetailBlock(b, `${ctx}.blocks[${i}]`));
 }
 
 function validateApplicationSection(
@@ -80,6 +143,7 @@ export function validateApplication(item: unknown, index: number): asserts item 
     assertNonEmptyString(o.sequenceDiagram, "sequenceDiagram", ctx);
     assertImagePath(o.sequenceDiagram as string, "sequenceDiagram", ctx, false);
   }
+  if (o.detail !== undefined) validateDetailContent(o.detail, `${ctx}.detail`);
 }
 
 export function validatePortfolioSection(
@@ -126,6 +190,7 @@ export function validatePortfolioProject(
     assertNonEmptyString(o.imageSrc, "imageSrc", ctx);
     assertImagePath(o.imageSrc as string, "imageSrc", ctx, false);
   }
+  if (o.detail !== undefined) validateDetailContent(o.detail, `${ctx}.detail`);
 }
 
 export function validateDemo(item: unknown, index: number): asserts item is DemoContent {
