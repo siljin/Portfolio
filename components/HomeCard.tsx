@@ -6,6 +6,8 @@ import { getPublicEyebrow, normalizeCtaLabel } from "@/lib/content/display";
 
 export type HomeCardProps = {
   imageSrc?: string;
+  imageFit?: "cover" | "contain";
+  imageBackdrop?: "default" | "prior-auth" | "waystar" | "costco";
   imagePlaceholder: string;
   eyebrow: string;
   tags: string[];
@@ -16,6 +18,7 @@ export type HomeCardProps = {
   detailHref: string;
   actionHref: string;
   actionLabel: string;
+  maxTags?: number;
 };
 
 /**
@@ -43,6 +46,8 @@ function hasMetric(metric: string, metricLabel: string) {
 
 export function HomeCard({
   imageSrc,
+  imageFit = "cover",
+  imageBackdrop = "default",
   imagePlaceholder,
   eyebrow,
   tags,
@@ -53,9 +58,10 @@ export function HomeCard({
   detailHref,
   actionHref,
   actionLabel,
+  maxTags = 2,
 }: HomeCardProps) {
   const publicEyebrow = getPublicEyebrow(eyebrow);
-  const visibleTags = tags.slice(0, 2);
+  const visibleTags = tags.slice(0, maxTags);
   const showMetric = hasMetric(metric, metricLabel);
   const showAction = actionHref.trim() !== "" && actionHref.trim() !== "#";
   const normalizedActionLabel = normalizeCtaLabel(actionLabel);
@@ -68,7 +74,9 @@ export function HomeCard({
       <Link href={detailHref} className="project-card__stretched">
         <span className="sr-only">{title}</span>
       </Link>
-      <div className="project-visual project-visual--cover">
+      <div
+        className={`project-visual project-visual--${imageFit} project-visual--${imageBackdrop}`}
+      >
         {imageSrc ? (
           <Image
             src={imageSrc}

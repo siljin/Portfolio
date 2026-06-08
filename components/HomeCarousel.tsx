@@ -12,7 +12,7 @@ import {
 
 const SCROLL_LOCK_FALLBACK_MS = 450;
 const MIN_CARD_WIDTH = 200;
-const GAP_FALLBACK = 34;
+const GAP_FALLBACK = 24;
 /** Matches `.project-card--home-strip:hover { transform: scale(1.02) }`. */
 const HOVER_SCALE = 1.02;
 

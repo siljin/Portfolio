@@ -84,7 +84,8 @@ export function ApplicationDetailPanel({
   const primaryPreview = getFirstBlock(detailBlocks, "previewPane");
   const bodyBlocks = detailBlocks ? getBodyBlocks(detailBlocks) : [];
   const tags = splitTags(project.tag);
-  const eyebrow = getPublicEyebrow(project.eyebrow, project.category);
+  const category = project.category?.trim();
+  const eyebrow = getPublicEyebrow(project.eyebrow);
   const showPrimaryCta = hasUsableHref(project.tryItUrl);
   const primaryCtaLabel = getApplicationPrimaryCtaLabel(
     detailBlocks,
@@ -101,9 +102,17 @@ export function ApplicationDetailPanel({
           }`}
         >
           <div className="application-detail-hero__copy">
-            <div className="projects-content-eyebrow application-detail-eyebrow">
-              {eyebrow}
-            </div>
+            {category ? (
+              <div className="detail-category-badge">
+                <span className="detail-category-badge__label">Category</span>
+                <span>{category}</span>
+              </div>
+            ) : null}
+            {eyebrow ? (
+              <div className="projects-content-eyebrow application-detail-eyebrow">
+                {eyebrow}
+              </div>
+            ) : null}
             <h2 className="projects-content-title application-detail-title">
               {project.title}
             </h2>
