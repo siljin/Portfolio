@@ -3,16 +3,18 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { getProjects } from "@/lib/applications";
-import { ApplicationsSidebar } from "@/components/applications/ApplicationsSidebar";
+import { ArchiveSidebar } from "@/components/archive/ArchiveSidebar";
 import { ApplicationDetailPanel } from "@/components/applications/ApplicationDetailPanel";
+import { getCompactApplicationTitle } from "@/lib/content/display";
 import { getSite } from "@/lib/site";
 
 function ProjectsContent() {
   const projects = getProjects();
+  const { applicationsArchive } = getSite();
   const searchParams = useSearchParams();
   const queryId = searchParams.get("id");
   const [selectedId, setSelectedId] = useState(queryId || projects[0]?.id || "");
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const [showArchModal, setShowArchModal] = useState(false);
   const [showSeqModal, setShowSeqModal] = useState(false);
 
@@ -30,10 +32,15 @@ function ProjectsContent() {
         isSidebarExpanded ? "is-expanded" : ""
       }`}
     >
-      <ApplicationsSidebar
-        projects={projects}
+      <ArchiveSidebar
+        title={applicationsArchive.sidebarTitle}
+        items={projects.map((project) => ({
+          id: project.id,
+          title: getCompactApplicationTitle(project.title),
+        }))}
         selectedId={selectedId}
         isExpanded={isSidebarExpanded}
+        listId="applications-sidebar-list"
         onToggleExpand={() => setIsSidebarExpanded((prev) => !prev)}
         onSelect={(id) => {
           setSelectedId(id);

@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ExternalLink, Play } from "lucide-react";
+import { IconAction } from "@/components/ui/IconAction";
+import { getPublicEyebrow, normalizeCtaLabel } from "@/lib/content/display";
 
 export type HomeCardProps = {
   imageSrc?: string;
   imagePlaceholder: string;
+  eyebrow: string;
   tags: string[];
   title: string;
   description: string;
@@ -14,9 +18,33 @@ export type HomeCardProps = {
   actionLabel: string;
 };
 
+/**
+ * Returns the first complete sentence as a curated hook, so cards end on a
+ * natural thought instead of a chopped "...". Abbreviations like "U.S." are
+ * protected so they don't get mistaken for a sentence boundary.
+ */
+function makeHook(text: string) {
+  const protectedText = text
+    .trim()
+    .replace(
+      /\b(U\.S|e\.g|i\.e|etc|vs|Inc|Corp|Ltd|Dr|Mr|Mrs|Ms|Jr|Sr|St|No|Co)\./gi,
+      "$1·",
+    )
+    .replace(/\b([A-Za-z])\./g, "$1·");
+
+  const match = protectedText.match(/^[\s\S]*?[.!?](?=\s|$)/);
+  const sentence = (match ? match[0] : protectedText).replace(/·/g, ".");
+  return sentence.replace(/\s*[.!?]+\s*$/, "");
+}
+
+function hasMetric(metric: string, metricLabel: string) {
+  return metric.trim() !== "—" && metricLabel.trim() !== "—";
+}
+
 export function HomeCard({
   imageSrc,
   imagePlaceholder,
+  eyebrow,
   tags,
   title,
   description,
@@ -26,59 +54,64 @@ export function HomeCard({
   actionHref,
   actionLabel,
 }: HomeCardProps) {
+  const publicEyebrow = getPublicEyebrow(eyebrow);
+  const visibleTags = tags.slice(0, 2);
+  const showMetric = hasMetric(metric, metricLabel);
+  const showAction = actionHref.trim() !== "" && actionHref.trim() !== "#";
+  const normalizedActionLabel = normalizeCtaLabel(actionLabel);
+  const ActionIcon = /try|workflow|demo/i.test(normalizedActionLabel)
+    ? Play
+    : ExternalLink;
+
   return (
     <article className="project-card project-card--home-strip">
       <Link href={detailHref} className="project-card__stretched">
         <span className="sr-only">{title}</span>
       </Link>
-      <div className="project-visual">
+      <div className="project-visual project-visual--cover">
         {imageSrc ? (
           <Image
             src={imageSrc}
             alt=""
             width={800}
             height={450}
-            sizes="280px"
+            sizes="(max-width: 639px) calc(100vw - 40px), (max-width: 1023px) 50vw, 33vw"
           />
         ) : (
           <span className="placeholder">{imagePlaceholder}</span>
         )}
       </div>
+
       <div className="project-body">
-        <div className="project-tags">
-          {tags.map((tag) => (
+        {publicEyebrow ? (
+          <div className="project-eyebrow">{publicEyebrow}</div>
+        ) : null}
+        <h3 className="project-title">{title}</h3>
+        <p className="project-desc">{makeHook(description)}</p>
+
+        <div className="project-chip-row">
+          {showMetric ? (
+            <span className="metric-chip">
+              {metric} · {metricLabel}
+            </span>
+          ) : null}
+          {visibleTags.map((tag) => (
             <span key={tag} className="tag">
               {tag}
             </span>
           ))}
         </div>
-        <h3 className="project-title">{title}</h3>
-        <p className="project-desc">{description}</p>
-        <div className="project-footer">
-          <div className="metric">
-            <div className="metric-value">{metric}</div>
-            <div className="metric-label">{metricLabel}</div>
-          </div>
-          <a
+
+        {showAction ? (
+          <IconAction
             href={actionHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="read-link"
+            icon={ActionIcon}
+            className="project-card-cta"
+            ariaLabel={`${normalizedActionLabel}: ${title}`}
           >
-            {actionLabel}
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              aria-hidden={true}
-            >
-              <path d="M7 17L17 7M9 7h8v8" />
-            </svg>
-          </a>
-        </div>
+            {normalizedActionLabel}
+          </IconAction>
+        ) : null}
       </div>
     </article>
   );

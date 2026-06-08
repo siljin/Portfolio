@@ -25,7 +25,22 @@
           "Created a diagnostic workflow in Dify that combines rule-based risk scoring with multi-agent clinical reasoning. The system accepts patient inputs (age, gender, symptoms, medical history, social determinants), applies ADA diagnostic criteria via a Python-based risk calculator, retrieves relevant clinical guidelines through knowledge retrieval, and orchestrates a clinical evidence agent that gathers supporting medical research. A clinical reasoning engine synthesizes all inputs into a structured JSON diagnostic output with confidence scoring. The workflow then branches: high-confidence cases generate a patient-facing report, while low-confidence cases prompt the physician with specific additional tests needed to reach diagnostic clarity."
         ]
       }
-    ]
+    ],
+    "detail": {
+      "blocks": [
+        { "kind": "lede", "text": "A Dify-orchestrated diagnostic agent that fuses patient inputs, ADA criteria, and live clinical evidence into a single risk score — with a confidence threshold that routes high-conviction cases to a patient report and low-conviction ones back to the physician with specific next tests." },
+        { "kind": "tagRow", "tags": ["Agentic Workflow", "RAG", "MCP", "Gemini", "Dify"] },
+        { "kind": "previewPane", "image": "/images/projects/diabetes-diagnosis.svg", "url": "udify.app/workflow/A32PxMNwfQoqZrxN", "caption": "Live workflow on Dify — submit a patient profile and watch the agents reason." },
+        { "kind": "heading", "text": "What's inside" },
+        { "kind": "metaStrip", "cells": [
+          { "label": "Domain",    "value": "Clinical decision support" },
+          { "label": "Reasoning", "value": "Multi-agent + rules engine" },
+          { "label": "Sources",   "value": "ADA guidelines + RAG retrieval" },
+          { "label": "Output",    "value": "Structured JSON + branching report" }
+        ]},
+        { "kind": "cta", "label": "Try the workflow", "href": "https://udify.app/workflow/A32PxMNwfQoqZrxN", "note": "Hosted on Dify — no signup." }
+      ]
+    }
   },
   {
     "slug": "mba-tech-club",
@@ -66,7 +81,22 @@
           "Through these efforts, the MBA Tech Club expanded its reach, formalized its operations, and established a stronger institutional foundation for future cohorts — contributing to a community of over 60+ engaged MBA students participating in 20+ events per year."
         ]
       }
-    ]
+    ],
+    "detail": {
+      "blocks": [
+        { "kind": "lede", "text": "Designed and shipped the club's first official site — a single home for recruiting, executive operations, and the four-pillar curriculum (Product, GTM, Tech Ops, Business Development)." },
+        { "kind": "tagRow", "tags": ["Web Development", "Claude Code", "Netlify", "AMS"] },
+        { "kind": "previewPane", "image": "/images/applications/mbatechclub/tech-club.png", "chrome": "none", "caption": "A snapshot of the club — programming, leadership, and the four-pillar curriculum at a glance." },
+        { "kind": "heading", "text": "Role & impact" },
+        { "kind": "metaStrip", "cells": [
+          { "label": "Role",    "value": "Chief of Staff" },
+          { "label": "Scope",   "value": "Operations + Club Expansion + programming" },
+          { "label": "Members", "value": "60+ engaged MBAs" },
+          { "label": "Events",  "value": "20+ per year" }
+        ]},
+        { "kind": "cta", "label": "Visit the site", "href": "https://mbatechclub.netlify.app", "note": "Live since spring 2026." }
+      ]
+    }
   },
   {
     "slug": "prior-auth-workflow",
@@ -100,7 +130,22 @@
           "Reduced prior auth submission time from 2–3 hours to 15–20 minutes per request. Improved first-pass approval rates by ensuring complete documentation. Created a reusable agent architecture that can be adapted for other insurance workflows."
         ]
       }
-    ]
+    ],
+    "detail": {
+      "blocks": [
+        { "kind": "lede", "text": "An agentic Dify workflow that automates insurance prior authorization — orchestrating four specialized agents (extraction, requirements mapping, clinical evidence, submission) to compress a 2–3 hour clinician task into 15–20 minutes." },
+        { "kind": "tagRow", "tags": ["Agentic Workflow", "RAG", "MCP", "OpenAI", "Dify"] },
+        { "kind": "previewPane", "image": "/images/projects/prior-auth.svg", "url": "udify.app/workflow/Nd1XsLQUc9O6QoVp", "caption": "Multi-agent prior-auth workflow on Dify." },
+        { "kind": "heading", "text": "By the numbers" },
+        { "kind": "metaStrip", "cells": [
+          { "label": "Before",  "value": "2–3 hours / request" },
+          { "label": "After",   "value": "15–20 minutes" },
+          { "label": "Agents",  "value": "4 specialized" },
+          { "label": "Routing", "value": "Exceptions → clinician" }
+        ]},
+        { "kind": "cta", "label": "Try the workflow", "href": "https://udify.app/workflow/Nd1XsLQUc9O6QoVp", "note": "Hosted on Dify — no signup." }
+      ]
+    }
   },
   {
     "slug": "ai-ticket-triage",
@@ -149,6 +194,22 @@
           "Reduced classification time from 5–10 minutes to under 2 seconds per ticket (240x faster). Eliminated human routing error through deterministic confidence-based logic. Improved agent efficiency by pre-drafting responses on high-confidence tickets. Built in feedback loops and accuracy tracking from day one—the system learns from agent overrides over time."
         ]
       }
-    ]
+    ],
+    "detail": {
+      "blocks": [
+        { "kind": "lede", "text": "An LLM-powered triage system that classifies, scores, and routes incoming Zendesk tickets in under 2 seconds — replacing 5–10 minutes of manual decision-making with a 3-tier confidence-based router and an auto-drafted response for the agent to review." },
+        { "kind": "tagRow", "tags": ["Issue Triage", "Zendesk", "Webhook", "Claude", "Express"] },
+        { "kind": "previewPane", "image": "/images/applications/ai-ticket-triage-flow.png", "caption": "End-to-end flow: Zendesk webhook → Express → Claude classifier → confidence-based router → Zendesk writeback." },
+        { "kind": "heading", "text": "How it works" },
+        { "kind": "metaStrip", "cells": [
+          { "label": "Pipeline",   "value": "Webhook → LLM → Router → Writeback" },
+          { "label": "Coverage",   "value": "9 categories · 6 verticals" },
+          { "label": "Confidence", "value": "High ≥0.80 · Med · Low <0.50" },
+          { "label": "Latency",    "value": "<2s / ticket (240× faster)" }
+        ]},
+        { "kind": "heading", "text": "Sequence detail" },
+        { "kind": "previewPane", "image": "/images/applications/ai-ticket-triage-sequence.png", "caption": "Confidence tiers + escalation overrides (P1 / data loss / security / legal always route to senior team)." }
+      ]
+    }
   }
 ]

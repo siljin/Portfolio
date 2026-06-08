@@ -3,7 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { List, Network, Play } from "lucide-react";
 import { DiagramModal } from "@/components/DiagramModal";
+import { IconAction } from "@/components/ui/IconAction";
+import {
+  getApplicationPrimaryCtaLabel,
+  hasUsableHref,
+} from "@/lib/content/display";
 import type { Project } from "@/lib/applications";
 import { getSite } from "@/lib/site";
 
@@ -11,6 +17,11 @@ export default function ClientDetail({ project }: { project: Project }) {
   const [showArchModal, setShowArchModal] = useState(false);
   const [showSeqModal, setShowSeqModal] = useState(false);
   const { labels } = getSite();
+  const primaryCtaLabel = getApplicationPrimaryCtaLabel(
+    project.detail?.blocks,
+    labels.tryIt,
+  );
+  const showPrimaryCta = hasUsableHref(project.tryItUrl);
 
   return (
     <article className="projectPage">
@@ -30,26 +41,30 @@ export default function ClientDetail({ project }: { project: Project }) {
       />
 
       <div className="projectPageActions">
-        <Link href={project.tryItUrl} className="projectPageBtn">
-          {labels.tryIt}
-        </Link>
+        {showPrimaryCta ? (
+          <IconAction href={project.tryItUrl} icon={Play} className="projectPageBtn">
+            {primaryCtaLabel}
+          </IconAction>
+        ) : null}
         {project.architectureDiagram && (
-          <button
-            type="button"
+          <IconAction
             onClick={() => setShowArchModal(true)}
+            icon={Network}
+            variant="secondary"
             className="projectPageBtn projectPageBtn--secondary"
           >
             {labels.viewArchitecture}
-          </button>
+          </IconAction>
         )}
         {project.sequenceDiagram && (
-          <button
-            type="button"
+          <IconAction
             onClick={() => setShowSeqModal(true)}
+            icon={List}
+            variant="secondary"
             className="projectPageBtn projectPageBtn--secondary"
           >
             {labels.sequenceDiagram}
-          </button>
+          </IconAction>
         )}
       </div>
 
