@@ -1,4 +1,5 @@
 import { getSite } from "@/lib/site";
+import { Reveal } from "@/components/Reveal";
 
 export function ContactSection() {
   const { contact, urls } = getSite();
@@ -6,14 +7,14 @@ export function ContactSection() {
     <div className="contact-band">
       <div className="container">
         <section className="contact-block" id="contact">
-        <div className="contact-inner">
+        <Reveal className="contact-inner">
           <div className="contact-eyebrow">{contact.eyebrow}</div>
           <h3 className="contact-title">
             {contact.titleStart}
             <em>{contact.titleEmphasis}</em>
           </h3>
           <div className="contact-actions">
-            <a href={`mailto:${urls.email}`} className="email-btn">
+            <a href={`mailto:${urls.email}`} className="email-btn email-btn--primary">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                 <polyline points="22,6 12,13 2,6" />
@@ -32,7 +33,7 @@ export function ContactSection() {
               {contact.linkedInButton}
             </a>
           </div>
-        </div>
+        </Reveal>
         </section>
       </div>
     </div>

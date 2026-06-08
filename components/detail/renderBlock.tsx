@@ -26,6 +26,7 @@ export function renderBlock(block: DetailBlock, key: number) {
           image={block.image}
           url={block.url}
           caption={block.caption}
+          chrome={block.chrome}
         />
       );
     case "metaStrip":

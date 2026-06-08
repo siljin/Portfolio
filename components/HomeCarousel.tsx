@@ -25,7 +25,7 @@ type HomeCarouselProps = {
 
 function slotsForViewport(innerWidth: number): number {
   if (innerWidth < 640) return 1;
-  if (innerWidth < 1024) return 2;
+  if (innerWidth < 1360) return 2;
   return 3;
 }
 
@@ -65,6 +65,7 @@ export function HomeCarousel({
   const [trackPadEndPx, setTrackPadEndPx] = useState<number>(0);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
+  const [inView, setInView] = useState(false);
 
   const pageCount = Math.max(1, Math.ceil(N / Math.max(1, slots)));
   const lastPageIndex = pageCount - 1;
@@ -125,7 +126,15 @@ export function HomeCarousel({
       ? parseFloat(trackStyle.marginLeft)
       : 0;
     const trackOffsetLeft = padLeftPx + trackMarginLeftPx;
-    const visibleWidth = Math.max(0, el.clientWidth - trackOffsetLeft);
+    const scrollRect = el.getBoundingClientRect();
+    const visibleViewportWidth = Math.max(
+      0,
+      inner - Math.max(0, scrollRect.left + trackOffsetLeft),
+    );
+    const visibleWidth = Math.min(
+      Math.max(0, el.clientWidth - trackOffsetLeft),
+      visibleViewportWidth,
+    );
     const gutter = (nextSlots - 1) * gapPx;
     const hoverGrowthPerSide = (HOVER_SCALE - 1) / 2;
     const nextCardW = Math.max(
@@ -226,6 +235,26 @@ export function HomeCarousel({
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
     const ro = new ResizeObserver(() => measure());
     ro.observe(el);
     const onResize = () => measure();
@@ -281,7 +310,7 @@ export function HomeCarousel({
       : undefined;
 
   return (
-    <div className="projects-home">
+    <div className={`projects-home${inView ? " is-visible" : ""}`}>
       <div
         className="projects-home__scroll"
         ref={scrollRef}

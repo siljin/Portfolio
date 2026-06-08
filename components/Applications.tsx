@@ -2,6 +2,7 @@ import { getProjects } from "@/lib/applications";
 import { getSite } from "@/lib/site";
 import { HomeCarousel } from "@/components/HomeCarousel";
 import { HomeCard } from "@/components/HomeCard";
+import { Reveal } from "@/components/Reveal";
 
 export function Applications() {
   const allApplications = getProjects();
@@ -12,14 +13,14 @@ export function Applications() {
     <div className="applications-band">
       <div className="container">
         <section className="block" id="applications">
-          <div className="section-head">
+          <Reveal className="section-head">
             <div className="eyebrow">{s.eyebrow}</div>
             <h2 className="section-title">
               {s.titleBeforeEm}
               <em>{s.titleEmphasis}</em>
             </h2>
             <p className="section-desc">{s.description}</p>
-          </div>
+          </Reveal>
 
           <HomeCarousel
             itemCount={allApplications.length}
@@ -31,6 +32,7 @@ export function Applications() {
                 key={app.id}
                 imageSrc={app.coverSrc}
                 imagePlaceholder={labels.projectImagePlaceholder}
+                eyebrow={app.eyebrow}
                 tags={app.tag.split(" · ")}
                 title={app.title}
                 description={app.descriptor}
@@ -38,7 +40,7 @@ export function Applications() {
                 metricLabel={app.metricLabel}
                 detailHref={`/applications?id=${app.id}`}
                 actionHref={app.tryItUrl}
-                actionLabel={labels.checkItOut}
+                actionLabel={labels.tryItApplications}
               />
             ))}
           </HomeCarousel>

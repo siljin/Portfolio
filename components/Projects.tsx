@@ -2,6 +2,7 @@ import { getProjects } from "@/lib/projects";
 import { getSite } from "@/lib/site";
 import { HomeCarousel } from "@/components/HomeCarousel";
 import { HomeCard } from "@/components/HomeCard";
+import { Reveal } from "@/components/Reveal";
 
 export function Projects() {
   const allProjects = getProjects();
@@ -11,14 +12,14 @@ export function Projects() {
   return (
     <div className="container">
       <section className="block" id="projects">
-        <div className="section-head">
+        <Reveal className="section-head">
           <div className="eyebrow">{s.eyebrow}</div>
           <h2 className="section-title">
             {s.titleBeforeEm}
             <em>{s.titleEmphasis}</em>
           </h2>
           <p className="section-desc">{s.description}</p>
-        </div>
+        </Reveal>
 
         <HomeCarousel
           itemCount={allProjects.length}
@@ -30,6 +31,7 @@ export function Projects() {
               key={project.id}
               imageSrc={project.imageSrc}
               imagePlaceholder={labels.projectImagePlaceholder}
+              eyebrow={project.eyebrow}
               tags={project.tags}
               title={project.title}
               description={project.desc}
