@@ -2,9 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { ExternalLink } from "lucide-react";
+import { ArchiveSidebar } from "@/components/archive/ArchiveSidebar";
 import { renderBlocks } from "@/components/detail/renderBlock";
 import { MetaStripBlock } from "@/components/detail/blocks/MetaStripBlock";
 import { PreviewPaneBlock } from "@/components/detail/blocks/PreviewPaneBlock";
+import { IconAction } from "@/components/ui/IconAction";
+import { getPublicEyebrow, hasUsableHref } from "@/lib/content/display";
 import { getSite } from "@/lib/site";
 import type { Project } from "@/lib/projects";
 import type { DetailBlock } from "@/lib/content/types";
@@ -44,11 +48,6 @@ function getProjectBodyBlocks(blocks: DetailBlock[]) {
   });
 }
 
-function hasUsableHref(href?: string) {
-  const trimmed = href?.trim();
-  return Boolean(trimmed && trimmed !== "#");
-}
-
 /**
  * Case-study archive: sidebar list + detail (used by /projects and any embed).
  */
@@ -56,7 +55,7 @@ export function ProjectsCaseArchive({ cases }: ProjectsCaseArchiveProps) {
   const searchParams = useSearchParams();
   const queryId = searchParams.get("id");
   const [selectedId, setSelectedId] = useState(queryId || cases[0]?.id || "");
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const { projectsArchive, labels } = getSite();
 
   useEffect(() => {
@@ -71,7 +70,7 @@ export function ProjectsCaseArchive({ cases }: ProjectsCaseArchiveProps) {
   const primaryPreview = getFirstBlock(detailBlocks, "previewPane");
   const bodyBlocks = detailBlocks ? getProjectBodyBlocks(detailBlocks) : [];
   const eyebrow = selectedCase
-    ? [selectedCase.eyebrow, selectedCase.category].filter(Boolean).join(" · ")
+    ? getPublicEyebrow(selectedCase.eyebrow, selectedCase.category)
     : "";
   const showDeckCta = hasUsableHref(selectedCase?.deckUrl);
   const hasPrimaryVisual = Boolean(primaryPreview || selectedCase?.imageSrc);
@@ -82,47 +81,18 @@ export function ProjectsCaseArchive({ cases }: ProjectsCaseArchiveProps) {
         isSidebarExpanded ? "is-expanded" : ""
       }`}
     >
-        <aside className="projects-sidebar">
-          <div className="projects-sidebar-header">
-            <button
-              type="button"
-              className="sidebar-toggle-btn"
-              onClick={() => setIsSidebarExpanded((prev) => !prev)}
-              aria-label={isSidebarExpanded ? labels.collapseSidebar : labels.expandSidebar}
-              aria-expanded={isSidebarExpanded}
-              aria-controls="projects-sidebar-list"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M11.5 4.5V19.5" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-            </button>
-            <h1 className="projects-sidebar-title">{projectsArchive.sidebarTitle}</h1>
-            <p className="projects-sidebar-subtitle">{projectsArchive.sidebarSubtitle}</p>
-          </div>
-          <ul className="projects-list" id="projects-sidebar-list">
-            {cases.map((caseItem, index) => (
-              <li key={caseItem.id} className="projects-item">
-                <button
-                  type="button"
-                  className={`projects-btn ${selectedId === caseItem.id ? "active" : ""}`}
-                  onClick={() => setSelectedId(caseItem.id)}
-                  aria-label={caseItem.title}
-                >
-                  <span className="projects-btn-icon" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="projects-btn-tooltip" aria-hidden="true">
-                    {caseItem.title}
-                  </span>
-                  <span className="projects-btn-copy">
-                    <span className="projects-btn-title">{caseItem.title}</span>
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </aside>
+        <ArchiveSidebar
+          title={projectsArchive.sidebarTitle}
+          items={cases.map((caseItem) => ({
+            id: caseItem.id,
+            title: caseItem.title,
+          }))}
+          selectedId={selectedId}
+          isExpanded={isSidebarExpanded}
+          listId="projects-sidebar-list"
+          onToggleExpand={() => setIsSidebarExpanded((prev) => !prev)}
+          onSelect={setSelectedId}
+        />
 
         <main className="projects-content application-detail-content project-detail-content">
           {selectedCase ? (
@@ -143,28 +113,12 @@ export function ProjectsCaseArchive({ cases }: ProjectsCaseArchiveProps) {
 
                   <div className="application-detail-actions">
                     {showDeckCta ? (
-                      <a
+                      <IconAction
                         href={selectedCase.deckUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="application-detail-action application-detail-action--primary"
+                        icon={ExternalLink}
                       >
                         {labels.viewDeck}
-                        <svg
-                          width="13"
-                          height="13"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.4"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden={true}
-                        >
-                          <path d="M7 17 17 7" />
-                          <path d="M9 7h8v8" />
-                        </svg>
-                      </a>
+                      </IconAction>
                     ) : null}
                   </div>
 

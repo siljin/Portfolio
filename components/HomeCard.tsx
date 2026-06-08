@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ExternalLink, Play } from "lucide-react";
+import { IconAction } from "@/components/ui/IconAction";
+import { getPublicEyebrow, normalizeCtaLabel } from "@/lib/content/display";
 
 export type HomeCardProps = {
   imageSrc?: string;
@@ -51,9 +54,14 @@ export function HomeCard({
   actionHref,
   actionLabel,
 }: HomeCardProps) {
+  const publicEyebrow = getPublicEyebrow(eyebrow);
   const visibleTags = tags.slice(0, 2);
   const showMetric = hasMetric(metric, metricLabel);
   const showAction = actionHref.trim() !== "" && actionHref.trim() !== "#";
+  const normalizedActionLabel = normalizeCtaLabel(actionLabel);
+  const ActionIcon = /try|workflow|demo/i.test(normalizedActionLabel)
+    ? Play
+    : ExternalLink;
 
   return (
     <article className="project-card project-card--home-strip">
@@ -75,7 +83,9 @@ export function HomeCard({
       </div>
 
       <div className="project-body">
-        <div className="project-eyebrow">{eyebrow}</div>
+        {publicEyebrow ? (
+          <div className="project-eyebrow">{publicEyebrow}</div>
+        ) : null}
         <h3 className="project-title">{title}</h3>
         <p className="project-desc">{makeHook(description)}</p>
 
@@ -93,30 +103,14 @@ export function HomeCard({
         </div>
 
         {showAction ? (
-          <a
+          <IconAction
             href={actionHref}
-            target="_blank"
-            rel="noopener noreferrer"
+            icon={ActionIcon}
             className="project-card-cta"
-            aria-label={`${actionLabel}: ${title}`}
+            ariaLabel={`${normalizedActionLabel}: ${title}`}
           >
-            {actionLabel}
-            <svg
-              className="project-card-cta__arrow"
-              width="13"
-              height="13"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden={true}
-            >
-              <path d="M7 17 17 7" />
-              <path d="M9 7h8v8" />
-            </svg>
-          </a>
+            {normalizedActionLabel}
+          </IconAction>
         ) : null}
       </div>
     </article>

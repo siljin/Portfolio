@@ -1,10 +1,17 @@
 "use client";
 
+import { List, Network, Play } from "lucide-react";
 import type { Project } from "@/lib/applications";
 import { DiagramModal } from "@/components/DiagramModal";
 import { renderBlocks } from "@/components/detail/renderBlock";
 import { MetaStripBlock } from "@/components/detail/blocks/MetaStripBlock";
 import { PreviewPaneBlock } from "@/components/detail/blocks/PreviewPaneBlock";
+import { IconAction } from "@/components/ui/IconAction";
+import {
+  getApplicationPrimaryCtaLabel,
+  getPublicEyebrow,
+  hasUsableHref,
+} from "@/lib/content/display";
 import { getSite } from "@/lib/site";
 import type { DetailBlock } from "@/lib/content/types";
 
@@ -43,11 +50,6 @@ function getBodyBlocks(blocks: DetailBlock[]) {
   });
 }
 
-function hasUsableHref(href?: string) {
-  const trimmed = href?.trim();
-  return Boolean(trimmed && trimmed !== "#");
-}
-
 function splitTags(tag: string) {
   return tag
     .split(" · ")
@@ -82,8 +84,12 @@ export function ApplicationDetailPanel({
   const primaryPreview = getFirstBlock(detailBlocks, "previewPane");
   const bodyBlocks = detailBlocks ? getBodyBlocks(detailBlocks) : [];
   const tags = splitTags(project.tag);
-  const eyebrow = [project.eyebrow, project.category].filter(Boolean).join(" · ");
+  const eyebrow = getPublicEyebrow(project.eyebrow, project.category);
   const showPrimaryCta = hasUsableHref(project.tryItUrl);
+  const primaryCtaLabel = getApplicationPrimaryCtaLabel(
+    detailBlocks,
+    labels.tryItApplications,
+  );
   const hasPrimaryVisual = Boolean(primaryPreview || project.coverSrc);
 
   return (
@@ -105,46 +111,30 @@ export function ApplicationDetailPanel({
 
             <div className="application-detail-actions">
               {showPrimaryCta ? (
-                <a
+                <IconAction
                   href={project.tryItUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="application-detail-action application-detail-action--primary"
+                  icon={Play}
                 >
-                  {labels.tryItApplications}
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden={true}
-                  >
-                    <path d="M7 17 17 7" />
-                    <path d="M9 7h8v8" />
-                  </svg>
-                </a>
+                  {primaryCtaLabel}
+                </IconAction>
               ) : null}
               {project.architectureDiagram ? (
-                <button
-                  type="button"
+                <IconAction
                   onClick={onOpenArchitecture}
-                  className="application-detail-action application-detail-action--secondary"
+                  icon={Network}
+                  variant="secondary"
                 >
                   {labels.viewArchitecture}
-                </button>
+                </IconAction>
               ) : null}
               {project.sequenceDiagram ? (
-                <button
-                  type="button"
+                <IconAction
                   onClick={onOpenSequence}
-                  className="application-detail-action application-detail-action--secondary"
+                  icon={List}
+                  variant="secondary"
                 >
                   {labels.sequenceDiagram}
-                </button>
+                </IconAction>
               ) : null}
             </div>
 

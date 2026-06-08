@@ -3,6 +3,7 @@ import { getSite } from "@/lib/site";
 import { HomeCarousel } from "@/components/HomeCarousel";
 import { HomeCard } from "@/components/HomeCard";
 import { Reveal } from "@/components/Reveal";
+import { getApplicationPrimaryCtaLabel } from "@/lib/content/display";
 
 export function Applications() {
   const allApplications = getProjects();
@@ -40,7 +41,10 @@ export function Applications() {
                 metricLabel={app.metricLabel}
                 detailHref={`/applications?id=${app.id}`}
                 actionHref={app.tryItUrl}
-                actionLabel={labels.tryItApplications}
+                actionLabel={getApplicationPrimaryCtaLabel(
+                  app.detail?.blocks,
+                  labels.tryItApplications,
+                )}
               />
             ))}
           </HomeCarousel>
