@@ -1,44 +1,50 @@
 [
   {
-    "slug": "diabetes-diagnosis-workflow",
-    "id": "diabetes-risk",
+    "slug": "prior-auth-workflow",
+    "id": "prior-auth",
     "eyebrow": "P. 01",
-    "title": "Type 2 Diabetes Risk Assessment",
-    "descriptor": "Clinical decision support AI that synthesizes patient data and medical evidence to assess Type 2 Diabetes risk with physician-grade confidence scoring.",
-    "tag": "Agentic Workflow · RAG · MCP · Gemini",
-    "category": "AI Agent · Clinical",
+    "title": "Prior Authorization Workflow",
+    "descriptor": "Agentic AI system to automate insurance prior authorization requests—reducing manual effort and improving approval turnaround.",
+    "tag": "Agentic Workflow · RAG · MCP · OpenAI",
+    "category": "AI Agent · Healthcare",
     "metric": "—",
     "metricLabel": "—",
-    "coverSrc": "/images/projects/diabetes-diagnosis.svg",
-    "tryItUrl": "https://udify.app/workflow/A32PxMNwfQoqZrxN",
+    "coverSrc": "/images/projects/prior-auth-card-vivid.svg",
+    "tryItUrl": "https://udify.app/workflow/Nd1XsLQUc9O6QoVp",
     "iconPath": "M3 12h4l2-5 3 10 2-6 2 4h4",
     "sections": [
       {
         "title": "Context",
         "paragraphs": [
-          "Type 2 Diabetes diagnosis relies on multiple data sources—lab values, patient history, social factors, and clinical guidelines—that are typically fragmented across systems. Physicians need rapid, evidence-backed risk assessment to triage patients and decide on next-step testing."
+          "Prior authorization is a bottleneck in healthcare workflows—clinicians spend hours manually compiling patient data, insurance requirements, and medical evidence to submit authorization requests. The process is error-prone, delays patient care, and creates friction for providers."
         ]
       },
       {
         "title": "What I built",
         "paragraphs": [
-          "Created a diagnostic workflow in Dify that combines rule-based risk scoring with multi-agent clinical reasoning. The system accepts patient inputs (age, gender, symptoms, medical history, social determinants), applies ADA diagnostic criteria via a Python-based risk calculator, retrieves relevant clinical guidelines through knowledge retrieval, and orchestrates a clinical evidence agent that gathers supporting medical research. A clinical reasoning engine synthesizes all inputs into a structured JSON diagnostic output with confidence scoring. The workflow then branches: high-confidence cases generate a patient-facing report, while low-confidence cases prompt the physician with specific additional tests needed to reach diagnostic clarity."
+          "Designed and implemented an agentic AI workflow using Dify that orchestrates multiple specialized agents: a data extraction agent that parses patient records, a requirements agent that maps insurance policies to needed documentation, a clinical evidence agent that summarizes relevant medical research, and a submission agent that compiles and formats the final request. The system validates completeness at each step and routes exceptions back to the clinician for review."
+        ]
+      },
+      {
+        "title": "Outcome",
+        "paragraphs": [
+          "Reduced prior auth submission time from 2–3 hours to 15–20 minutes per request. Improved first-pass approval rates by ensuring complete documentation. Created a reusable agent architecture that can be adapted for other insurance workflows."
         ]
       }
     ],
     "detail": {
       "blocks": [
-        { "kind": "lede", "text": "A Dify-orchestrated diagnostic agent that fuses patient inputs, ADA criteria, and live clinical evidence into a single risk score — with a confidence threshold that routes high-conviction cases to a patient report and low-conviction ones back to the physician with specific next tests." },
-        { "kind": "tagRow", "tags": ["Agentic Workflow", "RAG", "MCP", "Gemini", "Dify"] },
-        { "kind": "previewPane", "image": "/images/projects/diabetes-diagnosis.svg", "url": "udify.app/workflow/A32PxMNwfQoqZrxN", "caption": "Live workflow on Dify — submit a patient profile and watch the agents reason." },
-        { "kind": "heading", "text": "What's inside" },
+        { "kind": "lede", "text": "An agentic Dify workflow that automates insurance prior authorization — orchestrating four specialized agents (extraction, requirements mapping, clinical evidence, submission) to compress a 2–3 hour clinician task into 15–20 minutes." },
+        { "kind": "tagRow", "tags": ["Agentic Workflow", "RAG", "MCP", "OpenAI", "Dify"] },
+        { "kind": "previewPane", "image": "/images/projects/prior-auth-card-vivid.svg", "url": "udify.app/workflow/Nd1XsLQUc9O6QoVp", "caption": "Multi-agent prior-auth workflow on Dify." },
+        { "kind": "heading", "text": "By the numbers" },
         { "kind": "metaStrip", "cells": [
-          { "label": "Domain",    "value": "Clinical decision support" },
-          { "label": "Reasoning", "value": "Multi-agent + rules engine" },
-          { "label": "Sources",   "value": "ADA guidelines + RAG retrieval" },
-          { "label": "Output",    "value": "Structured JSON + branching report" }
+          { "label": "Before",  "value": "2–3 hours / request" },
+          { "label": "After",   "value": "15–20 minutes" },
+          { "label": "Agents",  "value": "4 specialized" },
+          { "label": "Routing", "value": "Exceptions → clinician" }
         ]},
-        { "kind": "cta", "label": "Try the workflow", "href": "https://udify.app/workflow/A32PxMNwfQoqZrxN", "note": "Hosted on Dify — no signup." }
+        { "kind": "cta", "label": "Try the workflow", "href": "https://udify.app/workflow/Nd1XsLQUc9O6QoVp", "note": "Hosted on Dify — no signup." }
       ]
     }
   },
@@ -48,7 +54,7 @@
     "eyebrow": "P. 02",
     "title": "MBA Tech Club Platform",
     "descriptor": "Led organizational expansion and digital presence as Chief of Staff at McCombs MBA Tech Club, positioning it as a premier resource for MBA students pursuing careers in technology.",
-    "tag": "Web Development · AI · Claude Code · AMS",
+    "tag": "Web Development · Event Management · Club Exapnsion",
     "category": "Organizational Leadership",
     "highlight": "Grew club to 50+ engaged MBA students across 20+ events per year.",
     "metric": "—",
@@ -99,65 +105,16 @@
     }
   },
   {
-    "slug": "prior-auth-workflow",
-    "id": "prior-auth",
-    "eyebrow": "P. 03",
-    "title": "Prior Authorization Workflow",
-    "descriptor": "Agentic AI system to automate insurance prior authorization requests—reducing manual effort and improving approval turnaround.",
-    "tag": "Agentic Workflow · RAG · MCP · OpenAI",
-    "category": "AI Agent · Healthcare",
-    "metric": "—",
-    "metricLabel": "—",
-    "coverSrc": "/images/projects/prior-auth.svg",
-    "tryItUrl": "https://udify.app/workflow/Nd1XsLQUc9O6QoVp",
-    "iconPath": "M3 12h4l2-5 3 10 2-6 2 4h4",
-    "sections": [
-      {
-        "title": "Context",
-        "paragraphs": [
-          "Prior authorization is a bottleneck in healthcare workflows—clinicians spend hours manually compiling patient data, insurance requirements, and medical evidence to submit authorization requests. The process is error-prone, delays patient care, and creates friction for providers."
-        ]
-      },
-      {
-        "title": "What I built",
-        "paragraphs": [
-          "Designed and implemented an agentic AI workflow using Dify that orchestrates multiple specialized agents: a data extraction agent that parses patient records, a requirements agent that maps insurance policies to needed documentation, a clinical evidence agent that summarizes relevant medical research, and a submission agent that compiles and formats the final request. The system validates completeness at each step and routes exceptions back to the clinician for review."
-        ]
-      },
-      {
-        "title": "Outcome",
-        "paragraphs": [
-          "Reduced prior auth submission time from 2–3 hours to 15–20 minutes per request. Improved first-pass approval rates by ensuring complete documentation. Created a reusable agent architecture that can be adapted for other insurance workflows."
-        ]
-      }
-    ],
-    "detail": {
-      "blocks": [
-        { "kind": "lede", "text": "An agentic Dify workflow that automates insurance prior authorization — orchestrating four specialized agents (extraction, requirements mapping, clinical evidence, submission) to compress a 2–3 hour clinician task into 15–20 minutes." },
-        { "kind": "tagRow", "tags": ["Agentic Workflow", "RAG", "MCP", "OpenAI", "Dify"] },
-        { "kind": "previewPane", "image": "/images/projects/prior-auth.svg", "url": "udify.app/workflow/Nd1XsLQUc9O6QoVp", "caption": "Multi-agent prior-auth workflow on Dify." },
-        { "kind": "heading", "text": "By the numbers" },
-        { "kind": "metaStrip", "cells": [
-          { "label": "Before",  "value": "2–3 hours / request" },
-          { "label": "After",   "value": "15–20 minutes" },
-          { "label": "Agents",  "value": "4 specialized" },
-          { "label": "Routing", "value": "Exceptions → clinician" }
-        ]},
-        { "kind": "cta", "label": "Try the workflow", "href": "https://udify.app/workflow/Nd1XsLQUc9O6QoVp", "note": "Hosted on Dify — no signup." }
-      ]
-    }
-  },
-  {
     "slug": "ai-ticket-triage",
     "id": "togetherwork-triage",
-    "eyebrow": "P. 04",
+    "eyebrow": "P. 03",
     "title": "AI Ticket Triage System",
     "descriptor": "Automated support ticket classification and routing system using LLM-powered triage—reducing manual decision time from 5–10 minutes to under 2 seconds.",
-    "tag": "Issue Triage · Zendesk Integration · Webhook · LLM Classification · API",
+    "tag": "Webhook · Zendesk Integration · Issue Triage · LLM Classification · API",
     "category": "AI Agent · Customer Support",
     "metric": "—",
     "metricLabel": "—",
-    "coverSrc": "/images/projects/placeholder.svg",
+    "coverSrc": "/images/applications/ai-ticket-triage-card.svg",
     "tryItUrl": "#",
     "architectureDiagram": "/images/applications/ai-ticket-triage-flow.png",
     "sequenceDiagram": "/images/applications/ai-ticket-triage-sequence.png",
@@ -199,7 +156,7 @@
       "blocks": [
         { "kind": "lede", "text": "An LLM-powered triage system that classifies, scores, and routes incoming Zendesk tickets in under 2 seconds — replacing 5–10 minutes of manual decision-making with a 3-tier confidence-based router and an auto-drafted response for the agent to review." },
         { "kind": "tagRow", "tags": ["Issue Triage", "Zendesk", "Webhook", "Claude", "Express"] },
-        { "kind": "previewPane", "image": "/images/applications/ai-ticket-triage-flow.png", "caption": "End-to-end flow: Zendesk webhook → Express → Claude classifier → confidence-based router → Zendesk writeback." },
+        { "kind": "previewPane", "image": "/images/applications/ai-ticket-triage-card.svg", "chrome": "none", "caption": "AI-assisted ticket intake, classification, and routing." },
         { "kind": "heading", "text": "How it works" },
         { "kind": "metaStrip", "cells": [
           { "label": "Pipeline",   "value": "Webhook → LLM → Router → Writeback" },
@@ -209,6 +166,49 @@
         ]},
         { "kind": "heading", "text": "Sequence detail" },
         { "kind": "previewPane", "image": "/images/applications/ai-ticket-triage-sequence.png", "caption": "Confidence tiers + escalation overrides (P1 / data loss / security / legal always route to senior team)." }
+      ]
+    }
+  },
+  {
+    "slug": "diabetes-diagnosis-workflow",
+    "id": "diabetes-risk",
+    "eyebrow": "P. 04",
+    "title": "Type 2 Diabetes Risk Assessment",
+    "descriptor": "Clinical decision support AI that synthesizes patient data and medical evidence to assess Type 2 Diabetes risk with physician-grade confidence scoring.",
+    "tag": "Agentic Workflow · RAG · MCP · Gemini",
+    "category": "AI Agent · Clinical",
+    "metric": "—",
+    "metricLabel": "—",
+    "coverSrc": "/images/projects/diabetes-diagnosis.svg",
+    "tryItUrl": "https://udify.app/workflow/A32PxMNwfQoqZrxN",
+    "iconPath": "M3 12h4l2-5 3 10 2-6 2 4h4",
+    "sections": [
+      {
+        "title": "Context",
+        "paragraphs": [
+          "Type 2 Diabetes diagnosis relies on multiple data sources—lab values, patient history, social factors, and clinical guidelines—that are typically fragmented across systems. Physicians need rapid, evidence-backed risk assessment to triage patients and decide on next-step testing."
+        ]
+      },
+      {
+        "title": "What I built",
+        "paragraphs": [
+          "Created a diagnostic workflow in Dify that combines rule-based risk scoring with multi-agent clinical reasoning. The system accepts patient inputs (age, gender, symptoms, medical history, social determinants), applies ADA diagnostic criteria via a Python-based risk calculator, retrieves relevant clinical guidelines through knowledge retrieval, and orchestrates a clinical evidence agent that gathers supporting medical research. A clinical reasoning engine synthesizes all inputs into a structured JSON diagnostic output with confidence scoring. The workflow then branches: high-confidence cases generate a patient-facing report, while low-confidence cases prompt the physician with specific additional tests needed to reach diagnostic clarity."
+        ]
+      }
+    ],
+    "detail": {
+      "blocks": [
+        { "kind": "lede", "text": "A Dify-orchestrated diagnostic agent that fuses patient inputs, ADA criteria, and live clinical evidence into a single risk score — with a confidence threshold that routes high-conviction cases to a patient report and low-conviction ones back to the physician with specific next tests." },
+        { "kind": "tagRow", "tags": ["Agentic Workflow", "RAG", "MCP", "Gemini", "Dify"] },
+        { "kind": "previewPane", "image": "/images/projects/diabetes-diagnosis.svg", "url": "udify.app/workflow/A32PxMNwfQoqZrxN", "caption": "Live workflow on Dify — submit a patient profile and watch the agents reason." },
+        { "kind": "heading", "text": "What's inside" },
+        { "kind": "metaStrip", "cells": [
+          { "label": "Domain",    "value": "Clinical decision support" },
+          { "label": "Reasoning", "value": "Multi-agent + rules engine" },
+          { "label": "Sources",   "value": "ADA guidelines + RAG retrieval" },
+          { "label": "Output",    "value": "Structured JSON + branching report" }
+        ]},
+        { "kind": "cta", "label": "Try the workflow", "href": "https://udify.app/workflow/A32PxMNwfQoqZrxN", "note": "Hosted on Dify — no signup." }
       ]
     }
   }

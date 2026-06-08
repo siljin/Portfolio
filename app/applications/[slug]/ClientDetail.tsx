@@ -28,6 +28,12 @@ export default function ClientDetail({ project }: { project: Project }) {
       <Link href="/#applications" className="projectPageBack">
         {labels.backToApplications}
       </Link>
+      {project.category ? (
+        <div className="detail-category-badge projectPageCategory">
+          <span className="detail-category-badge__label">Category</span>
+          <span>{project.category}</span>
+        </div>
+      ) : null}
       <span className="projectPageTag mono">{project.tag}</span>
       <h1>{project.title}</h1>
       <p className="projectPageLead">{project.descriptor}</p>

@@ -32,9 +32,12 @@ export function Applications() {
               <HomeCard
                 key={app.id}
                 imageSrc={app.coverSrc}
+                imageFit={app.id === "mba-tech-club" ? "contain" : "cover"}
+                imageBackdrop={app.id === "prior-auth" ? "prior-auth" : "default"}
                 imagePlaceholder={labels.projectImagePlaceholder}
                 eyebrow={app.eyebrow}
                 tags={app.tag.split(" · ")}
+                maxTags={3}
                 title={app.title}
                 description={app.descriptor}
                 metric={app.metric}

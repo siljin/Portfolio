@@ -70,8 +70,9 @@ export function ProjectsCaseArchive({ cases }: ProjectsCaseArchiveProps) {
   const primaryPreview = getFirstBlock(detailBlocks, "previewPane");
   const bodyBlocks = detailBlocks ? getProjectBodyBlocks(detailBlocks) : [];
   const eyebrow = selectedCase
-    ? getPublicEyebrow(selectedCase.eyebrow, selectedCase.category)
+    ? getPublicEyebrow(selectedCase.eyebrow)
     : "";
+  const category = selectedCase?.category.trim();
   const showDeckCta = hasUsableHref(selectedCase?.deckUrl);
   const hasPrimaryVisual = Boolean(primaryPreview || selectedCase?.imageSrc);
 
@@ -103,9 +104,17 @@ export function ProjectsCaseArchive({ cases }: ProjectsCaseArchiveProps) {
                 }`}
               >
                 <div className="application-detail-hero__copy project-detail-hero__copy">
-                  <div className="projects-content-eyebrow application-detail-eyebrow">
-                    {eyebrow}
-                  </div>
+                  {category ? (
+                    <div className="detail-category-badge project-detail-category-badge">
+                      <span className="detail-category-badge__label">Category</span>
+                      <span>{category}</span>
+                    </div>
+                  ) : null}
+                  {eyebrow ? (
+                    <div className="projects-content-eyebrow application-detail-eyebrow">
+                      {eyebrow}
+                    </div>
+                  ) : null}
                   <h2 className="projects-content-title application-detail-title">
                     {selectedCase.title}
                   </h2>

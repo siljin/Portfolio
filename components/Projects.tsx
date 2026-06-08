@@ -30,6 +30,16 @@ export function Projects() {
             <HomeCard
               key={project.id}
               imageSrc={project.imageSrc}
+              imageFit={
+                project.id === "waystar" || project.id === "costco"
+                  ? "contain"
+                  : "cover"
+              }
+              imageBackdrop={
+                project.id === "waystar" || project.id === "costco"
+                  ? project.id
+                  : "default"
+              }
               imagePlaceholder={labels.projectImagePlaceholder}
               eyebrow={project.eyebrow}
               tags={project.tags}
