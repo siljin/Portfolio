@@ -43,3 +43,6 @@ out
 .DS_Store
 *.pem
 .env*.local
+
+# Playwright MCP scratch output
+.playwright-mcp/

@@ -1,0 +1,522 @@
+[
+  {
+    "slug": "lettersly",
+    "id": "lettersly",
+    "eyebrow": "Riddle game",
+    "title": "Lettersly",
+    "descriptor": "A daily web-based riddle game where you spend to solve. Buy riddles and letter probes to work out what the answer is, and bank whatever budget survives.",
+    "tag": "TypeScript · D1 · Cloudflare Workers",
+    "status": {
+      "label": "Live · Beta",
+      "tone": "live"
+    },
+    "coverSrc": "/images/products/lettersly-card.svg",
+    "tryItUrl": "${GAME_URL}",
+    "detail": {
+      "blocks": [
+        {
+          "kind": "columns",
+          "ratio": "1-1",
+          "items": [
+            {
+              "kind": "pageHero",
+              "badge": "Web-based game",
+              "title": "Lettersly",
+              "body": "One riddle a day, and one word that answers it. You start with a budget, and that budget is also your score — every riddle you unlock and every letter you probe is paid for out of the points you are trying to keep. Read it right early and you bank the rest. Guess wrong and the wallet empties.",
+              "cta": {
+                "label": "Play today's riddle",
+                "href": "${GAME_URL}"
+              }
+            },
+            {
+              "kind": "previewPane",
+              "image": "/images/products/lettersly-riddle-screen.svg",
+              "chrome": "bleed"
+            }
+          ]
+        },
+        {
+          "kind": "metaStrip",
+          "cells": [
+            {
+              "label": "Status",
+              "value": "Live, in beta"
+            },
+            {
+              "label": "Users",
+              "value": "Small invited group"
+            },
+            {
+              "label": "Runtime",
+              "value": "Cloudflare Workers + D1"
+            },
+            {
+              "label": "Client",
+              "value": "TypeScript, no framework"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "ticket-classifier",
+    "id": "ticket-classifier",
+    "eyebrow": "Customer Support intelligence",
+    "title": "AI Suitability Ticket Classifier",
+    "descriptor": "Turns raw support ticket exports into a structured map of what customers actually ask for, what data an answer needs, and which of those requests an AI copilot can safely handle.",
+    "tag": "LLM pipeline · Embeddings · Clustering",
+    "status": {
+      "label": "Shipped · In use",
+      "tone": "production"
+    },
+    "usedBy": [
+      "4 products"
+    ],
+    "coverSrc": "/images/products/ticket-classifier-card.webp",
+    "coverFit": "cover",
+    "detail": {
+      "blocks": [
+        {
+          "kind": "columns",
+          "ratio": "1-3",
+          "items": [
+            {
+              "kind": "pageHero",
+              "badge": "Shipped · In use",
+              "title": "AI Suitability Ticket Classifier",
+              "body": "Before you can automate support, you have to know what support is actually doing. This pipeline reads a ticket export, extracts every customer intent, works out what data an answer would require, and assigns each ticket an AI-suitability tier — then audits its own tier calls with a second, deterministic method."
+            },
+            {
+              "kind": "workflowDiagram",
+              "title": "Export to executive report",
+              "fullscreen": true,
+              "inputs": {
+                "label": "Inputs",
+                "items": [
+                  {
+                    "icon": "fileText",
+                    "label": "Ticket export"
+                  },
+                  {
+                    "icon": "quote",
+                    "label": "Per-brand prompt pack"
+                  },
+                  {
+                    "icon": "listChecks",
+                    "label": "Tier + privacy rules"
+                  }
+                ]
+              },
+              "nodes": [
+                {
+                  "icon": "filter",
+                  "title": "Clean Export",
+                  "body": "Strips personal data and markup from the raw export before anything reaches a model",
+                  "accent": "mint"
+                },
+                {
+                  "icon": "cpu",
+                  "title": "Classify Tickets",
+                  "body": "Two GPT-5.4 calls per ticket — an actionability gate, then a strict-schema extraction of intents, required data and a suitability tier",
+                  "accent": "lilac"
+                },
+                {
+                  "icon": "layers",
+                  "title": "Cluster Intents",
+                  "body": "mxbai-embed-large embeddings, UMAP plus HDBSCAN, then GPT-5.4 writes the category labels",
+                  "accent": "sky"
+                },
+                {
+                  "icon": "database",
+                  "title": "Normalize Data Needs",
+                  "body": "A GPT-5.4 pass collapses free-text data requirements into consistent groups, keeping the raw wording",
+                  "accent": "peach"
+                },
+                {
+                  "icon": "scale",
+                  "title": "Re-derive Tier",
+                  "body": "Deterministic rules first, with all-mpnet-base-v2 similarity as the fallback — no model verdict is taken on trust",
+                  "accent": "mint"
+                },
+                {
+                  "icon": "gitBranch",
+                  "title": "audit agrees?",
+                  "body": "Divergence Route — an independent read-only pass flags disputed tiers instead of overwriting them",
+                  "accent": "neutral",
+                  "role": "gate"
+                },
+                {
+                  "icon": "fileSearch",
+                  "title": "Aggregate + Report",
+                  "body": "Rolls topics and tier distribution into the executive report",
+                  "accent": "lilac"
+                }
+              ],
+              "outputs": [
+                {
+                  "icon": "checkCircle",
+                  "title": "Dataset + Report",
+                  "caption": "Per-ticket intents, data needs and tiers, plus the executive summary",
+                  "tone": "success"
+                },
+                {
+                  "icon": "alertTriangle",
+                  "title": "Divergence Queue",
+                  "caption": "Tickets where the two methods disagree go to human review",
+                  "tone": "warn"
+                }
+              ],
+              "branches": [
+                {
+                  "from": 5,
+                  "to": 1,
+                  "label": "methods disagree"
+                }
+              ],
+              "legend": [
+                {
+                  "style": "solid",
+                  "label": "Main line"
+                },
+                {
+                  "style": "gate",
+                  "label": "Divergence route"
+                },
+                {
+                  "style": "person",
+                  "label": "Human review"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "metaStrip",
+          "cells": [
+            {
+              "label": "Runs for",
+              "value": "4 products"
+            },
+            {
+              "label": "Surface",
+              "value": "Operator CLI"
+            },
+            {
+              "label": "Models",
+              "value": "GPT-5.4 + local embeddings"
+            },
+            {
+              "label": "Output",
+              "value": "Dataset + exec report"
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "Models"
+        },
+        {
+          "kind": "featurePanel",
+          "title": "Models in the loop",
+          "columns": 2,
+          "items": [
+            {
+              "icon": "cpu",
+              "title": "GPT-5.4 family",
+              "body": "gpt-5.4-nano, gpt-5.4-mini and gpt-5.4, picked per role so cheap calls do the cheap work. Reasoning effort is tuned per stage rather than left at one setting."
+            },
+            {
+              "icon": "arrowLeftRight",
+              "title": "Claude, switchable",
+              "body": "claude-sonnet-5, claude-haiku-4-5 and claude-sonnet-4-6 sit behind a one-line provider swap, which is also how batch mode gets used to roughly halve spend."
+            },
+            {
+              "icon": "database",
+              "title": "mxbai-embed-large",
+              "body": "Runs locally through Ollama to embed every extracted intent, so the clustering pass costs nothing per run and never leaves the machine."
+            },
+            {
+              "icon": "ruler",
+              "title": "all-mpnet-base-v2",
+              "body": "Backs the independent tier audit: when regex bucketing cannot place a ticket, sentence similarity decides, under an explicit floor and margin."
+            },
+            {
+              "icon": "layers",
+              "title": "UMAP + HDBSCAN",
+              "body": "Not models but the shape of the taxonomy — dimensional reduction then density clustering, with unstable cluster IDs canonicalised across runs."
+            },
+            {
+              "icon": "box",
+              "title": "qwen3:14b",
+              "body": "A local model kept available for offline labelling experiments, so prompt changes can be tried without spending on a hosted call."
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "Design decisions"
+        },
+        {
+          "kind": "featurePanel",
+          "title": "What makes the output trustworthy",
+          "columns": 2,
+          "items": [
+            {
+              "icon": "shield",
+              "title": "Never trust the model's own verdict",
+              "body": "The suitability tier is recomputed from three yes/no facts the model must state, then re-derived a second time by a deterministic pass that flags disagreement rather than silently correcting it."
+            },
+            {
+              "icon": "arrowLeftRight",
+              "title": "Brand-agnostic by composition",
+              "body": "One universal rules block plus a per-brand examples file. Adding a brand is a prompt folder, not a code branch — and a linter enforces the shared wording rules after generation."
+            },
+            {
+              "icon": "clock",
+              "title": "Cost and failure economics",
+              "body": "Batch mode roughly halves spend, reasoning effort is tuned per role, and retries resend only unresolved tickets under a hard attempt cap with a bounded tolerance for stragglers."
+            },
+            {
+              "icon": "alertTriangle",
+              "title": "A silent failure, encoded as guardrails",
+              "body": "One run collapsed nearly two hundred labels into near-duplicates and reported zero cost. The fix — batched schema-bound mapping, per-item completeness checks and an explicit taxonomy status — is now permanent."
+            },
+            {
+              "icon": "hash",
+              "title": "Stable IDs over unstable clusters",
+              "body": "Density clustering renumbers itself on every rerun, so cluster identity is canonicalised per category and subcategory pair to keep comparisons across runs meaningful."
+            },
+            {
+              "icon": "wrench",
+              "title": "Known gap, stated plainly",
+              "body": "Chunks are buffered in memory and written once, so a mid-run kill loses classifications already paid for. Runtime checkpointing is the next change, not a claimed feature."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "closed-loop-evals",
+    "id": "closed-loop-evals",
+    "eyebrow": "Evaluation system",
+    "title": "Closed-Loop LLM Evals",
+    "descriptor": "The classifier's existing checks validate one guess against another guess. This closes the loop against what actually happened to the ticket, and writes the correction itself.",
+    "tag": "Python · Outcome scoring · Self-correction",
+    "coverSrc": "/images/products/closed-loop-evals-card.webp",
+    "coverFit": "cover",
+    "status": {
+      "label": "Shipped · In use",
+      "tone": "production"
+    },
+    "usedBy": [
+      "4 products"
+    ],
+    "detail": {
+      "blocks": [
+        {
+          "kind": "columns",
+          "ratio": "1-3",
+          "items": [
+            {
+              "kind": "pageHero",
+              "badge": "Shipped · In use",
+              "title": "Closed-Loop Evals",
+              "body": "The classifier can tell you a ticket was safe for an AI copilot. Nothing in it could tell you whether that call survived contact with the customer. This system scores the highest-confidence tier against real ticket outcomes — replies, reopens, resolution — and when the tier stops holding up, it writes its own correction and commits it."
+            },
+            {
+              "kind": "workflowDiagram",
+              "title": "Prediction to self-correction",
+              "fullscreen": true,
+              "inputs": {
+                "label": "Inputs",
+                "items": [
+                  {
+                    "icon": "database",
+                    "label": "Classified tickets"
+                  },
+                  {
+                    "icon": "network",
+                    "label": "Support platform"
+                  },
+                  {
+                    "icon": "listChecks",
+                    "label": "Sample + rate floors"
+                  }
+                ]
+              },
+              "nodes": [
+                {
+                  "icon": "filter",
+                  "title": "Select Predictions",
+                  "body": "Narrows to the tickets the classifier called safe for a copilot to answer",
+                  "accent": "mint"
+                },
+                {
+                  "icon": "send",
+                  "title": "Pull Outcomes",
+                  "body": "Fetches replies, reopens, channel and status in batches, only for tickets settled long enough to judge",
+                  "accent": "lilac"
+                },
+                {
+                  "icon": "scale",
+                  "title": "Score Hold-Up",
+                  "body": "Joins prediction to outcome per subcategory and computes how often the tier actually held",
+                  "accent": "sky"
+                },
+                {
+                  "icon": "gitBranch",
+                  "title": "enough evidence?",
+                  "body": "Correction Gate — a thin sample or a healthy rate leaves the pipeline here",
+                  "accent": "neutral",
+                  "role": "gate"
+                },
+                {
+                  "icon": "wrench",
+                  "title": "Write Correction",
+                  "body": "Caps the tier for that subcategory and has GPT-5.4 draft the counter-example appended to the brand's prompt",
+                  "accent": "peach"
+                },
+                {
+                  "icon": "arrowLeftRight",
+                  "title": "Feed Next Run",
+                  "body": "The next classification run reads the cap and the new example — no human step in the loop",
+                  "accent": "mint"
+                }
+              ],
+              "outputs": [
+                {
+                  "icon": "checkCircle",
+                  "title": "Correction + Commit",
+                  "caption": "Override, prompt example and a commit carrying the stats that triggered it",
+                  "tone": "success"
+                },
+                {
+                  "icon": "activity",
+                  "title": "Trend Logged Only",
+                  "caption": "Below the sample floor, or holding up fine — recorded, nothing changed",
+                  "tone": "neutral"
+                }
+              ],
+              "branches": [
+                {
+                  "from": 3,
+                  "to": 1,
+                  "label": "thin sample or rate holds"
+                }
+              ],
+              "legend": [
+                {
+                  "style": "solid",
+                  "label": "Correction path"
+                },
+                {
+                  "style": "gate",
+                  "label": "Correction gate"
+                },
+                {
+                  "style": "dashed",
+                  "label": "Observe only"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "metaStrip",
+          "cells": [
+            {
+              "label": "Runs for",
+              "value": "4 products"
+            },
+            {
+              "label": "Validates",
+              "value": "Copilot-ready tier"
+            },
+            {
+              "label": "Ground truth",
+              "value": "Live ticket outcomes"
+            },
+            {
+              "label": "Audit trail",
+              "value": "One commit per correction"
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "Models"
+        },
+        {
+          "kind": "featurePanel",
+          "title": "Models in the loop",
+          "columns": 2,
+          "items": [
+            {
+              "icon": "scale",
+              "title": "No model scores the outcome",
+              "body": "Whether a tier held up is computed from reply counts, reopens and channel. Deliberately arithmetic, because a model judging its own earlier call is what this system exists to replace."
+            },
+            {
+              "icon": "cpu",
+              "title": "GPT-5.4 drafts the correction",
+              "body": "The only generative step: once the numbers trip the gate, it writes the negative example appended to that brand's prompt file."
+            },
+            {
+              "icon": "arrowLeftRight",
+              "title": "Same provider swap",
+              "body": "It shares the classifier's client, so the Claude configuration — claude-sonnet-5 and claude-haiku-4-5 — applies here without separate wiring."
+            },
+            {
+              "icon": "gitBranch",
+              "title": "The cap is not generated",
+              "body": "The tier ceiling itself is written as plain configuration, not model output, so every automated change stays reviewable and revertible in version control."
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "Design decisions"
+        },
+        {
+          "kind": "featurePanel",
+          "title": "Automating a change to your own prompts",
+          "columns": 2,
+          "items": [
+            {
+              "icon": "checkCircle",
+              "title": "Ground truth, not a second opinion",
+              "body": "Held up means the customer did not reopen and did not need to keep replying. Chat channels are excluded from the rate rather than counted against it, because a chat reply means something different."
+            },
+            {
+              "icon": "clock",
+              "title": "A lag gate before judging",
+              "body": "Only tickets closed long enough to have reopened are pulled. Score too early and every not-yet-reopened ticket flatters the tier."
+            },
+            {
+              "icon": "gitBranch",
+              "title": "Version control as the review step",
+              "body": "There is no human approval gate. A minimum sample floor decides whether to act, every correction commits with the statistics that caused it, and revert is the rollback path."
+            },
+            {
+              "icon": "shieldCheck",
+              "title": "Minimal blast radius",
+              "body": "Exactly one functional change to the existing classifier — a tier cap it reads on the way out. Everything else is additive files and prompt text."
+            },
+            {
+              "icon": "ruler",
+              "title": "Scope held deliberately narrow",
+              "body": "Only the top tier is validated. The middle tiers need drafted-versus-sent reply comparison, which is a different problem and is explicitly deferred."
+            },
+            {
+              "icon": "alertTriangle",
+              "title": "Unknowns kept visible",
+              "body": "The sample floor and hold-up threshold are provisional pending calibration, and any data-quality quirk in the platform counts as truth until it is coded around."
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

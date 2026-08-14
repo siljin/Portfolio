@@ -2,19 +2,19 @@
 
 import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getProjects } from "@/lib/projects";
+import { getProjects } from "@/lib/prototypes";
 import { getSite } from "@/lib/site";
 
 /**
- * `/projects` is not a page of its own — every case study lives at its own
- * canonical `/projects/<slug>/`.
+ * `/prototypes` is not a page of its own — every prototype lives at its
+ * own canonical `/prototypes/<slug>/`.
  *
  * This route exists only to forward the legacy `?id=` form used by older links
- * and to send a bare `/projects` to the first case study. The redirect runs on
- * the client because the site is a static export, where no server redirect is
- * available.
+ * and to send a bare `/prototypes` to the first prototype. The redirect
+ * runs on the client because the site is a static export, where no server
+ * redirect is available.
  */
-function ProjectsRedirect() {
+function PrototypesRedirect() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const projects = getProjects();
@@ -26,7 +26,7 @@ function ProjectsRedirect() {
   const slug = target?.slug ?? projects[0]?.slug;
 
   useEffect(() => {
-    if (slug) router.replace(`/projects/${slug}/`);
+    if (slug) router.replace(`/prototypes/${slug}/`);
   }, [router, slug]);
 
   return null;
@@ -36,7 +36,7 @@ export default function Page() {
   const loading = getSite().system.loading;
   return (
     <Suspense fallback={<div>{loading}</div>}>
-      <ProjectsRedirect />
+      <PrototypesRedirect />
     </Suspense>
   );
 }

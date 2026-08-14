@@ -1,0 +1,327 @@
+[
+  {
+    "slug": "prior-auth-workflow",
+    "id": "prior-auth",
+    "eyebrow": "P. 01",
+    "title": "Prior Authorization Workflow",
+    "descriptor": "Agentic AI system that turns a free-text prior authorization request into a policy-grounded approve, deny, or pend decision—with low-confidence cases routed to a clinician.",
+    "tag": "Agentic Workflow · RAG · MCP · Dify",
+    "category": "AI Agent · Healthcare",
+    "metric": "—",
+    "metricLabel": "—",
+    "coverSrc": "/images/projects/prior-auth-card-vivid.svg",
+    "tryItUrl": "https://udify.app/workflow/Nd1XsLQUc9O6QoVp",
+    "iconPath": "M3 12h4l2-5 3 10 2-6 2 4h4",
+    "sections": [
+      {
+        "title": "Context",
+        "paragraphs": [
+          "Prior authorization is a bottleneck in healthcare workflows—clinicians spend hours manually compiling patient data, insurance requirements, and medical evidence to submit authorization requests. The process is error-prone, delays patient care, and creates friction for providers."
+        ]
+      },
+      {
+        "title": "What I built",
+        "paragraphs": [
+          "Built an agentic workflow on Dify that structures a free-text request into fields, retrieves the governing payer CPT policy, gathers medical-necessity and step-therapy evidence through MCP tool calls, and issues an approve, deny, or pend decision with a confidence score.",
+          "Two gates keep it honest. A completeness check stops underspecified requests before any clinical reasoning runs, returning the specific missing fields. A confidence gate withholds any decision scoring below 8 out of 10, routing it to a clinician with a documented action checklist instead of issuing it automatically."
+        ]
+      },
+      {
+        "title": "Outcome",
+        "paragraphs": [
+          "The workflow produces a policy-grounded recommendation with cited evidence, not a submitted authorization—a human remains responsible for the filing. The agent architecture is reusable for other payer and coverage-determination workflows."
+        ]
+      }
+    ],
+    "detail": {
+      "blocks": [
+        { "kind": "columns", "ratio": "1-3", "items": [
+          { "kind": "pageHero",
+            "badge": "Workflow",
+            "title": "Prior Authorization Workflow",
+            "body": "Agentic workflow that turns a free-text prior authorization request into a policy-grounded approve, deny, or pend decision — with low-confidence cases routed to a clinician.",
+            "cta": { "label": "Try Workflow", "href": "https://udify.app/workflow/Nd1XsLQUc9O6QoVp" }
+          },
+          { "kind": "workflowDiagram",
+            "title": "Workflow Architecture",
+            "fullscreen": true,
+            "inputs": { "label": "Inputs", "items": [
+              { "icon": "hash",        "label": "Age" },
+              { "icon": "hash",        "label": "ICD-10 Code" },
+              { "icon": "hash",        "label": "CPT Code" },
+              { "icon": "shieldCheck", "label": "Insurance" },
+              { "icon": "fileText",    "label": "Clinical Notes" }
+            ]},
+            "nodes": [
+              { "icon": "cpu",       "title": "Intake Structurer",       "body": "Parses the free-text request into structured fields and flags what is missing", "accent": "mint" },
+              { "icon": "gitBranch", "title": "all fields present?",     "body": "Completeness Route — incomplete requests leave the pipeline here", "accent": "neutral", "role": "gate" },
+              { "icon": "database",  "title": "Policy Retrieval",        "body": "Searches payer CPT policy documents for the governing criteria", "accent": "lilac" },
+              { "icon": "network",   "title": "Clinical Evidence Agent", "body": "Calls MCP tools to gather medical-necessity and step-therapy evidence", "accent": "sky" },
+              { "icon": "scale",     "title": "Decision Engine",         "body": "Returns approve, deny, or pend with a 0–10 confidence score", "accent": "peach" },
+              { "icon": "gitBranch", "title": "confidence ≥ 8?",         "body": "Confidence Route — anything less goes to a clinician", "accent": "neutral", "role": "gate" }
+            ],
+            "outputs": [
+              { "icon": "alertTriangle", "title": "Incomplete Request", "caption": "Missing fields listed with resubmission steps. No clinical reasoning runs.", "tone": "warn" },
+              { "icon": "checkCircle",   "title": "Decision Report",    "caption": "Criteria table, evidence citations, action items", "tone": "success" },
+              { "icon": "userCheck",     "title": "Pending Review",     "caption": "Clinician checklist and resubmission pathway. Never auto-issued.", "tone": "warn" }
+            ],
+            "branches": [
+              { "from": 1, "to": 0, "label": "No · missing fields" },
+              { "from": 5, "to": 2, "label": "No · confidence < 8" }
+            ],
+            "legend": [
+              { "style": "solid",  "label": "Automated flow" },
+              { "style": "gate",   "label": "Decision gate" },
+              { "style": "dashed", "label": "Conditional route" },
+              { "style": "person", "label": "Human in the loop" }
+            ]
+          }
+        ]},
+        { "kind": "statStrip", "cells": [
+          { "icon": "fileText",    "value": "5 Inputs",   "label": "Structured intake" },
+          { "icon": "layers",      "value": "4 Stages",   "label": "Retrieval → decision" },
+          { "icon": "gitBranch",   "value": "2 Gates",    "label": "Completeness & confidence" },
+          { "icon": "checkCircle", "value": "3 Outcomes", "label": "Approve, deny, pend" }
+        ]},
+        { "kind": "columns", "ratio": "1-1", "items": [
+          { "kind": "featurePanel", "title": "Key Components", "items": [
+            { "icon": "box",       "title": "Dify Workflow Engine",   "body": "Orchestration and routing" },
+            { "icon": "database",  "title": "Payer Policy Retrieval", "body": "RAG over CPT policy datasets" },
+            { "icon": "network",   "title": "MCP Tool Calling",       "body": "Clinical evidence gathering" },
+            { "icon": "userCheck", "title": "Confidence Gating",      "body": "Clinician in the loop" }
+          ]},
+          { "kind": "featurePanel", "title": "Security & Safety", "items": [
+            { "icon": "userCheck",  "title": "Confidence-gated review", "body": "Scores below 8 are never auto-issued" },
+            { "icon": "quote",      "title": "Source citations",        "body": "Evidence list on every report" },
+            { "icon": "filter",     "title": "Completeness gate",       "body": "Underspecified requests stop early" },
+            { "icon": "listChecks", "title": "Decision support",        "body": "Recommends; a human submits" }
+          ]}
+        ]}
+      ]
+    }
+  },
+  {
+    "slug": "mba-tech-club",
+    "id": "mba-tech-club",
+    "eyebrow": "P. 02",
+    "title": "MBA Tech Club Platform",
+    "descriptor": "Led organizational expansion and digital presence as Chief of Staff at McCombs MBA Tech Club, positioning it as a premier resource for MBA students pursuing careers in technology.",
+    "tag": "Web Development · Event Management · Club Exapnsion",
+    "category": "Organizational Leadership",
+    "highlight": "Grew club to 50+ engaged MBA students across 20+ events per year.",
+    "metric": "—",
+    "metricLabel": "—",
+    "coverSrc": "/images/prototypes/mbatechclub/logo.png",
+    "tryItUrl": "https://mbatechclub.netlify.app",
+    "iconPath": "/images/prototypes/mccombs_mba_tech_club_logo.jpeg",
+    "sections": [
+      {
+        "title": "Online Presence & Website Development",
+        "paragraphs": [
+          "Designed and developed the club's official website (mbatechclub.netlify.app) from the ground up, creating a centralized digital home for the club's identity, initiatives, and team. The site communicates the club's mission across four core pillars — Product Management, Go-to-Market Strategy, Tech Operations, and Business Development — and serves as a recruiting and engagement tool for prospective and current members."
+        ]
+      },
+      {
+        "title": "Executive Team Operations",
+        "paragraphs": [
+          "Managed day-to-day operations of the executive team, coordinating across functions to ensure alignment on club priorities, event execution, and member programming. Served as a connective layer between leadership and the broader membership, maintaining organizational momentum throughout the academic year."
+        ]
+      },
+      {
+        "title": "New Initiatives",
+        "paragraphs": [
+          "Spearheaded the development and launch of new club initiatives designed to deepen member engagement and strengthen career outcomes. These included structured programming around industry exposure — such as company visits and guest speaker series — as well as curriculum focused on the skills and frameworks most relevant to tech roles."
+        ]
+      },
+      {
+        "title": "Impact",
+        "paragraphs": [
+          "Through these efforts, the MBA Tech Club expanded its reach, formalized its operations, and established a stronger institutional foundation for future cohorts — contributing to a community of over 60+ engaged MBA students participating in 20+ events per year."
+        ]
+      }
+    ],
+    "detail": {
+      "blocks": [
+        { "kind": "pageHero",
+          "badge": "Leadership",
+          "title": "MBA Tech Club Platform",
+          "body": "Led organizational expansion and digital presence as Chief of Staff at McCombs MBA Tech Club, positioning it as a premier resource for MBA students pursuing careers in technology.",
+          "cta": { "label": "Visit the site", "href": "https://mbatechclub.netlify.app" }
+        },
+        { "kind": "lede", "text": "Designed and shipped the club's first official site — a single home for recruiting, executive operations, and the four-pillar curriculum (Product, GTM, Tech Ops, Business Development)." },
+        { "kind": "tagRow", "tags": ["Web Development", "Claude Code", "Netlify", "AMS"] },
+        { "kind": "previewPane", "image": "/images/prototypes/mbatechclub/tech-club.png", "chrome": "none", "caption": "A snapshot of the club — programming, leadership, and the four-pillar curriculum at a glance." },
+        { "kind": "heading", "text": "Role & impact" },
+        { "kind": "metaStrip", "cells": [
+          { "label": "Role",    "value": "Chief of Staff" },
+          { "label": "Scope",   "value": "Operations + Club Expansion + programming" },
+          { "label": "Members", "value": "60+ engaged MBAs" },
+          { "label": "Events",  "value": "20+ per year" }
+        ]},
+        { "kind": "cta", "label": "Visit the site", "href": "https://mbatechclub.netlify.app", "note": "Live since spring 2026." }
+      ]
+    }
+  },
+  {
+    "slug": "ai-ticket-triage",
+    "id": "togetherwork-triage",
+    "eyebrow": "P. 03",
+    "title": "AI Ticket Triage System",
+    "descriptor": "Automated support ticket classification and routing system using LLM-powered triage—reducing manual decision time from 5–10 minutes to under 2 seconds.",
+    "tag": "Webhook · Zendesk Integration · Issue Triage · LLM Classification · API",
+    "category": "AI Agent · Customer Support",
+    "metric": "—",
+    "metricLabel": "—",
+    "coverSrc": "/images/prototypes/ai-ticket-triage-card.svg",
+    "tryItUrl": "#",
+    "architectureDiagram": "/images/prototypes/ai-ticket-triage-flow.png",
+    "sequenceDiagram": "/images/prototypes/ai-ticket-triage-sequence.png",
+    "iconPath": "M3 12h4l2-5 3 10 2-6 2 4h4",
+    "sections": [
+      {
+        "title": "The Problem",
+        "paragraphs": [
+          "Manual ticket triage is a bottleneck in customer support. Every inbound ticket requires a human agent to read, categorize, and route to the right team—averaging 5–10 minutes per ticket. With 9 products across 6 verticals, routing complexity compounds, and misrouted tickets take 2x longer to resolve."
+        ]
+      },
+      {
+        "title": "What I Built",
+        "paragraphs": [
+          "Created an AI triage system that reads every incoming Zendesk ticket, classifies it across 9 issue categories, scores urgency with confidence tiers, and automatically routes to the right team in under 2 seconds. The architecture combines a Zendesk webhook (HTTP POST intake) → Express.js backend → Claude Sonnet LLM classifier → confidence-based routing engine → Zendesk writeback. Each ticket receives a private internal note with category, product, priority, sentiment, confidence label, reasoning, and optional draft response for agent review."
+        ]
+      },
+      {
+        "title": "Routing & Escalation Logic",
+        "paragraphs": [
+          "The system implements a 3-tier confidence-based routing engine: High confidence (>0.80) auto-routes with draft response, Medium (0.50–0.80) routes with context note for agent review, and Low (<0.50) escalates to senior team for manual assessment. Escalation overrides ensure P1 priority, data loss, security, or legal-tagged tickets always route to senior team regardless of confidence score."
+        ]
+      },
+      {
+        "title": "How It Works",
+        "paragraphs": [
+          "The system follows a 4-step processing pipeline: (1) Zendesk Webhook—incoming tickets arrive via HTTP POST; (2) LLM AI Classifier—the system classifies the ticket, scores confidence, and flags escalation risks; (3) Routing Engine—assigns severity tier and target team based on confidence thresholds; (4) Zendesk Writeback—updates the ticket metadata and appends a private internal note with reasoning and optional draft response."
+        ],
+        "diagramSrc": "/images/prototypes/ai-ticket-triage-flow.png"
+      },
+      {
+        "title": "Business Impact",
+        "paragraphs": [
+          "Reduced classification time from 5–10 minutes to under 2 seconds per ticket (240x faster). Eliminated human routing error through deterministic confidence-based logic. Improved agent efficiency by pre-drafting responses on high-confidence tickets. Built in feedback loops and accuracy tracking from day one—the system learns from agent overrides over time."
+        ]
+      }
+    ],
+    "detail": {
+      "blocks": [
+        { "kind": "pageHero",
+          "badge": "Workflow",
+          "title": "AI Ticket Triage System",
+          "body": "Automated support ticket classification and routing using LLM-powered triage — reducing manual decision time from 5–10 minutes to under 2 seconds."
+        },
+        { "kind": "lede", "text": "An LLM-powered triage system that classifies, scores, and routes incoming Zendesk tickets in under 2 seconds — replacing 5–10 minutes of manual decision-making with a 3-tier confidence-based router and an auto-drafted response for the agent to review." },
+        { "kind": "tagRow", "tags": ["Issue Triage", "Zendesk", "Webhook", "Claude", "Express"] },
+        { "kind": "previewPane", "image": "/images/prototypes/ai-ticket-triage-card.svg", "chrome": "none", "caption": "AI-assisted ticket intake, classification, and routing." },
+        { "kind": "heading", "text": "How it works" },
+        { "kind": "metaStrip", "cells": [
+          { "label": "Pipeline",   "value": "Webhook → LLM → Router → Writeback" },
+          { "label": "Coverage",   "value": "9 categories · 6 verticals" },
+          { "label": "Confidence", "value": "High ≥0.80 · Med · Low <0.50" },
+          { "label": "Latency",    "value": "<2s / ticket (240× faster)" }
+        ]},
+        { "kind": "heading", "text": "Sequence detail" },
+        { "kind": "previewPane", "image": "/images/prototypes/ai-ticket-triage-sequence.png", "caption": "Confidence tiers + escalation overrides (P1 / data loss / security / legal always route to senior team)." }
+      ]
+    }
+  },
+  {
+    "slug": "diabetes-diagnosis-workflow",
+    "id": "diabetes-risk",
+    "eyebrow": "P. 04",
+    "title": "Type 2 Diabetes Risk Assessment",
+    "descriptor": "Clinical decision support AI that synthesizes patient data and medical evidence to assess Type 2 Diabetes risk with physician-grade confidence scoring.",
+    "tag": "Agentic Workflow · RAG · MCP · Gemini",
+    "category": "AI Agent · Clinical",
+    "metric": "—",
+    "metricLabel": "—",
+    "coverSrc": "/images/projects/diabetes-diagnosis.svg",
+    "tryItUrl": "https://udify.app/workflow/A32PxMNwfQoqZrxN",
+    "iconPath": "M3 12h4l2-5 3 10 2-6 2 4h4",
+    "sections": [
+      {
+        "title": "Context",
+        "paragraphs": [
+          "Type 2 Diabetes diagnosis relies on multiple data sources—lab values, patient history, social factors, and clinical guidelines—that are typically fragmented across systems. Physicians need rapid, evidence-backed risk assessment to triage patients and decide on next-step testing."
+        ]
+      },
+      {
+        "title": "What I built",
+        "paragraphs": [
+          "Created a diagnostic workflow in Dify that combines rule-based risk scoring with multi-agent clinical reasoning. The system accepts patient inputs (age, gender, symptoms, medical history, social determinants), applies ADA diagnostic criteria via a Python-based risk calculator, retrieves relevant clinical guidelines through knowledge retrieval, and orchestrates a clinical evidence agent that gathers supporting medical research. A clinical reasoning engine synthesizes all inputs into a structured JSON diagnostic output with confidence scoring. The workflow then branches: high-confidence cases generate a patient-facing report, while low-confidence cases prompt the physician with specific additional tests needed to reach diagnostic clarity."
+        ]
+      }
+    ],
+    "detail": {
+      "blocks": [
+        { "kind": "pageHero",
+          "badge": "Workflow",
+          "title": "Type 2 Diabetes Risk Assessment",
+          "body": "Clinical decision support that scores Type 2 Diabetes risk from patient data using deterministic ADA criteria, grounds it in retrieved guidance and live evidence, and withholds any conclusion it is not confident enough to make.",
+          "cta": { "label": "Try Workflow", "href": "https://udify.app/workflow/A32PxMNwfQoqZrxN" }
+        },
+        { "kind": "workflowDiagram",
+          "title": "Workflow Architecture",
+          "fullscreen": true,
+          "inputs": { "label": "Inputs", "items": [
+            { "icon": "hash",        "label": "Age" },
+            { "icon": "user",        "label": "Gender" },
+            { "icon": "stethoscope", "label": "Symptoms" },
+            { "icon": "fileText",    "label": "Medical History" },
+            { "icon": "users",       "label": "Social Factors" }
+          ]},
+          "nodes": [
+            { "icon": "cpu",       "title": "Intake Structurer",       "body": "Extracts labs, history and social factors into structured fields, flagging what is missing", "accent": "mint" },
+            { "icon": "scale",     "title": "Risk Calculator",         "body": "Deterministic score from HbA1c, fasting glucose, BMI, age, family history and social factors", "accent": "lilac" },
+            { "icon": "database",  "title": "Guideline Retrieval",     "body": "Retrieves the ADA guidance matching the computed risk band", "accent": "sky" },
+            { "icon": "network",   "title": "Clinical Evidence Agent", "body": "Calls MCP tools for supporting evidence, interactions and next-step guidance", "accent": "peach" },
+            { "icon": "sparkles",  "title": "Reasoning Engine",        "body": "Synthesises a diagnosis with a 0–10 confidence score and a physician checklist", "accent": "rose" },
+            { "icon": "gitBranch", "title": "complete & confident?",   "body": "One route with three exits: missing data, confident, or not confident enough", "accent": "neutral", "role": "gate" }
+          ],
+          "outputs": [
+            { "icon": "alertTriangle", "title": "Needs More Data",   "caption": "Asks for the missing labs and restarts the assessment", "tone": "warn" },
+            { "icon": "checkCircle",   "title": "Diagnostic Report", "caption": "Risk factors, social determinants, ADA citations, next steps", "tone": "success" },
+            { "icon": "userCheck",     "title": "Provisional Report","caption": "States the uncertainty and lists the tests that would resolve it", "tone": "warn" }
+          ],
+          "branches": [
+            { "from": 5, "to": 0, "label": "No · data missing" },
+            { "from": 5, "to": 2, "label": "No · confidence < 8" }
+          ],
+          "legend": [
+            { "style": "solid",  "label": "Automated flow" },
+            { "style": "gate",   "label": "Decision gate" },
+            { "style": "dashed", "label": "Conditional route" },
+            { "style": "person", "label": "Human in the loop" }
+          ]
+        },
+        { "kind": "statStrip", "cells": [
+          { "icon": "fileText",    "value": "5 Inputs",   "label": "Patient profile" },
+          { "icon": "layers",      "value": "5 Stages",   "label": "Score → evidence → reasoning" },
+          { "icon": "gitBranch",   "value": "1 Gate",     "label": "Data and confidence" },
+          { "icon": "checkCircle", "value": "3 Outcomes", "label": "Report, provisional, more data" }
+        ]},
+        { "kind": "columns", "ratio": "1-1", "items": [
+          { "kind": "featurePanel", "title": "Key Components", "items": [
+            { "icon": "box",      "title": "Dify Workflow Engine",     "body": "Orchestration and routing" },
+            { "icon": "scale",    "title": "Deterministic Risk Scorer","body": "Python rules over ADA criteria" },
+            { "icon": "database", "title": "ADA Guideline Retrieval",  "body": "RAG over clinical guidance" },
+            { "icon": "network",  "title": "MCP Evidence Agent",       "body": "Live evidence and interactions" }
+          ]},
+          { "kind": "featurePanel", "title": "Security & Safety", "items": [
+            { "icon": "userCheck",  "title": "Confidence-gated review", "body": "Below 8 of 10 never issues a conclusion" },
+            { "icon": "quote",      "title": "Source citations",        "body": "ADA guideline citations on every report" },
+            { "icon": "scale",      "title": "Deterministic scoring",   "body": "The risk band is computed by rules, not the model" },
+            { "icon": "listChecks", "title": "Decision support",        "body": "Assists a physician; it does not diagnose" }
+          ]}
+        ]}
+      ]
+    }
+  }
+]

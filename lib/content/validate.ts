@@ -1,6 +1,9 @@
+import { accentNames, isAccentName, isDetailIconName } from "@/components/detail/iconRegistry";
 import type {
-  ApplicationContent,
-  ApplicationSection,
+  PrototypeContent,
+  PrototypeSection,
+  ProductContent,
+  ColumnsRatio,
   DemoContent,
   DetailBlock,
   DetailContent,
@@ -57,8 +60,13 @@ function validateDetailBlock(b: unknown, ctx: string): asserts b is DetailBlock 
       assertImagePath(o.image as string, "image", ctx, false);
       if (o.url !== undefined) assertNonEmptyString(o.url, "url", ctx);
       if (o.caption !== undefined) assertNonEmptyString(o.caption, "caption", ctx);
-      if (o.chrome !== undefined && o.chrome !== "browser" && o.chrome !== "none") {
-        throw new Error(`${ctx}: chrome must be "browser" or "none"`);
+      if (
+        o.chrome !== undefined &&
+        o.chrome !== "browser" &&
+        o.chrome !== "none" &&
+        o.chrome !== "bleed"
+      ) {
+        throw new Error(`${ctx}: chrome must be "browser", "none" or "bleed"`);
       }
       return;
     case "metaStrip":
@@ -78,8 +86,192 @@ function validateDetailBlock(b: unknown, ctx: string): asserts b is DetailBlock 
       assertNonEmptyString(o.href, "href", ctx);
       if (o.note !== undefined) assertNonEmptyString(o.note, "note", ctx);
       return;
+    case "columns": {
+      if (o.ratio !== undefined && !COLUMNS_RATIOS.includes(o.ratio as ColumnsRatio)) {
+        throw new Error(`${ctx}: ratio must be one of ${COLUMNS_RATIOS.join(", ")}`);
+      }
+      if (!Array.isArray(o.items) || o.items.length === 0) {
+        throw new Error(`${ctx}: items must be a non-empty array`);
+      }
+      // Recurses: a columns block may itself contain any block, columns included.
+      o.items.forEach((item, i) => validateDetailBlock(item, `${ctx}.items[${i}]`));
+      return;
+    }
+    case "pageHero": {
+      assertNonEmptyString(o.title, "title", ctx);
+      if (o.badge !== undefined) assertNonEmptyString(o.badge, "badge", ctx);
+      if (o.body !== undefined) assertNonEmptyString(o.body, "body", ctx);
+      if (o.cta !== undefined) {
+        const ctaCtx = `${ctx}.cta`;
+        if (typeof o.cta !== "object" || o.cta === null) throw new Error(`${ctaCtx}: expected object`);
+        const cta = o.cta as Record<string, unknown>;
+        assertNonEmptyString(cta.label, "label", ctaCtx);
+        assertNonEmptyString(cta.href, "href", ctaCtx);
+      }
+      return;
+    }
+    case "statStrip": {
+      if (!Array.isArray(o.cells) || o.cells.length === 0) {
+        throw new Error(`${ctx}: cells must be a non-empty array`);
+      }
+      o.cells.forEach((cell, i) => {
+        const cellCtx = `${ctx}.cells[${i}]`;
+        if (typeof cell !== "object" || cell === null) throw new Error(`${cellCtx}: expected object`);
+        const c = cell as Record<string, unknown>;
+        assertIconName(c.icon, "icon", cellCtx);
+        assertNonEmptyString(c.value, "value", cellCtx);
+        assertNonEmptyString(c.label, "label", cellCtx);
+      });
+      return;
+    }
+    case "featurePanel": {
+      assertNonEmptyString(o.title, "title", ctx);
+      if (o.columns !== undefined && ![2, 3, 4].includes(o.columns as number)) {
+        throw new Error(`${ctx}: columns must be 2, 3 or 4`);
+      }
+      if (!Array.isArray(o.items) || o.items.length === 0) {
+        throw new Error(`${ctx}: items must be a non-empty array`);
+      }
+      o.items.forEach((item, i) => {
+        const itemCtx = `${ctx}.items[${i}]`;
+        if (typeof item !== "object" || item === null) throw new Error(`${itemCtx}: expected object`);
+        const it = item as Record<string, unknown>;
+        assertIconName(it.icon, "icon", itemCtx);
+        assertNonEmptyString(it.title, "title", itemCtx);
+        if (it.body !== undefined) assertNonEmptyString(it.body, "body", itemCtx);
+      });
+      return;
+    }
+    case "workflowDiagram":
+      validateWorkflowDiagram(o, ctx);
+      return;
     default:
       throw new Error(`${ctx}: unknown block kind ${JSON.stringify(o.kind)}`);
+  }
+}
+
+const COLUMNS_RATIOS: ColumnsRatio[] = ["1-1", "1-2", "1-3", "2-1"];
+const OUTPUT_TONES = ["success", "warn", "neutral"];
+const LEGEND_STYLES = ["solid", "dashed", "gate", "person"];
+
+function assertIconName(value: unknown, field: string, ctx: string): void {
+  if (!isDetailIconName(value)) {
+    throw new Error(
+      `${ctx}: ${field} must be a known icon name, got ${JSON.stringify(value)}. ` +
+        `Add it to components/detail/iconRegistry.ts if it is missing.`
+    );
+  }
+}
+
+/**
+ * Validates the diagram's shape, including the cross-references between
+ * `branches`, `nodes` and `outputs`. A branch pointing at a non-gate node, or
+ * at an index out of range, fails the build rather than rendering a connector
+ * to nowhere.
+ */
+function validateWorkflowDiagram(o: Record<string, unknown>, ctx: string): void {
+  assertNonEmptyString(o.title, "title", ctx);
+
+  if (o.inputs !== undefined) {
+    const inCtx = `${ctx}.inputs`;
+    if (typeof o.inputs !== "object" || o.inputs === null) throw new Error(`${inCtx}: expected object`);
+    const inputs = o.inputs as Record<string, unknown>;
+    assertNonEmptyString(inputs.label, "label", inCtx);
+    if (!Array.isArray(inputs.items) || inputs.items.length === 0) {
+      throw new Error(`${inCtx}: items must be a non-empty array`);
+    }
+    inputs.items.forEach((item, i) => {
+      const itemCtx = `${inCtx}.items[${i}]`;
+      if (typeof item !== "object" || item === null) throw new Error(`${itemCtx}: expected object`);
+      const it = item as Record<string, unknown>;
+      assertIconName(it.icon, "icon", itemCtx);
+      assertNonEmptyString(it.label, "label", itemCtx);
+    });
+  }
+
+  if (!Array.isArray(o.nodes) || o.nodes.length === 0) {
+    throw new Error(`${ctx}: nodes must be a non-empty array`);
+  }
+  const isGate: boolean[] = [];
+  o.nodes.forEach((node, i) => {
+    const nodeCtx = `${ctx}.nodes[${i}]`;
+    if (typeof node !== "object" || node === null) throw new Error(`${nodeCtx}: expected object`);
+    const n = node as Record<string, unknown>;
+    assertIconName(n.icon, "icon", nodeCtx);
+    assertNonEmptyString(n.title, "title", nodeCtx);
+    if (n.body !== undefined) assertNonEmptyString(n.body, "body", nodeCtx);
+    if (!isAccentName(n.accent)) {
+      throw new Error(`${nodeCtx}: accent must be one of ${accentNames.join(", ")}`);
+    }
+    if (n.role !== undefined && n.role !== "stage" && n.role !== "gate") {
+      throw new Error(`${nodeCtx}: role must be "stage" or "gate"`);
+    }
+    isGate.push(n.role === "gate");
+  });
+
+  if (!Array.isArray(o.outputs) || o.outputs.length === 0) {
+    throw new Error(`${ctx}: outputs must be a non-empty array`);
+  }
+  const outputCount = o.outputs.length;
+  o.outputs.forEach((output, i) => {
+    const outCtx = `${ctx}.outputs[${i}]`;
+    if (typeof output !== "object" || output === null) throw new Error(`${outCtx}: expected object`);
+    const out = output as Record<string, unknown>;
+    assertIconName(out.icon, "icon", outCtx);
+    assertNonEmptyString(out.title, "title", outCtx);
+    if (out.caption !== undefined) assertNonEmptyString(out.caption, "caption", outCtx);
+    if (out.tone !== undefined && !OUTPUT_TONES.includes(out.tone as string)) {
+      throw new Error(`${outCtx}: tone must be one of ${OUTPUT_TONES.join(", ")}`);
+    }
+  });
+
+  const branchedOutputs = new Set<number>();
+  if (o.branches !== undefined) {
+    if (!Array.isArray(o.branches)) throw new Error(`${ctx}: branches must be an array`);
+    o.branches.forEach((branch, i) => {
+      const bCtx = `${ctx}.branches[${i}]`;
+      if (typeof branch !== "object" || branch === null) throw new Error(`${bCtx}: expected object`);
+      const b = branch as Record<string, unknown>;
+      assertNonEmptyString(b.label, "label", bCtx);
+      const { from, to } = b;
+      if (typeof from !== "number" || !Number.isInteger(from) || from < 0 || from >= isGate.length) {
+        throw new Error(`${bCtx}: from must be an index into nodes (0..${isGate.length - 1})`);
+      }
+      if (!isGate[from]) {
+        throw new Error(`${bCtx}: from must point at a node with role "gate", nodes[${from}] is a stage`);
+      }
+      if (typeof to !== "number" || !Number.isInteger(to) || to < 0 || to >= outputCount) {
+        throw new Error(`${bCtx}: to must be an index into outputs (0..${outputCount - 1})`);
+      }
+      if (branchedOutputs.has(to)) {
+        throw new Error(`${bCtx}: outputs[${to}] is already the target of another branch`);
+      }
+      branchedOutputs.add(to);
+    });
+  }
+
+  // Exactly one output must be left unbranched: it is where the pipeline
+  // itself ends. Zero means the spine leads nowhere; more than one means the
+  // diagram cannot say which terminus the spine arrow should point at.
+  const spineOutputs = outputCount - branchedOutputs.size;
+  if (spineOutputs !== 1) {
+    throw new Error(
+      `${ctx}: exactly one output must not be the target of a branch ` +
+        `(that one terminates the pipeline), found ${spineOutputs}`
+    );
+  }
+
+  if (o.legend !== undefined) {
+    if (!Array.isArray(o.legend)) throw new Error(`${ctx}: legend must be an array`);
+    o.legend.forEach((entry, i) => {
+      const lCtx = `${ctx}.legend[${i}]`;
+      if (typeof entry !== "object" || entry === null) throw new Error(`${lCtx}: expected object`);
+      const l = entry as Record<string, unknown>;
+      assertNonEmptyString(l.label, "label", lCtx);
+      if (!LEGEND_STYLES.includes(l.style as string)) {
+        throw new Error(`${lCtx}: style must be one of ${LEGEND_STYLES.join(", ")}`);
+      }
+    });
   }
 }
 
@@ -92,12 +284,12 @@ function validateDetailContent(d: unknown, ctx: string): asserts d is DetailCont
   o.blocks.forEach((b, i) => validateDetailBlock(b, `${ctx}.blocks[${i}]`));
 }
 
-function validateApplicationSection(
+function validatePrototypeSection(
   s: unknown,
   index: number,
   appIndex: number
-): asserts s is ApplicationSection {
-  const ctx = `applications[${appIndex}].sections[${index}]`;
+): asserts s is PrototypeSection {
+  const ctx = `prototypes[${appIndex}].sections[${index}]`;
   if (typeof s !== "object" || s === null) throw new Error(`${ctx}: expected object`);
   const o = s as Record<string, unknown>;
   assertNonEmptyString(o.title, "title", ctx);
@@ -113,8 +305,8 @@ function validateApplicationSection(
   }
 }
 
-export function validateApplication(item: unknown, index: number): asserts item is ApplicationContent {
-  const ctx = `applications[${index}]`;
+export function validatePrototype(item: unknown, index: number): asserts item is PrototypeContent {
+  const ctx = `prototypes[${index}]`;
   if (typeof item !== "object" || item === null) throw new Error(`${ctx}: expected object`);
   const o = item as Record<string, unknown>;
   assertNonEmptyString(o.slug, "slug", ctx);
@@ -134,7 +326,7 @@ export function validateApplication(item: unknown, index: number): asserts item 
   if (!Array.isArray(o.sections) || o.sections.length === 0) {
     throw new Error(`${ctx}: sections must be a non-empty array`);
   }
-  o.sections.forEach((sec, i) => validateApplicationSection(sec, i, index));
+  o.sections.forEach((sec, i) => validatePrototypeSection(sec, i, index));
   if (o.architectureDiagram !== undefined) {
     assertNonEmptyString(o.architectureDiagram, "architectureDiagram", ctx);
     assertImagePath(o.architectureDiagram as string, "architectureDiagram", ctx, false);
@@ -144,6 +336,47 @@ export function validateApplication(item: unknown, index: number): asserts item 
     assertImagePath(o.sequenceDiagram as string, "sequenceDiagram", ctx, false);
   }
   if (o.detail !== undefined) validateDetailContent(o.detail, `${ctx}.detail`);
+}
+
+const PRODUCT_STATUS_TONES = ["live", "production"] as const;
+
+function validateProductStatus(s: unknown, ctx: string) {
+  if (typeof s !== "object" || s === null) throw new Error(`${ctx}.status: expected object`);
+  const o = s as Record<string, unknown>;
+  assertNonEmptyString(o.label, "status.label", ctx);
+  if (!PRODUCT_STATUS_TONES.includes(o.tone as (typeof PRODUCT_STATUS_TONES)[number])) {
+    throw new Error(`${ctx}.status.tone must be one of ${PRODUCT_STATUS_TONES.join(" | ")}`);
+  }
+}
+
+export function validateProduct(item: unknown, index: number): asserts item is ProductContent {
+  const ctx = `products[${index}]`;
+  if (typeof item !== "object" || item === null) throw new Error(`${ctx}: expected object`);
+  const o = item as Record<string, unknown>;
+  assertNonEmptyString(o.slug, "slug", ctx);
+  assertNonEmptyString(o.id, "id", ctx);
+  assertNonEmptyString(o.eyebrow, "eyebrow", ctx);
+  assertNonEmptyString(o.title, "title", ctx);
+  assertNonEmptyString(o.descriptor, "descriptor", ctx);
+  assertNonEmptyString(o.tag, "tag", ctx);
+  validateProductStatus(o.status, ctx);
+  if (o.usedBy !== undefined) {
+    if (!Array.isArray(o.usedBy) || o.usedBy.length === 0) {
+      throw new Error(`${ctx}: usedBy must be a non-empty array when set`);
+    }
+    o.usedBy.forEach((b, i) => assertNonEmptyString(b, `usedBy[${i}]`, ctx));
+  }
+  // Product cards lead with the status chip, so there is no metric pair here.
+  if (o.coverSrc !== undefined) {
+    assertNonEmptyString(o.coverSrc, "coverSrc", ctx);
+    assertImagePath(o.coverSrc as string, "coverSrc", ctx, false);
+  }
+  if (o.coverFit !== undefined && o.coverFit !== "cover" && o.coverFit !== "contain") {
+    throw new Error(`${ctx}.coverFit must be "cover" or "contain"`);
+  }
+  if (o.tryItUrl !== undefined) assertNonEmptyString(o.tryItUrl, "tryItUrl", ctx);
+  // Blocks are the only way these pages are written, so `detail` is required.
+  validateDetailContent(o.detail, `${ctx}.detail`);
 }
 
 export function validatePortfolioSection(
@@ -170,6 +403,7 @@ export function validatePortfolioProject(
   const ctx = `projects[${index}]`;
   if (typeof item !== "object" || item === null) throw new Error(`${ctx}: expected object`);
   const o = item as Record<string, unknown>;
+  assertNonEmptyString(o.slug, "slug", ctx);
   assertNonEmptyString(o.id, "id", ctx);
   assertNonEmptyString(o.eyebrow, "eyebrow", ctx);
   assertNonEmptyString(o.title, "title", ctx);
@@ -232,9 +466,11 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     "hero",
     "home",
     "archive",
-    "applicationsArchive",
+    "prototypesArchive",
+    "productsArchive",
     "projectsArchive",
-    "applicationsEmptyState",
+    "prototypesEmptyState",
+    "productsEmptyState",
     "labels",
     "contact",
     "footer",
@@ -259,8 +495,13 @@ export function validateSite(data: unknown): asserts data is SiteContent {
 
   const meta = root.metadata as Record<string, unknown>;
   assertNonEmptyString(
-    meta.applicationDetailTitleSeparator,
-    "metadata.applicationDetailTitleSeparator",
+    meta.prototypeDetailTitleSeparator,
+    "metadata.prototypeDetailTitleSeparator",
+    ctx
+  );
+  assertNonEmptyString(
+    meta.productDetailTitleSeparator,
+    "metadata.productDetailTitleSeparator",
     ctx
   );
   assertNonEmptyString(meta.fallbackProjectListTitle, "metadata.fallbackProjectListTitle", ctx);
@@ -312,8 +553,9 @@ export function validateSite(data: unknown): asserts data is SiteContent {
 
   const home = root.home as Record<string, unknown>;
   for (const sectionKey of [
-    "applicationsSection",
-    "applicationsViewAll",
+    "productsSection",
+    "prototypesSection",
+    "prototypesViewAll",
     "projectsSection",
   ]) {
     if (!(sectionKey in home)) throw new Error(`${ctx}.home.${sectionKey} missing`);
@@ -334,7 +576,7 @@ export function validateSite(data: unknown): asserts data is SiteContent {
   const arch = root.archive as Record<string, unknown>;
   assertNonEmptyString(arch.backToPortfolio, "archive.backToPortfolio", ctx);
 
-  for (const k of ["applicationsArchive", "projectsArchive"] as const) {
+  for (const k of ["prototypesArchive", "productsArchive", "projectsArchive"] as const) {
     const a = root[k] as Record<string, unknown>;
     assertNonEmptyString(a.sidebarTitle, `${k}.sidebarTitle`, ctx);
     assertNonEmptyString(a.sidebarSubtitle, `${k}.sidebarSubtitle`, ctx);
@@ -344,14 +586,19 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     }
   }
 
-  const aes = root.applicationsEmptyState as Record<string, unknown>;
-  assertNonEmptyString(aes.eyebrow, "applicationsEmptyState.eyebrow", ctx);
-  assertNonEmptyString(aes.title, "applicationsEmptyState.title", ctx);
+  const aes = root.prototypesEmptyState as Record<string, unknown>;
+  assertNonEmptyString(aes.eyebrow, "prototypesEmptyState.eyebrow", ctx);
+  assertNonEmptyString(aes.title, "prototypesEmptyState.title", ctx);
+
+  const pes = root.productsEmptyState as Record<string, unknown>;
+  assertNonEmptyString(pes.eyebrow, "productsEmptyState.eyebrow", ctx);
+  assertNonEmptyString(pes.title, "productsEmptyState.title", ctx);
 
   const labels = root.labels as Record<string, unknown>;
   const labelKeys: (keyof SiteContent["labels"])[] = [
     "tryIt",
-    "tryItApplications",
+    "tryItPrototypes",
+    "tryItProducts",
     "viewArchitecture",
     "sequenceDiagram",
     "architectureModalTitle",
@@ -364,7 +611,9 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     "collapseSidebar",
     "expandSidebar",
     "projectImagePlaceholder",
-    "backToApplications",
+    "backToPrototypes",
+    "backToProducts",
+    "backToProjects",
     "projectsCarouselPrevious",
     "projectsCarouselNext",
   ];

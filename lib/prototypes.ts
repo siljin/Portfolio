@@ -1,11 +1,11 @@
-import type { ApplicationContent } from "./content/types";
-import { loadApplications } from "./content/loaders";
+import type { PrototypeContent } from "./content/types";
+import { loadPrototypes } from "./content/loaders";
 
-export type ProjectSection = ApplicationContent["sections"][number];
-export type Project = ApplicationContent;
+export type ProjectSection = PrototypeContent["sections"][number];
+export type Project = PrototypeContent;
 
 export function getProjects(): Project[] {
-  return loadApplications();
+  return loadPrototypes();
 }
 
 export function getProjectSlugs(): string[] {

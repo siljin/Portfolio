@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" role="img" aria-label="Lettersly: a petal ring above a riddle line and nine empty letter slots">
+  <defs>
+    <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9aa2f5" />
+      <stop offset="100%" stop-color="#5b66d6" />
+    </linearGradient>
+    <linearGradient id="riddle" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7f86e8" />
+      <stop offset="55%" stop-color="#a2a8f6" />
+      <stop offset="100%" stop-color="#7f86e8" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4d5ac4" stop-opacity="0.42" />
+      <stop offset="60%" stop-color="#2b3488" stop-opacity="0.14" />
+      <stop offset="100%" stop-color="#0e1420" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="38%" r="78%">
+      <stop offset="55%" stop-color="#0e1420" stop-opacity="0" />
+      <stop offset="100%" stop-color="#070a12" stop-opacity="0.85" />
+    </radialGradient>
+    <filter id="soften" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" />
+    </filter>
+
+    <!-- One petal, reused around the ring. -->
+    <g id="petalShape">
+      <ellipse cx="400" cy="82" rx="8.5" ry="27" fill="url(#petal)" />
+    </g>
+  </defs>
+
+  <rect width="800" height="450" fill="#0e1420" />
+  <circle cx="400" cy="150" r="190" fill="url(#glow)" />
+
+  <!-- A blurred copy of the ring underneath, so the petals read as lit. -->
+  <g filter="url(#soften)" opacity="0.55">
+    <use href="#petalShape" />
+    <use href="#petalShape" transform="rotate(25.714 400 150)" />
+    <use href="#petalShape" transform="rotate(51.429 400 150)" />
+    <use href="#petalShape" transform="rotate(77.143 400 150)" />
+    <use href="#petalShape" transform="rotate(102.857 400 150)" />
+    <use href="#petalShape" transform="rotate(128.571 400 150)" />
+    <use href="#petalShape" transform="rotate(154.286 400 150)" />
+    <use href="#petalShape" transform="rotate(180 400 150)" />
+    <use href="#petalShape" transform="rotate(205.714 400 150)" />
+    <use href="#petalShape" transform="rotate(231.429 400 150)" />
+    <use href="#petalShape" transform="rotate(257.143 400 150)" />
+    <use href="#petalShape" transform="rotate(282.857 400 150)" />
+    <use href="#petalShape" transform="rotate(308.571 400 150)" />
+    <use href="#petalShape" transform="rotate(334.286 400 150)" />
+  </g>
+
+  <g>
+    <use href="#petalShape" />
+    <use href="#petalShape" transform="rotate(25.714 400 150)" />
+    <use href="#petalShape" transform="rotate(51.429 400 150)" />
+    <use href="#petalShape" transform="rotate(77.143 400 150)" />
+    <use href="#petalShape" transform="rotate(102.857 400 150)" />
+    <use href="#petalShape" transform="rotate(128.571 400 150)" />
+    <use href="#petalShape" transform="rotate(154.286 400 150)" />
+    <use href="#petalShape" transform="rotate(180 400 150)" />
+    <use href="#petalShape" transform="rotate(205.714 400 150)" />
+    <use href="#petalShape" transform="rotate(231.429 400 150)" />
+    <use href="#petalShape" transform="rotate(257.143 400 150)" />
+    <use href="#petalShape" transform="rotate(282.857 400 150)" />
+    <use href="#petalShape" transform="rotate(308.571 400 150)" />
+    <use href="#petalShape" transform="rotate(334.286 400 150)" />
+  </g>
+
+  <text
+    x="400"
+    y="272"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-style="italic"
+    font-size="27"
+    fill="url(#riddle)"
+  >I make faraway things arrive early,</text>
+  <text
+    x="400"
+    y="308"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-style="italic"
+    font-size="27"
+    fill="url(#riddle)"
+  >and ancient light look brand new.</text>
+
+  <!-- Nine empty letter slots; the middle one is cued as active. -->
+  <g fill="#3d4557">
+    <rect x="204" y="358" width="42" height="3" rx="1.5" />
+    <rect x="256" y="358" width="42" height="3" rx="1.5" />
+    <rect x="308" y="358" width="42" height="3" rx="1.5" />
+    <rect x="360" y="358" width="42" height="3" rx="1.5" />
+    <rect x="412" y="358" width="42" height="3" rx="1.5" fill="#7f86e8" />
+    <rect x="464" y="358" width="42" height="3" rx="1.5" />
+    <rect x="516" y="358" width="42" height="3" rx="1.5" />
+    <rect x="568" y="358" width="42" height="3" rx="1.5" />
+    <rect x="620" y="358" width="42" height="3" rx="1.5" />
+  </g>
+
+  <!-- The input tile, with a caret. -->
+  <rect
+    x="371"
+    y="386"
+    width="58"
+    height="46"
+    rx="12"
+    fill="#1b2432"
+    stroke="#59629b"
+    stroke-width="1.5"
+  />
+  <rect x="398" y="398" width="2" height="22" rx="1" fill="#8b92f0" opacity="0.9" />
+
+  <rect width="800" height="450" fill="url(#vignette)" />
+</svg>

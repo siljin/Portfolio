@@ -1,15 +1,18 @@
 import type {
-  ApplicationContent,
+  PrototypeContent,
+  ProductContent,
   PortfolioProjectContent,
   SiteContent,
 } from "./types";
 import {
-  validateApplication,
+  validatePrototype,
+  validateProduct,
   validateDemosJson,
   validatePortfolioProject,
   validateSite,
 } from "./validate";
-import applicationsJson from "@/content/applications/applications.json";
+import prototypesJson from "@/content/prototypes/prototypes.json";
+import productsJson from "@/content/products/products.json";
 import projectsJson from "@/content/projects/projects.json";
 import demosJson from "@/content/demos/demos.json";
 import siteJson from "@/content/site/site.json";
@@ -44,12 +47,20 @@ function withIntegrityChecks<T extends WithIdentity>(
   return items;
 }
 
-function validateApplicationsArray(data: unknown): ApplicationContent[] {
+function validatePrototypesArray(data: unknown): PrototypeContent[] {
   if (!Array.isArray(data)) {
-    throw new Error("content/applications/applications.json: root must be an array");
+    throw new Error("content/prototypes/prototypes.json: root must be an array");
   }
-  data.forEach((item, i) => validateApplication(item, i));
-  return data as ApplicationContent[];
+  data.forEach((item, i) => validatePrototype(item, i));
+  return data as PrototypeContent[];
+}
+
+function validateProductsArray(data: unknown): ProductContent[] {
+  if (!Array.isArray(data)) {
+    throw new Error("content/products/products.json: root must be an array");
+  }
+  data.forEach((item, i) => validateProduct(item, i));
+  return data as ProductContent[];
 }
 
 function validatePortfolioArray(data: unknown): PortfolioProjectContent[] {
@@ -60,9 +71,14 @@ function validatePortfolioArray(data: unknown): PortfolioProjectContent[] {
   return data as PortfolioProjectContent[];
 }
 
-export function loadApplications(): ApplicationContent[] {
-  const data = validateApplicationsArray(applicationsJson);
-  return withIntegrityChecks(data, "content/applications/applications.json");
+export function loadPrototypes(): PrototypeContent[] {
+  const data = validatePrototypesArray(prototypesJson);
+  return withIntegrityChecks(data, "content/prototypes/prototypes.json");
+}
+
+export function loadProducts(): ProductContent[] {
+  const data = validateProductsArray(productsJson);
+  return withIntegrityChecks(data, "content/products/products.json");
 }
 
 export function loadPortfolioProjects(): PortfolioProjectContent[] {
