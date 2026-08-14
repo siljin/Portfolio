@@ -1,71 +1,42 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getProjects } from "@/lib/applications";
-import { ArchiveSidebar } from "@/components/archive/ArchiveSidebar";
-import { ApplicationDetailPanel } from "@/components/applications/ApplicationDetailPanel";
-import { getCompactApplicationTitle } from "@/lib/content/display";
 import { getSite } from "@/lib/site";
 
-function ProjectsContent() {
-  const projects = getProjects();
-  const { applicationsArchive } = getSite();
+/**
+ * `/applications` is not a page of its own — every application lives at its
+ * own canonical `/applications/<slug>/`.
+ *
+ * This route exists only to forward the legacy `?id=` form used by older links
+ * and to send a bare `/applications` to the first application. The redirect
+ * runs on the client because the site is a static export, where no server
+ * redirect is available.
+ */
+function ApplicationsRedirect() {
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const projects = getProjects();
   const queryId = searchParams.get("id");
-  const [selectedId, setSelectedId] = useState(queryId || projects[0]?.id || "");
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
-  const [showArchModal, setShowArchModal] = useState(false);
-  const [showSeqModal, setShowSeqModal] = useState(false);
+
+  const target = queryId
+    ? projects.find((project) => project.id === queryId)
+    : projects[0];
+  const slug = target?.slug ?? projects[0]?.slug;
 
   useEffect(() => {
-    if (queryId) {
-      setSelectedId(queryId);
-    }
-  }, [queryId]);
+    if (slug) router.replace(`/applications/${slug}/`);
+  }, [router, slug]);
 
-  const selectedProject = projects.find((p) => p.id === selectedId);
-
-  return (
-    <div
-      className={`projects-layout-wrapper applications-layout ${
-        isSidebarExpanded ? "is-expanded" : ""
-      }`}
-    >
-      <ArchiveSidebar
-        title={applicationsArchive.sidebarTitle}
-        items={projects.map((project) => ({
-          id: project.id,
-          title: getCompactApplicationTitle(project.title),
-        }))}
-        selectedId={selectedId}
-        isExpanded={isSidebarExpanded}
-        listId="applications-sidebar-list"
-        onToggleExpand={() => setIsSidebarExpanded((prev) => !prev)}
-        onSelect={(id) => {
-          setSelectedId(id);
-          setShowArchModal(false);
-          setShowSeqModal(false);
-        }}
-      />
-      <ApplicationDetailPanel
-        project={selectedProject}
-        showArchModal={showArchModal}
-        showSeqModal={showSeqModal}
-        onOpenArchitecture={() => setShowArchModal(true)}
-        onOpenSequence={() => setShowSeqModal(true)}
-        onCloseArchitecture={() => setShowArchModal(false)}
-        onCloseSequence={() => setShowSeqModal(false)}
-      />
-    </div>
-  );
+  return null;
 }
 
 export default function Page() {
   const loading = getSite().system.loading;
   return (
     <Suspense fallback={<div>{loading}</div>}>
-      <ProjectsContent />
+      <ApplicationsRedirect />
     </Suspense>
   );
 }

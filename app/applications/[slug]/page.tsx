@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import {
   getProjectBySlug,
   getProjectSlugs,
+  getProjects,
 } from "@/lib/applications";
+import { ApplicationsArchiveShell } from "@/components/applications/ApplicationsArchiveShell";
 import { getSite } from "@/lib/site";
 import ClientDetail from "./ClientDetail";
 
@@ -22,6 +24,9 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title: `${project.title}${site.metadata.applicationDetailTitleSeparator}${site.identity.fullName}`,
     description: project.descriptor,
+    // This is the canonical address for an application. `/applications?id=…`
+    // redirects here rather than serving the same content at a second URL.
+    alternates: { canonical: `/applications/${project.slug}/` },
   };
 }
 
@@ -30,5 +35,9 @@ export default async function ProjectPage({ params }: PageProps) {
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
-  return <ClientDetail project={project} />;
+  return (
+    <ApplicationsArchiveShell projects={getProjects()} selectedId={project.id}>
+      <ClientDetail project={project} />
+    </ApplicationsArchiveShell>
+  );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Linkedin, Mail, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { getSite } from "@/lib/site";
 
@@ -8,6 +9,14 @@ export type ArchiveSidebarItem = {
   title: string;
 };
 
+/**
+ * Supply `hrefFor` to render entries as real links that navigate to their own
+ * URL, or `onSelect` to swap content in place.
+ *
+ * The applications archive uses `hrefFor` so the address bar always matches
+ * what is on screen and every entry is deep-linkable; the case study archive
+ * still selects in place.
+ */
 type ArchiveSidebarProps = {
   title: string;
   items: ArchiveSidebarItem[];
@@ -15,7 +24,8 @@ type ArchiveSidebarProps = {
   isExpanded: boolean;
   listId: string;
   onToggleExpand: () => void;
-  onSelect: (id: string) => void;
+  onSelect?: (id: string) => void;
+  hrefFor?: (id: string) => string;
 };
 
 export function ArchiveSidebar({
@@ -26,6 +36,7 @@ export function ArchiveSidebar({
   listId,
   onToggleExpand,
   onSelect,
+  hrefFor,
 }: ArchiveSidebarProps) {
   const { contact, labels, urls } = getSite();
   const ToggleIcon = isExpanded ? PanelLeftClose : PanelLeftOpen;
@@ -49,14 +60,11 @@ export function ArchiveSidebar({
       </div>
 
       <ul className="projects-list" id={listId}>
-        {items.map((item, index) => (
-          <li key={item.id} className="projects-item">
-            <button
-              type="button"
-              className={`projects-btn ${selectedId === item.id ? "active" : ""}`}
-              onClick={() => onSelect(item.id)}
-              aria-label={item.title}
-            >
+        {items.map((item, index) => {
+          const isActive = selectedId === item.id;
+          const className = `projects-btn ${isActive ? "active" : ""}`;
+          const inner = (
+            <>
               <span className="projects-btn-icon" aria-hidden="true">
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -66,9 +74,33 @@ export function ArchiveSidebar({
               <span className="projects-btn-copy">
                 <span className="projects-btn-title">{item.title}</span>
               </span>
-            </button>
-          </li>
-        ))}
+            </>
+          );
+
+          return (
+            <li key={item.id} className="projects-item">
+              {hrefFor ? (
+                <Link
+                  href={hrefFor(item.id)}
+                  className={className}
+                  aria-label={item.title}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {inner}
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  className={className}
+                  onClick={() => onSelect?.(item.id)}
+                  aria-label={item.title}
+                >
+                  {inner}
+                </button>
+              )}
+            </li>
+          );
+        })}
       </ul>
 
       <div className="archive-sidebar-footer">

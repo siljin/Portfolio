@@ -42,7 +42,7 @@ export function Applications() {
                 description={app.descriptor}
                 metric={app.metric}
                 metricLabel={app.metricLabel}
-                detailHref={`/applications?id=${app.id}`}
+                detailHref={`/applications/${app.slug}/`}
                 actionHref={app.tryItUrl}
                 actionLabel={getApplicationPrimaryCtaLabel(
                   app.detail?.blocks,
