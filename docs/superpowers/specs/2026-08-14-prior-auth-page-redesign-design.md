@@ -74,12 +74,18 @@ two feature panels next to each other. Instead of hard-coding either pairing,
 add a container block that holds child blocks:
 
 ```ts
-{ kind: "columns"; ratio?: "1-1" | "1-2" | "2-1"; items: DetailBlock[] }
+{ kind: "columns"; ratio?: "1-1" | "1-2" | "1-3" | "2-1"; items: DetailBlock[] }
 ```
 
 `renderBlock` recurses into `items`. `ratio` maps to a CSS grid template and is
 ignored below the mobile breakpoint, where children stack in source order.
 `ratio` defaults to `"1-1"`.
+
+The hero/diagram row uses `1-3`, not `1-2`. The mockup showed `1-2` gives the
+diagram only ~856px at a 1440px viewport while the rail needs ~917px, which
+forced a horizontal scrollbar on an ordinary desktop. `1-3` (implemented as
+`minmax(270px,1fr) minmax(0,3.1fr)`) matches the reference design's
+proportions and lets the rail fit exactly.
 
 This is the single highest-leverage addition: any two blocks, present or
 future, can be placed side by side from JSON.
@@ -129,6 +135,12 @@ render time (`1.`, `2.`, …). Numbers are never stored in JSON, so reordering
 cannot desync the labels. Nodes with `role: "gate"` are not numbered — they are
 decision points, rendered as a narrower marker in the spine. `role` defaults to
 `"stage"`.
+
+The branch connector is drawn **upward from the exit card**, not downward from
+the gate. The rail sits in an `overflow-x:auto` container, which also clips the
+Y axis, so a line drawn out of the rail's bottom edge is invisible. The mockup
+hit this. Each exit card instead renders a short dashed riser and arrowhead
+above itself, in the unclipped branch lane.
 
 `branches` connects a gate to an output by array index: `from` is an index into
 `nodes`, `to` an index into `outputs`. Each branch draws a labelled dashed line
@@ -239,13 +251,22 @@ where the diagram replaces it. It still drives the home and archive cards.
 
 ### 7. Responsive behavior
 
-Breakpoint: 900px.
+Two breakpoints, deliberately different:
 
-- `columns` stacks children in source order.
-- `workflowDiagram` collapses to a compact numbered list — one row per node
-  showing accent-tinted icon, number, title, and body. Inputs and output
-  become a leading and trailing row. The orchestration lane becomes a single
-  labelled row at the end.
+- **1180px** — `columns` with ratio `1-2` or `1-3` stacks. These ratios give
+  their narrow child too little room before this point.
+- **900px** — all other `columns` ratios stack; `statStrip` goes 4 → 2
+  columns (→ 1 at 520px); `featurePanel` items go to a single column.
+- **980px** — `workflowDiagram` switches from rail to list mode. This is
+  *higher* than the layout breakpoint on purpose: the rail needs ~856px of
+  inner width, so between 900px and ~964px it would horizontally scroll.
+  Giving the diagram its own breakpoint removes that dead zone. The mockup
+  confirmed rail mode fits exactly at 1440px and 1000px, and that 375px is
+  free of any horizontal overflow.
+
+In list mode the diagram becomes one row per node with an accent-tinted icon,
+number, title, and body; gates render as dashed rows; inputs become a chip
+row; and the three outcomes become a trailing group.
 - A **Fullscreen** control on the diagram card opens the full horizontal
   diagram in a modal. This requires `components/DiagramModal.tsx` to accept an
   optional `children` prop and render it instead of the image when supplied;
