@@ -23,6 +23,8 @@ In scope:
 - An icon registry that lets JSON name a `lucide-react` icon safely.
 - Accent color tokens in `app/globals.css`.
 - Rewriting `prior-auth-workflow`'s `detail.blocks` to the new composition.
+- Correcting inaccurate copy on the prior auth entry (see "Corrections to
+  existing copy") so the page matches the workflow it describes.
 - Adding a `pageHero` block to the other three applications so the detail
   route keeps rendering their titles.
 - Making the detail route (`app/applications/[slug]/ClientDetail.tsx`) render
@@ -34,7 +36,11 @@ Out of scope:
   block array, so new kinds must degrade cleanly there, but its layout is
   unchanged.
 - Migrating the other three applications' full compositions. They gain only a
-  `pageHero`.
+  `pageHero`. In particular, building a `workflowDiagram` for
+  `diabetes-risk` from `lib/workflows/Diabetes Diagnosis.yml` is deferred to a
+  follow-up, though the block is designed to accept it.
+- Generating diagram data from the Dify YAML at build time. Considered and
+  rejected in favor of hand-authored, curated content; see "Source of truth".
 - The portfolio case-study pages under `/projects`.
 
 ## Existing architecture (as found)
@@ -103,8 +109,11 @@ Added to the union in `lib/content/types.ts`:
     title: string;
     fullscreen?: boolean;
     inputs?: { label: string; items: { icon: string; label: string }[] };
-    nodes: { icon: string; title: string; body?: string; accent: AccentName }[];
-    output?: { label: string; icon: string; title: string; caption?: string };
+    nodes: { icon: string; title: string; body?: string; accent: AccentName;
+             role?: "stage" | "gate" }[];
+    outputs: { icon: string; title: string; caption?: string;
+               tone?: "success" | "warn" | "neutral" }[];
+    branches?: { from: number; to: number; label: string }[];
     orchestration?: { icon: string; title: string; body?: string };
     legend?: { style: "solid" | "dashed" | "person"; label: string }[] }
 ```
@@ -115,9 +124,26 @@ where `type AccentName = "mint" | "lilac" | "sky" | "peach" | "neutral"`.
 its icon-bearing sibling; the two are not merged because `metaStrip` has no
 icon field and adding a required one would break existing content.
 
-Diagram nodes are numbered from their array index at render time (`1.`, `2.`,
-…). Numbers are never stored in JSON, so reordering nodes cannot desync the
-labels. The node rail is a CSS grid that accepts any node count.
+Diagram stages are numbered from their position among `role: "stage"` nodes at
+render time (`1.`, `2.`, …). Numbers are never stored in JSON, so reordering
+cannot desync the labels. Nodes with `role: "gate"` are not numbered — they are
+decision points, rendered as a narrower marker in the spine. `role` defaults to
+`"stage"`.
+
+`branches` connects a gate to an output by array index: `from` is an index into
+`nodes`, `to` an index into `outputs`. Each branch draws a labelled dashed line
+from its gate down to that output, which is how the diagram shows early exits
+without needing a general-purpose graph layout engine. Validation rejects
+out-of-range indices and any `from` that does not point at a `role: "gate"`
+node, so a mis-numbered branch fails the build.
+
+`outputs` is an array rather than a single value because real workflows
+terminate in more than one place. `tone` drives the end-cap's accent:
+`success` for a completed decision, `warn` for an exit that needs human
+action, `neutral` otherwise.
+
+The node rail is a CSS grid accepting any stage count; the outputs column
+stacks vertically to the right of the spine, or below it on mobile.
 
 ### 3. Icon registry
 
@@ -251,40 +277,123 @@ panel is a narrow column. This is achieved with a container class on the
 panel body rather than a viewport media query, so the two contexts share one
 set of rules.
 
+## Source of truth
+
+`lib/workflows/Prior Authorization Workflow.yml` is the Dify export of the
+running workflow and is authoritative for what the page may claim.
+`lib/workflows/Diabetes Diagnosis.yml` is the equivalent export for the
+`diabetes-risk` application, which makes it a real second consumer for the
+`workflowDiagram` block rather than a hypothetical one.
+
+The diagram content is **hand-authored into `applications.json`, informed by
+the YAML** — not generated from it. Dify graphs contain plumbing nodes
+(routers, formatters, code steps) that would make a portfolio diagram noisy,
+so the display stages are a curated read of the real graph. The trade-off is
+that editing the Dify workflow will not update the page; this document is the
+record of where the numbers came from.
+
+### The real graph
+
+Fourteen nodes, two decision gates, three terminal outputs:
+
+```
+User Inputs (Age, ICD-10, CPT, Insurance Provider, Clinical Notes)
+  → Prior Auth Intake Structurer      (llm, gemini)
+  → Completeness Check                (code)
+  → Completeness Route                (if-else)
+      ├── incomplete → Missing Info Formatter (llm) → Output
+      └── complete   ↓
+  → AETNA CPT POLICY                  (knowledge-retrieval, 2 datasets)
+  → Clinical Evidence Agent           (agent, MCP SSE function calling)
+  → Decision-Making LLM               (llm — APPROVE / DENY / PEND + confidence 0–10)
+  → Confidence Route                  (if-else)
+      ├── confidence ≥ 8 → High confidence formatter → Final report
+      └── confidence < 8 → Low confidence formatter  → Pending approval report
+```
+
+### Corrections to existing copy
+
+The workflow **produces a decision report; it does not submit anything to a
+payer.** Three places currently claim otherwise or are inaccurate, and all are
+corrected in this change:
+
+- `applications.json:25` ("a submission agent that compiles and formats the
+  final request") — rewritten to describe the retrieval → evidence → decision
+  pipeline and the two gates.
+- `applications.json:8` and `:38` — "OpenAI" is wrong; every LLM node is
+  `langgenius/gemini/google`. Per decision, the vendor name is dropped rather
+  than swapped, so the tags become `Agentic Workflow · RAG · MCP · Dify` and
+  remain true if the model changes.
+- `applications.json:7` `descriptor` — "automates insurance prior
+  authorization requests" is softened to reflect decision support rather than
+  end-to-end submission.
+
+The `sections` prose (Context / What I built / Outcome) is rewritten in the
+same pass so the page does not contradict its own diagram.
+
 ## Content
 
-Drafted from the target design and the existing `sections` copy. Edit freely
-before implementation.
-
 **Hero** — badge `WORKFLOW`; title "Prior Authorization Workflow"; body
-"Agentic AI system that automates insurance prior authorization requests —
-reducing manual effort and improving approval turnaround."; CTA "Try Workflow"
-→ `https://udify.app/workflow/Nd1XsLQUc9O6QoVp`.
+"Agentic workflow that turns a free-text prior authorization request into a
+policy-grounded approve, deny, or pend decision — with low-confidence cases
+routed to a clinician."; CTA "Try Workflow" →
+`https://udify.app/workflow/Nd1XsLQUc9O6QoVp`.
 
 **Diagram** — title "Workflow Architecture".
 
-- Inputs: Patient Data, Clinical Notes, Insurance Info, Documents.
-- Nodes:
-  1. Extraction Agent — "Extracts key patient and clinical data" — mint
-  2. Mapping Agent — "Maps data to payer prior auth requirements" — lilac
-  3. Evidence Agent — "Finds and validates clinical evidence" — sky
-  4. Submission Agent — "Assembles and submits prior authorization" — peach
-- Output: "Prior Auth Submitted", caption "Status & Response".
-- Orchestration: "Routing & Orchestration" — "Manages flow, retries, and
-  handoffs."
-- Legend: Automated flow (solid), Routing (dashed), Human in the loop
-  (person).
+Inputs (the real `start` node variables): Age, ICD-10 Code, CPT Code,
+Insurance Provider, Clinical Notes.
 
-**Stat strip** — 15–20 min / End-to-end; 4 Agents / Specialized; Higher /
-Approvals; Exceptions / To clinician.
+Nodes:
 
-**Key Components** — Dify Workflow Engine (Orchestration platform); LLM with
-RAG, Payer Knowledge (Requirements matching); MCP Tools & APIs (External
-system integration); Human Review, Exceptions (Clinician in the loop).
+| # | title | body | accent | role |
+|---|---|---|---|---|
+| 1 | Intake Structurer | Parses the free-text request into structured fields and flags what is missing | mint | stage |
+| — | Completeness Gate | Incomplete requests exit with a resubmission notice | neutral | gate |
+| 2 | Policy Retrieval | Searches payer CPT policy documents for the governing criteria | lilac | stage |
+| 3 | Clinical Evidence Agent | Calls MCP tools to gather medical-necessity and step-therapy evidence | sky | stage |
+| 4 | Decision Engine | Returns approve, deny, or pend with a 0–10 confidence score | peach | stage |
+| — | Confidence Gate | Scores below 8 route to a clinician instead of auto-issuing | neutral | gate |
 
-**Security & Safety** — Human review for low confidence responses; Source
-citations for clinical evidence; Audit logging & traceability built-in;
-Designed for clinical & administrative use.
+Outputs:
+
+| # | title | caption | tone |
+|---|---|---|---|
+| 0 | Incomplete Request | Missing fields + resubmission steps | warn |
+| 1 | Decision Report | Criteria table, evidence citations, action items | success |
+| 2 | Pending Review | Clinician checklist + resubmission pathway | warn |
+
+Branches: gate `Completeness Gate` → output 0, label "missing fields"; gate
+`Confidence Gate` → output 2, label "confidence < 8". The main spine
+terminates at output 1.
+
+Legend: Automated flow (solid), Conditional route (dashed), Human in the loop
+(person).
+
+**Stat strip** — 5 Inputs / Structured intake; 4 Stages / Retrieval → decision;
+2 Gates / Completeness & confidence; 3 Outcomes / Approve, deny, pend.
+
+These replace the previous strip. The old cells ("15–20 min", "Higher
+approvals") assert outcomes the workflow export cannot substantiate; the new
+cells describe the architecture, which it can. If you have measured timing or
+approval data, say so and the original cells go back.
+
+**Key Components** — Dify Workflow Engine (Orchestration and routing); Payer
+Policy Retrieval (RAG over CPT policy datasets); MCP Tool Calling (Clinical
+evidence gathering); Confidence Gating (Clinician in the loop).
+
+**Security & Safety** — grounded in the export, per decision:
+
+- Confidence-gated human review — decisions scoring below 8 are never
+  auto-issued (`Confidence Route`).
+- Source citations for clinical evidence — `retriever_resource` is enabled and
+  the report formatter emits an evidence list.
+- Completeness gate — underspecified requests are rejected before any clinical
+  reasoning runs (`Completeness Check` / `Completeness Route`).
+- Decision support, not submission — the workflow recommends; a human submits.
+
+"Audit logging & traceability" from the target design is **dropped**: nothing
+in the workflow implements it.
 
 ## Files
 
@@ -296,9 +405,9 @@ New:
 - `components/detail/blocks/StatStripBlock.tsx`
 - `components/detail/blocks/FeaturePanelBlock.tsx`
 - `components/detail/blocks/WorkflowDiagramBlock.tsx`
-- `components/detail/blocks/workflow/` — `WorkflowNode.tsx`,
-  `WorkflowEndCap.tsx` (shared by inputs and output), `RoutingLane.tsx`,
-  `WorkflowLegend.tsx`
+- `components/detail/blocks/workflow/` — `WorkflowNode.tsx` (stage and gate
+  presentations), `WorkflowEndCap.tsx` (shared by inputs and outputs),
+  `BranchLine.tsx`, `RoutingLane.tsx`, `WorkflowLegend.tsx`
 
 Modified:
 
@@ -318,8 +427,10 @@ Modified:
 
 ## Verification
 
-No test runner exists in this repository, so verification is:
+No test runner exists in this repository, and `node_modules` is currently
+empty, so verification is:
 
+0. `npm install`.
 1. `npm run build` — type-checks the exhaustive switch in `renderBlock.tsx`
    (a missing case fails the `never` assignment) and executes the content
    validators at import, so malformed JSON, unknown icon names, and unknown
@@ -341,6 +452,14 @@ No test runner exists in this repository, so verification is:
 - **Removing the hand-written hero from `ClientDetail`** affects all four
   applications at once. Mitigated by adding `pageHero` to every application in
   the same change; verification step 4 covers it.
+- **Diagram content can drift from the workflow.** The diagram is
+  hand-authored, so editing the Dify workflow will not update the page. The
+  "Source of truth" section records the derivation, and
+  `lib/workflows/*.yml` should be re-read whenever the workflow changes.
+- **Removed outcome metrics.** The previous stat strip claimed a 2–3 hour to
+  15–20 minute reduction and improved first-pass approval rates. Nothing in
+  the export substantiates either, so they are replaced with architectural
+  facts. If measurement data exists, the original cells can be restored.
 - **`statStrip` alongside `metaStrip`** leaves two similar kinds in the union.
   Accepted deliberately: merging them would require a breaking edit to
   existing content. If all applications eventually migrate, `metaStrip` can be
