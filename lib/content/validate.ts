@@ -1,7 +1,7 @@
 import { accentNames, isAccentName, isDetailIconName } from "@/components/detail/iconRegistry";
 import type {
-  ApplicationContent,
-  ApplicationSection,
+  PrototypeContent,
+  PrototypeSection,
   ColumnsRatio,
   DemoContent,
   DetailBlock,
@@ -278,12 +278,12 @@ function validateDetailContent(d: unknown, ctx: string): asserts d is DetailCont
   o.blocks.forEach((b, i) => validateDetailBlock(b, `${ctx}.blocks[${i}]`));
 }
 
-function validateApplicationSection(
+function validatePrototypeSection(
   s: unknown,
   index: number,
   appIndex: number
-): asserts s is ApplicationSection {
-  const ctx = `applications[${appIndex}].sections[${index}]`;
+): asserts s is PrototypeSection {
+  const ctx = `prototypes[${appIndex}].sections[${index}]`;
   if (typeof s !== "object" || s === null) throw new Error(`${ctx}: expected object`);
   const o = s as Record<string, unknown>;
   assertNonEmptyString(o.title, "title", ctx);
@@ -299,8 +299,8 @@ function validateApplicationSection(
   }
 }
 
-export function validateApplication(item: unknown, index: number): asserts item is ApplicationContent {
-  const ctx = `applications[${index}]`;
+export function validatePrototype(item: unknown, index: number): asserts item is PrototypeContent {
+  const ctx = `prototypes[${index}]`;
   if (typeof item !== "object" || item === null) throw new Error(`${ctx}: expected object`);
   const o = item as Record<string, unknown>;
   assertNonEmptyString(o.slug, "slug", ctx);
@@ -320,7 +320,7 @@ export function validateApplication(item: unknown, index: number): asserts item 
   if (!Array.isArray(o.sections) || o.sections.length === 0) {
     throw new Error(`${ctx}: sections must be a non-empty array`);
   }
-  o.sections.forEach((sec, i) => validateApplicationSection(sec, i, index));
+  o.sections.forEach((sec, i) => validatePrototypeSection(sec, i, index));
   if (o.architectureDiagram !== undefined) {
     assertNonEmptyString(o.architectureDiagram, "architectureDiagram", ctx);
     assertImagePath(o.architectureDiagram as string, "architectureDiagram", ctx, false);
@@ -419,9 +419,9 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     "hero",
     "home",
     "archive",
-    "applicationsArchive",
+    "prototypesArchive",
     "projectsArchive",
-    "applicationsEmptyState",
+    "prototypesEmptyState",
     "labels",
     "contact",
     "footer",
@@ -446,8 +446,8 @@ export function validateSite(data: unknown): asserts data is SiteContent {
 
   const meta = root.metadata as Record<string, unknown>;
   assertNonEmptyString(
-    meta.applicationDetailTitleSeparator,
-    "metadata.applicationDetailTitleSeparator",
+    meta.prototypeDetailTitleSeparator,
+    "metadata.prototypeDetailTitleSeparator",
     ctx
   );
   assertNonEmptyString(meta.fallbackProjectListTitle, "metadata.fallbackProjectListTitle", ctx);
@@ -499,8 +499,8 @@ export function validateSite(data: unknown): asserts data is SiteContent {
 
   const home = root.home as Record<string, unknown>;
   for (const sectionKey of [
-    "applicationsSection",
-    "applicationsViewAll",
+    "prototypesSection",
+    "prototypesViewAll",
     "projectsSection",
   ]) {
     if (!(sectionKey in home)) throw new Error(`${ctx}.home.${sectionKey} missing`);
@@ -521,7 +521,7 @@ export function validateSite(data: unknown): asserts data is SiteContent {
   const arch = root.archive as Record<string, unknown>;
   assertNonEmptyString(arch.backToPortfolio, "archive.backToPortfolio", ctx);
 
-  for (const k of ["applicationsArchive", "projectsArchive"] as const) {
+  for (const k of ["prototypesArchive", "projectsArchive"] as const) {
     const a = root[k] as Record<string, unknown>;
     assertNonEmptyString(a.sidebarTitle, `${k}.sidebarTitle`, ctx);
     assertNonEmptyString(a.sidebarSubtitle, `${k}.sidebarSubtitle`, ctx);
@@ -531,14 +531,14 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     }
   }
 
-  const aes = root.applicationsEmptyState as Record<string, unknown>;
-  assertNonEmptyString(aes.eyebrow, "applicationsEmptyState.eyebrow", ctx);
-  assertNonEmptyString(aes.title, "applicationsEmptyState.title", ctx);
+  const aes = root.prototypesEmptyState as Record<string, unknown>;
+  assertNonEmptyString(aes.eyebrow, "prototypesEmptyState.eyebrow", ctx);
+  assertNonEmptyString(aes.title, "prototypesEmptyState.title", ctx);
 
   const labels = root.labels as Record<string, unknown>;
   const labelKeys: (keyof SiteContent["labels"])[] = [
     "tryIt",
-    "tryItApplications",
+    "tryItPrototypes",
     "viewArchitecture",
     "sequenceDiagram",
     "architectureModalTitle",
@@ -551,7 +551,7 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     "collapseSidebar",
     "expandSidebar",
     "projectImagePlaceholder",
-    "backToApplications",
+    "backToPrototypes",
     "backToProjects",
     "projectsCarouselPrevious",
     "projectsCarouselNext",

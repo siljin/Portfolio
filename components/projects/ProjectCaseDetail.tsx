@@ -60,13 +60,13 @@ export function ProjectCaseDetail({ project }: { project: Project }) {
   const hasPrimaryVisual = Boolean(primaryPreview || project.imageSrc);
 
   return (
-    <article className="application-detail project-detail">
+    <article className="prototype-detail project-detail">
       <section
-        className={`application-detail-hero project-detail-hero${
-          hasPrimaryVisual ? "" : " application-detail-hero--no-visual"
+        className={`prototype-detail-hero project-detail-hero${
+          hasPrimaryVisual ? "" : " prototype-detail-hero--no-visual"
         }`}
       >
-        <div className="application-detail-hero__copy project-detail-hero__copy">
+        <div className="prototype-detail-hero__copy project-detail-hero__copy">
           {category ? (
             <div className="detail-category-badge project-detail-category-badge">
               <span className="detail-category-badge__label">Category</span>
@@ -74,12 +74,12 @@ export function ProjectCaseDetail({ project }: { project: Project }) {
             </div>
           ) : null}
           {eyebrow ? (
-            <div className="projects-content-eyebrow application-detail-eyebrow">{eyebrow}</div>
+            <div className="projects-content-eyebrow prototype-detail-eyebrow">{eyebrow}</div>
           ) : null}
-          <h2 className="projects-content-title application-detail-title">{project.title}</h2>
-          <p className="application-detail-summary">{project.desc}</p>
+          <h2 className="projects-content-title prototype-detail-title">{project.title}</h2>
+          <p className="prototype-detail-summary">{project.desc}</p>
 
-          <div className="application-detail-actions">
+          <div className="prototype-detail-actions">
             {showDeckCta ? (
               <IconAction href={project.deckUrl} icon={ExternalLink}>
                 {labels.viewDeck}
@@ -88,7 +88,7 @@ export function ProjectCaseDetail({ project }: { project: Project }) {
           </div>
 
           {project.tags.length > 0 ? (
-            <div className="application-detail-tags">
+            <div className="prototype-detail-tags">
               {project.tags.map((tag) => (
                 <span key={tag} className="detail-tag">
                   {tag}
@@ -99,7 +99,7 @@ export function ProjectCaseDetail({ project }: { project: Project }) {
         </div>
 
         {hasPrimaryVisual ? (
-          <div className="application-detail-visual project-detail-visual">
+          <div className="prototype-detail-visual project-detail-visual">
             {primaryPreview ? (
               <PreviewPaneBlock
                 image={primaryPreview.image}
@@ -115,19 +115,19 @@ export function ProjectCaseDetail({ project }: { project: Project }) {
       </section>
 
       {metaStrip ? (
-        <div className="application-detail-strip project-detail-strip">
+        <div className="prototype-detail-strip project-detail-strip">
           <MetaStripBlock cells={metaStrip.cells} />
         </div>
       ) : null}
 
       {project.detail ? (
         bodyBlocks.length > 0 ? (
-          <div className="application-detail-body project-detail-body detail-blocks">
+          <div className="prototype-detail-body project-detail-body detail-blocks">
             {renderBlocks(bodyBlocks)}
           </div>
         ) : null
       ) : (
-        <div className="application-detail-body project-detail-body">
+        <div className="prototype-detail-body project-detail-body">
           <div className="projects-content-metrics">
             <div className="projects-metric-block">
               <div className="projects-metric-value">{project.metric1}</div>

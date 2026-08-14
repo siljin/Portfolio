@@ -1,21 +1,21 @@
 "use client";
 
 import { List, Network, Play } from "lucide-react";
-import type { Project } from "@/lib/applications";
+import type { Project } from "@/lib/prototypes";
 import { DiagramModal } from "@/components/DiagramModal";
 import { renderBlocks } from "@/components/detail/renderBlock";
 import { MetaStripBlock } from "@/components/detail/blocks/MetaStripBlock";
 import { PreviewPaneBlock } from "@/components/detail/blocks/PreviewPaneBlock";
 import { IconAction } from "@/components/ui/IconAction";
 import {
-  getApplicationPrimaryCtaLabel,
+  getPrototypePrimaryCtaLabel,
   getPublicEyebrow,
   hasUsableHref,
 } from "@/lib/content/display";
 import { getSite } from "@/lib/site";
 import type { DetailBlock } from "@/lib/content/types";
 
-type ApplicationDetailPanelProps = {
+type PrototypeDetailPanelProps = {
   project?: Project;
   showArchModal: boolean;
   showSeqModal: boolean;
@@ -76,7 +76,7 @@ function splitTags(tag: string) {
     .filter(Boolean);
 }
 
-export function ApplicationDetailPanel({
+export function PrototypeDetailPanel({
   project,
   showArchModal,
   showSeqModal,
@@ -84,15 +84,15 @@ export function ApplicationDetailPanel({
   onOpenSequence,
   onCloseArchitecture,
   onCloseSequence,
-}: ApplicationDetailPanelProps) {
-  const { labels, applicationsEmptyState } = getSite();
+}: PrototypeDetailPanelProps) {
+  const { labels, prototypesEmptyState } = getSite();
 
   if (!project) {
     return (
       <main className="projects-content">
         <div className="projects-content-header">
-          <div className="projects-content-eyebrow">{applicationsEmptyState.eyebrow}</div>
-          <h2 className="projects-content-title">{applicationsEmptyState.title}</h2>
+          <div className="projects-content-eyebrow">{prototypesEmptyState.eyebrow}</div>
+          <h2 className="projects-content-title">{prototypesEmptyState.title}</h2>
         </div>
       </main>
     );
@@ -106,21 +106,21 @@ export function ApplicationDetailPanel({
   const category = project.category?.trim();
   const eyebrow = getPublicEyebrow(project.eyebrow);
   const showPrimaryCta = hasUsableHref(project.tryItUrl);
-  const primaryCtaLabel = getApplicationPrimaryCtaLabel(
+  const primaryCtaLabel = getPrototypePrimaryCtaLabel(
     detailBlocks,
-    labels.tryItApplications,
+    labels.tryItPrototypes,
   );
   const hasPrimaryVisual = Boolean(primaryPreview || project.coverSrc);
 
   return (
-    <main className="projects-content application-detail-content">
-      <article className="application-detail">
+    <main className="projects-content prototype-detail-content">
+      <article className="prototype-detail">
         <section
-          className={`application-detail-hero${
-            hasPrimaryVisual ? "" : " application-detail-hero--no-visual"
+          className={`prototype-detail-hero${
+            hasPrimaryVisual ? "" : " prototype-detail-hero--no-visual"
           }`}
         >
-          <div className="application-detail-hero__copy">
+          <div className="prototype-detail-hero__copy">
             {category ? (
               <div className="detail-category-badge">
                 <span className="detail-category-badge__label">Category</span>
@@ -128,16 +128,16 @@ export function ApplicationDetailPanel({
               </div>
             ) : null}
             {eyebrow ? (
-              <div className="projects-content-eyebrow application-detail-eyebrow">
+              <div className="projects-content-eyebrow prototype-detail-eyebrow">
                 {eyebrow}
               </div>
             ) : null}
-            <h2 className="projects-content-title application-detail-title">
+            <h2 className="projects-content-title prototype-detail-title">
               {project.title}
             </h2>
-            <p className="application-detail-summary">{project.descriptor}</p>
+            <p className="prototype-detail-summary">{project.descriptor}</p>
 
-            <div className="application-detail-actions">
+            <div className="prototype-detail-actions">
               {showPrimaryCta ? (
                 <IconAction
                   href={project.tryItUrl}
@@ -167,7 +167,7 @@ export function ApplicationDetailPanel({
             </div>
 
             {tags.length > 0 ? (
-              <div className="application-detail-tags">
+              <div className="prototype-detail-tags">
                 {tags.map((tag) => (
                   <span key={tag} className="detail-tag">
                     {tag}
@@ -178,7 +178,7 @@ export function ApplicationDetailPanel({
           </div>
 
           {hasPrimaryVisual ? (
-            <div className="application-detail-visual">
+            <div className="prototype-detail-visual">
               {primaryPreview ? (
                 <PreviewPaneBlock
                   image={primaryPreview.image}
@@ -198,19 +198,19 @@ export function ApplicationDetailPanel({
         </section>
 
         {metaStrip ? (
-          <div className="application-detail-strip">
+          <div className="prototype-detail-strip">
             <MetaStripBlock cells={metaStrip.cells} />
           </div>
         ) : null}
 
         {project.detail ? (
           bodyBlocks.length > 0 ? (
-            <div className="application-detail-body detail-blocks">
+            <div className="prototype-detail-body detail-blocks">
               {renderBlocks(bodyBlocks)}
             </div>
           ) : null
         ) : (
-          <div className="application-detail-body">
+          <div className="prototype-detail-body">
             {project.highlight && (
               <div className="projects-content-highlight">
                 <div className="projects-highlight-label">{labels.highlight}</div>

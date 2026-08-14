@@ -31,14 +31,14 @@ export function normalizeCtaLabel(label: string) {
     .replace(/^View the deck$/i, "View Deck");
 }
 
-export function getApplicationPrimaryCtaLabel(
+export function getPrototypePrimaryCtaLabel(
   blocks: DetailBlock[] | undefined,
   fallback: string,
 ) {
   return normalizeCtaLabel(getFirstDetailCta(blocks)?.label ?? fallback);
 }
 
-export function getCompactApplicationTitle(title: string) {
+export function getCompactPrototypeTitle(title: string) {
   return title
     .replace(/^AI\s+/i, "")
     .replace(/\s+Risk Assessment$/i, "")

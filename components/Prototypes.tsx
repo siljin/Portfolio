@@ -1,19 +1,19 @@
-import { getProjects } from "@/lib/applications";
+import { getProjects } from "@/lib/prototypes";
 import { getSite } from "@/lib/site";
 import { HomeCarousel } from "@/components/HomeCarousel";
 import { HomeCard } from "@/components/HomeCard";
 import { Reveal } from "@/components/Reveal";
-import { getApplicationPrimaryCtaLabel } from "@/lib/content/display";
+import { getPrototypePrimaryCtaLabel } from "@/lib/content/display";
 
-export function Applications() {
-  const allApplications = getProjects();
+export function Prototypes() {
+  const allPrototypes = getProjects();
   const { home, labels } = getSite();
-  const s = home.applicationsSection;
+  const s = home.prototypesSection;
 
   return (
-    <div className="applications-band">
+    <div className="prototypes-band">
       <div className="container">
-        <section className="block" id="applications">
+        <section className="block" id="prototypes">
           <Reveal className="section-head">
             <div className="eyebrow">{s.eyebrow}</div>
             <h2 className="section-title">
@@ -24,11 +24,11 @@ export function Applications() {
           </Reveal>
 
           <HomeCarousel
-            itemCount={allApplications.length}
+            itemCount={allPrototypes.length}
             carouselPrevious={labels.projectsCarouselPrevious}
             carouselNext={labels.projectsCarouselNext}
           >
-            {allApplications.map((app) => (
+            {allPrototypes.map((app) => (
               <HomeCard
                 key={app.id}
                 imageSrc={app.coverSrc}
@@ -42,11 +42,11 @@ export function Applications() {
                 description={app.descriptor}
                 metric={app.metric}
                 metricLabel={app.metricLabel}
-                detailHref={`/applications/${app.slug}/`}
+                detailHref={`/prototypes/${app.slug}/`}
                 actionHref={app.tryItUrl}
-                actionLabel={getApplicationPrimaryCtaLabel(
+                actionLabel={getPrototypePrimaryCtaLabel(
                   app.detail?.blocks,
-                  labels.tryItApplications,
+                  labels.tryItPrototypes,
                 )}
               />
             ))}

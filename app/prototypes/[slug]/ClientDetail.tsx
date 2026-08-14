@@ -6,16 +6,16 @@ import { List, Network } from "lucide-react";
 import { DiagramModal } from "@/components/DiagramModal";
 import { IconAction } from "@/components/ui/IconAction";
 import { renderBlocks } from "@/components/detail/renderBlock";
-import type { Project } from "@/lib/applications";
+import type { Project } from "@/lib/prototypes";
 import { getSite } from "@/lib/site";
 
 /**
- * Application detail page.
+ * Prototype detail page.
  *
  * The page's content comes from `detail.blocks` in
- * `content/applications/applications.json` — including its title, which the
- * `pageHero` block owns. Nothing here is written per application, so adding a
- * section to any application page is a JSON edit.
+ * `content/prototypes/prototypes.json` — including its title, which the
+ * `pageHero` block owns. Nothing here is written per prototype, so adding a
+ * section to any prototype page is a JSON edit.
  *
  * The narrative `sections` render below the blocks, and the architecture /
  * sequence diagram buttons stay because they are driven by top-level fields
@@ -31,14 +31,14 @@ export default function ClientDetail({ project }: { project: Project }) {
 
   return (
     <article className="projectPage projectPage--blocks">
-      <Link href="/#applications" className="projectPageBack">
-        {labels.backToApplications}
+      <Link href="/#prototypes" className="projectPageBack">
+        {labels.backToPrototypes}
       </Link>
 
       {blocks.length > 0 ? (
         <div className="detail-blocks">{renderBlocks(blocks)}</div>
       ) : (
-        // An application with no block composition still needs a title.
+        // An prototype with no block composition still needs a title.
         <>
           <span className="projectPageTag mono">{project.tag}</span>
           <h1>{project.title}</h1>

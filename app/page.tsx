@@ -2,7 +2,7 @@ import { Projects } from "@/components/Projects";
 import { ContactSection } from "@/components/ContactSection";
 import { Hero } from "@/components/Hero";
 import { PeekHint } from "@/components/PeekHint";
-import { Applications } from "@/components/Applications";
+import { Prototypes } from "@/components/Prototypes";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
       <div className="ambient"></div>
       <Hero />
       <PeekHint />
-      <Applications />
+      <Prototypes />
       <Projects />
       <ContactSection />
     </main>

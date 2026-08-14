@@ -6,7 +6,7 @@ import { ArchiveSidebar } from "@/components/archive/ArchiveSidebar";
 import type { ArchiveSidebarItem } from "@/components/archive/ArchiveSidebar";
 
 /**
- * Sidebar + content frame shared by the application and case study archives.
+ * Sidebar + content frame shared by the prototype and case study archives.
  *
  * The sidebar renders real links, so every entry is deep-linkable and the
  * address bar always matches what is on screen. Only the collapse state is
@@ -31,7 +31,7 @@ export function ArchiveShell({
 
   return (
     <div
-      className={`projects-layout-wrapper applications-layout ${
+      className={`projects-layout-wrapper prototypes-layout ${
         isSidebarExpanded ? "is-expanded" : ""
       }`}
     >

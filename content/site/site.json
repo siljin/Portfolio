@@ -13,13 +13,13 @@
     "defaultDescription": "Portfolio: projects, AI prototypes, and how I ship outcomes for users and teams."
   },
   "metadata": {
-    "applicationDetailTitleSeparator": " — ",
+    "prototypeDetailTitleSeparator": " — ",
     "fallbackProjectListTitle": "Project"
   },
   "nav": {
     "links": [
       { "label": "Home", "href": "/" },
-      { "label": "Applications", "href": "/applications" },
+      { "label": "Prototypes", "href": "/prototypes" },
       { "label": "Projects", "href": "/projects" },
       { "label": "Contact", "href": "#contact" }
     ],
@@ -54,15 +54,15 @@
     ]
   },
   "home": {
-    "applicationsSection": {
+    "prototypesSection": {
       "eyebrow": "Builder",
       "titleBeforeEm": "AI ",
-      "titleEmphasis": "applications.",
+      "titleEmphasis": "prototypes.",
       "description": "Things I built - because the best way to understand product is to ship one."
     },
-    "applicationsViewAll": {
-      "ariaLabel": "View all applications",
-      "title": "View all applications",
+    "prototypesViewAll": {
+      "ariaLabel": "View all prototypes",
+      "title": "View all prototypes",
       "description": "Everything I've built on the side — prototypes, experiments, tools.",
       "buttonLabel": "View all"
     },
@@ -76,8 +76,8 @@
   "archive": {
     "backToPortfolio": "Back to portfolio"
   },
-  "applicationsArchive": {
-    "sidebarTitle": "Applications",
+  "prototypesArchive": {
+    "sidebarTitle": "Prototypes",
     "sidebarSubtitle": "Select to explore"
   },
   "projectsArchive": {
@@ -86,13 +86,13 @@
     "emptyEyebrow": "Select a case study",
     "emptyTitle": "Choose from the list"
   },
-  "applicationsEmptyState": {
+  "prototypesEmptyState": {
     "eyebrow": "Select a project",
     "title": "Choose from the list"
   },
   "labels": {
     "tryIt": "Try It",
-    "tryItApplications": "Try it",
+    "tryItPrototypes": "Try it",
     "viewArchitecture": "View Architecture",
     "sequenceDiagram": "Sequence Diagram",
     "architectureModalTitle": "Architecture Diagram",
@@ -105,7 +105,7 @@
     "collapseSidebar": "Collapse sidebar",
     "expandSidebar": "Expand sidebar",
     "projectImagePlaceholder": "Screenshot / Mockup",
-    "backToApplications": "← Back to applications",
+    "backToPrototypes": "← Back to prototypes",
     "backToProjects": "← Back to projects",
     "projectsCarouselPrevious": "Scroll projects left",
     "projectsCarouselNext": "Scroll projects right"

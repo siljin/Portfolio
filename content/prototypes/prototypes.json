@@ -111,9 +111,9 @@
     "highlight": "Grew club to 50+ engaged MBA students across 20+ events per year.",
     "metric": "—",
     "metricLabel": "—",
-    "coverSrc": "/images/applications/mbatechclub/logo.png",
+    "coverSrc": "/images/prototypes/mbatechclub/logo.png",
     "tryItUrl": "https://mbatechclub.netlify.app",
-    "iconPath": "/images/applications/mccombs_mba_tech_club_logo.jpeg",
+    "iconPath": "/images/prototypes/mccombs_mba_tech_club_logo.jpeg",
     "sections": [
       {
         "title": "Online Presence & Website Development",
@@ -150,7 +150,7 @@
         },
         { "kind": "lede", "text": "Designed and shipped the club's first official site — a single home for recruiting, executive operations, and the four-pillar curriculum (Product, GTM, Tech Ops, Business Development)." },
         { "kind": "tagRow", "tags": ["Web Development", "Claude Code", "Netlify", "AMS"] },
-        { "kind": "previewPane", "image": "/images/applications/mbatechclub/tech-club.png", "chrome": "none", "caption": "A snapshot of the club — programming, leadership, and the four-pillar curriculum at a glance." },
+        { "kind": "previewPane", "image": "/images/prototypes/mbatechclub/tech-club.png", "chrome": "none", "caption": "A snapshot of the club — programming, leadership, and the four-pillar curriculum at a glance." },
         { "kind": "heading", "text": "Role & impact" },
         { "kind": "metaStrip", "cells": [
           { "label": "Role",    "value": "Chief of Staff" },
@@ -172,10 +172,10 @@
     "category": "AI Agent · Customer Support",
     "metric": "—",
     "metricLabel": "—",
-    "coverSrc": "/images/applications/ai-ticket-triage-card.svg",
+    "coverSrc": "/images/prototypes/ai-ticket-triage-card.svg",
     "tryItUrl": "#",
-    "architectureDiagram": "/images/applications/ai-ticket-triage-flow.png",
-    "sequenceDiagram": "/images/applications/ai-ticket-triage-sequence.png",
+    "architectureDiagram": "/images/prototypes/ai-ticket-triage-flow.png",
+    "sequenceDiagram": "/images/prototypes/ai-ticket-triage-sequence.png",
     "iconPath": "M3 12h4l2-5 3 10 2-6 2 4h4",
     "sections": [
       {
@@ -201,7 +201,7 @@
         "paragraphs": [
           "The system follows a 4-step processing pipeline: (1) Zendesk Webhook—incoming tickets arrive via HTTP POST; (2) LLM AI Classifier—the system classifies the ticket, scores confidence, and flags escalation risks; (3) Routing Engine—assigns severity tier and target team based on confidence thresholds; (4) Zendesk Writeback—updates the ticket metadata and appends a private internal note with reasoning and optional draft response."
         ],
-        "diagramSrc": "/images/applications/ai-ticket-triage-flow.png"
+        "diagramSrc": "/images/prototypes/ai-ticket-triage-flow.png"
       },
       {
         "title": "Business Impact",
@@ -219,7 +219,7 @@
         },
         { "kind": "lede", "text": "An LLM-powered triage system that classifies, scores, and routes incoming Zendesk tickets in under 2 seconds — replacing 5–10 minutes of manual decision-making with a 3-tier confidence-based router and an auto-drafted response for the agent to review." },
         { "kind": "tagRow", "tags": ["Issue Triage", "Zendesk", "Webhook", "Claude", "Express"] },
-        { "kind": "previewPane", "image": "/images/applications/ai-ticket-triage-card.svg", "chrome": "none", "caption": "AI-assisted ticket intake, classification, and routing." },
+        { "kind": "previewPane", "image": "/images/prototypes/ai-ticket-triage-card.svg", "chrome": "none", "caption": "AI-assisted ticket intake, classification, and routing." },
         { "kind": "heading", "text": "How it works" },
         { "kind": "metaStrip", "cells": [
           { "label": "Pipeline",   "value": "Webhook → LLM → Router → Writeback" },
@@ -228,7 +228,7 @@
           { "label": "Latency",    "value": "<2s / ticket (240× faster)" }
         ]},
         { "kind": "heading", "text": "Sequence detail" },
-        { "kind": "previewPane", "image": "/images/applications/ai-ticket-triage-sequence.png", "caption": "Confidence tiers + escalation overrides (P1 / data loss / security / legal always route to senior team)." }
+        { "kind": "previewPane", "image": "/images/prototypes/ai-ticket-triage-sequence.png", "caption": "Confidence tiers + escalation overrides (P1 / data loss / security / legal always route to senior team)." }
       ]
     }
   },

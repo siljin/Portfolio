@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps) {
   const site = getSite();
   if (!project) return { title: site.metadata.fallbackProjectListTitle };
   return {
-    title: `${project.title}${site.metadata.applicationDetailTitleSeparator}${site.identity.fullName}`,
+    title: `${project.title}${site.metadata.prototypeDetailTitleSeparator}${site.identity.fullName}`,
     description: project.desc,
     // Canonical address for a case study. `/projects?id=…` redirects here
     // rather than serving the same content at a second URL.
@@ -45,7 +45,7 @@ export default async function ProjectCasePage({ params }: PageProps) {
       selectedId={project.id}
       listId="projects-sidebar-list"
     >
-      <main className="projects-content application-detail-content project-detail-content">
+      <main className="projects-content prototype-detail-content project-detail-content">
         <Link href="/#projects" className="projectPageBack projectPageBack--archive">
           {labels.backToProjects}
         </Link>

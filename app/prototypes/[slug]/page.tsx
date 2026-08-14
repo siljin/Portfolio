@@ -3,9 +3,9 @@ import {
   getProjectBySlug,
   getProjectSlugs,
   getProjects,
-} from "@/lib/applications";
+} from "@/lib/prototypes";
 import { ArchiveShell } from "@/components/archive/ArchiveShell";
-import { getCompactApplicationTitle } from "@/lib/content/display";
+import { getCompactPrototypeTitle } from "@/lib/content/display";
 import { getSite } from "@/lib/site";
 import ClientDetail from "./ClientDetail";
 
@@ -23,11 +23,11 @@ export async function generateMetadata({ params }: PageProps) {
   const site = getSite();
   if (!project) return { title: site.metadata.fallbackProjectListTitle };
   return {
-    title: `${project.title}${site.metadata.applicationDetailTitleSeparator}${site.identity.fullName}`,
+    title: `${project.title}${site.metadata.prototypeDetailTitleSeparator}${site.identity.fullName}`,
     description: project.descriptor,
-    // This is the canonical address for an application. `/applications?id=…`
+    // This is the canonical address for an prototype. `/prototypes?id=…`
     // redirects here rather than serving the same content at a second URL.
-    alternates: { canonical: `/applications/${project.slug}/` },
+    alternates: { canonical: `/prototypes/${project.slug}/` },
   };
 }
 
@@ -36,18 +36,18 @@ export default async function ProjectPage({ params }: PageProps) {
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
-  const { applicationsArchive } = getSite();
+  const { prototypesArchive } = getSite();
 
   return (
     <ArchiveShell
-      title={applicationsArchive.sidebarTitle}
+      title={prototypesArchive.sidebarTitle}
       items={getProjects().map((item) => ({
         id: item.id,
-        title: getCompactApplicationTitle(item.title),
-        href: `/applications/${item.slug}/`,
+        title: getCompactPrototypeTitle(item.title),
+        href: `/prototypes/${item.slug}/`,
       }))}
       selectedId={project.id}
-      listId="applications-sidebar-list"
+      listId="prototypes-sidebar-list"
     >
       <ClientDetail project={project} />
     </ArchiveShell>

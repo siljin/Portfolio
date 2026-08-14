@@ -73,13 +73,13 @@ export type DetailContent = {
   blocks: DetailBlock[];
 };
 
-export type ApplicationSection = {
+export type PrototypeSection = {
   title: string;
   paragraphs: string[];
   diagramSrc?: string;
 };
 
-export type ApplicationContent = {
+export type PrototypeContent = {
   slug: string;
   id: string;
   eyebrow: string;
@@ -93,7 +93,7 @@ export type ApplicationContent = {
   coverSrc: string;
   tryItUrl: string;
   iconPath: string;
-  sections: ApplicationSection[];
+  sections: PrototypeSection[];
   architectureDiagram?: string;
   sequenceDiagram?: string;
   detail?: DetailContent;
@@ -168,7 +168,7 @@ export type ProjectsArchiveCopy = ArchiveSidebarCopy & {
 
 export type SiteLabels = {
   tryIt: string;
-  tryItApplications: string;
+  tryItPrototypes: string;
   viewArchitecture: string;
   sequenceDiagram: string;
   architectureModalTitle: string;
@@ -181,7 +181,7 @@ export type SiteLabels = {
   collapseSidebar: string;
   expandSidebar: string;
   projectImagePlaceholder: string;
-  backToApplications: string;
+  backToPrototypes: string;
   backToProjects: string;
   projectsCarouselPrevious: string;
   projectsCarouselNext: string;
@@ -202,7 +202,7 @@ export type SiteContent = {
     defaultDescription: string;
   };
   metadata: {
-    applicationDetailTitleSeparator: string;
+    prototypeDetailTitleSeparator: string;
     fallbackProjectListTitle: string;
   };
   nav: {
@@ -228,16 +228,16 @@ export type SiteContent = {
     meta: HeroMetaRow[];
   };
   home: {
-    applicationsSection: HomeSectionBlock;
-    applicationsViewAll: ViewAllCard;
+    prototypesSection: HomeSectionBlock;
+    prototypesViewAll: ViewAllCard;
     projectsSection: HomeSectionBlock;
   };
   archive: {
     backToPortfolio: string;
   };
-  applicationsArchive: ArchiveSidebarCopy;
+  prototypesArchive: ArchiveSidebarCopy;
   projectsArchive: ProjectsArchiveCopy;
-  applicationsEmptyState: {
+  prototypesEmptyState: {
     eyebrow: string;
     title: string;
   };

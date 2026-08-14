@@ -3,7 +3,7 @@ import type { StatCell } from "@/lib/content/types";
 
 /**
  * A row of icon + value + label cells. The icon-bearing sibling of
- * `metaStrip`, which stays in use for applications that have not migrated.
+ * `metaStrip`, which stays in use for prototypes that have not migrated.
  */
 export function StatStripBlock({ cells }: { cells: StatCell[] }) {
   return (

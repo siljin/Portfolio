@@ -7,7 +7,7 @@ type PageHeroProps = Omit<Extract<DetailBlock, { kind: "pageHero" }>, "kind">;
  * The page's opening statement: badge, title, body, primary action.
  *
  * This block owns the detail route's hero. `ClientDetail` renders no title of
- * its own, so every application's `detail.blocks` must supply one.
+ * its own, so every prototype's `detail.blocks` must supply one.
  */
 export function PageHeroBlock({ badge, title, body, cta }: PageHeroProps) {
   return (
