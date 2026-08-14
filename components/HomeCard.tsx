@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ExternalLink, Play } from "lucide-react";
 import { IconAction } from "@/components/ui/IconAction";
 import { getPublicEyebrow, normalizeCtaLabel } from "@/lib/content/display";
+import type { ProductStatusTone } from "@/lib/content/types";
 
 export type HomeCardProps = {
   imageSrc?: string;
@@ -13,12 +14,17 @@ export type HomeCardProps = {
   tags: string[];
   title: string;
   description: string;
-  metric: string;
-  metricLabel: string;
+  metric?: string;
+  metricLabel?: string;
   detailHref: string;
   actionHref: string;
   actionLabel: string;
   maxTags?: number;
+  /** Shipped products lead with a status chip where prototypes lead with a metric. */
+  statusLabel?: string;
+  statusTone?: ProductStatusTone;
+  /** Reach of the product ("4 products"), rendered ahead of its tags. */
+  usedBy?: string[];
 };
 
 /**
@@ -40,7 +46,8 @@ function makeHook(text: string) {
   return sentence.replace(/\s*[.!?]+\s*$/, "");
 }
 
-function hasMetric(metric: string, metricLabel: string) {
+function hasMetric(metric?: string, metricLabel?: string) {
+  if (!metric || !metricLabel) return false;
   return metric.trim() !== "—" && metricLabel.trim() !== "—";
 }
 
@@ -59,6 +66,9 @@ export function HomeCard({
   actionHref,
   actionLabel,
   maxTags = 2,
+  statusLabel,
+  statusTone = "production",
+  usedBy,
 }: HomeCardProps) {
   const publicEyebrow = getPublicEyebrow(eyebrow);
   const visibleTags = tags.slice(0, maxTags);
@@ -98,11 +108,22 @@ export function HomeCard({
         <p className="project-desc">{makeHook(description)}</p>
 
         <div className="project-chip-row">
+          {statusLabel ? (
+            <span className={`status-chip status-chip--${statusTone}`}>
+              <span aria-hidden="true" className="status-chip__dot" />
+              {statusLabel}
+            </span>
+          ) : null}
           {showMetric ? (
             <span className="metric-chip">
               {metric} · {metricLabel}
             </span>
           ) : null}
+          {usedBy?.map((reach) => (
+            <span key={reach} className="tag tag--usage">
+              {reach}
+            </span>
+          ))}
           {visibleTags.map((tag) => (
             <span key={tag} className="tag">
               {tag}

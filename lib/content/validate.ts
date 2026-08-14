@@ -2,6 +2,7 @@ import { accentNames, isAccentName, isDetailIconName } from "@/components/detail
 import type {
   PrototypeContent,
   PrototypeSection,
+  ProductContent,
   ColumnsRatio,
   DemoContent,
   DetailBlock,
@@ -59,8 +60,13 @@ function validateDetailBlock(b: unknown, ctx: string): asserts b is DetailBlock 
       assertImagePath(o.image as string, "image", ctx, false);
       if (o.url !== undefined) assertNonEmptyString(o.url, "url", ctx);
       if (o.caption !== undefined) assertNonEmptyString(o.caption, "caption", ctx);
-      if (o.chrome !== undefined && o.chrome !== "browser" && o.chrome !== "none") {
-        throw new Error(`${ctx}: chrome must be "browser" or "none"`);
+      if (
+        o.chrome !== undefined &&
+        o.chrome !== "browser" &&
+        o.chrome !== "none" &&
+        o.chrome !== "bleed"
+      ) {
+        throw new Error(`${ctx}: chrome must be "browser", "none" or "bleed"`);
       }
       return;
     case "metaStrip":
@@ -332,6 +338,47 @@ export function validatePrototype(item: unknown, index: number): asserts item is
   if (o.detail !== undefined) validateDetailContent(o.detail, `${ctx}.detail`);
 }
 
+const PRODUCT_STATUS_TONES = ["live", "production"] as const;
+
+function validateProductStatus(s: unknown, ctx: string) {
+  if (typeof s !== "object" || s === null) throw new Error(`${ctx}.status: expected object`);
+  const o = s as Record<string, unknown>;
+  assertNonEmptyString(o.label, "status.label", ctx);
+  if (!PRODUCT_STATUS_TONES.includes(o.tone as (typeof PRODUCT_STATUS_TONES)[number])) {
+    throw new Error(`${ctx}.status.tone must be one of ${PRODUCT_STATUS_TONES.join(" | ")}`);
+  }
+}
+
+export function validateProduct(item: unknown, index: number): asserts item is ProductContent {
+  const ctx = `products[${index}]`;
+  if (typeof item !== "object" || item === null) throw new Error(`${ctx}: expected object`);
+  const o = item as Record<string, unknown>;
+  assertNonEmptyString(o.slug, "slug", ctx);
+  assertNonEmptyString(o.id, "id", ctx);
+  assertNonEmptyString(o.eyebrow, "eyebrow", ctx);
+  assertNonEmptyString(o.title, "title", ctx);
+  assertNonEmptyString(o.descriptor, "descriptor", ctx);
+  assertNonEmptyString(o.tag, "tag", ctx);
+  validateProductStatus(o.status, ctx);
+  if (o.usedBy !== undefined) {
+    if (!Array.isArray(o.usedBy) || o.usedBy.length === 0) {
+      throw new Error(`${ctx}: usedBy must be a non-empty array when set`);
+    }
+    o.usedBy.forEach((b, i) => assertNonEmptyString(b, `usedBy[${i}]`, ctx));
+  }
+  // Product cards lead with the status chip, so there is no metric pair here.
+  if (o.coverSrc !== undefined) {
+    assertNonEmptyString(o.coverSrc, "coverSrc", ctx);
+    assertImagePath(o.coverSrc as string, "coverSrc", ctx, false);
+  }
+  if (o.coverFit !== undefined && o.coverFit !== "cover" && o.coverFit !== "contain") {
+    throw new Error(`${ctx}.coverFit must be "cover" or "contain"`);
+  }
+  if (o.tryItUrl !== undefined) assertNonEmptyString(o.tryItUrl, "tryItUrl", ctx);
+  // Blocks are the only way these pages are written, so `detail` is required.
+  validateDetailContent(o.detail, `${ctx}.detail`);
+}
+
 export function validatePortfolioSection(
   s: unknown,
   index: number,
@@ -420,8 +467,10 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     "home",
     "archive",
     "prototypesArchive",
+    "productsArchive",
     "projectsArchive",
     "prototypesEmptyState",
+    "productsEmptyState",
     "labels",
     "contact",
     "footer",
@@ -448,6 +497,11 @@ export function validateSite(data: unknown): asserts data is SiteContent {
   assertNonEmptyString(
     meta.prototypeDetailTitleSeparator,
     "metadata.prototypeDetailTitleSeparator",
+    ctx
+  );
+  assertNonEmptyString(
+    meta.productDetailTitleSeparator,
+    "metadata.productDetailTitleSeparator",
     ctx
   );
   assertNonEmptyString(meta.fallbackProjectListTitle, "metadata.fallbackProjectListTitle", ctx);
@@ -499,6 +553,7 @@ export function validateSite(data: unknown): asserts data is SiteContent {
 
   const home = root.home as Record<string, unknown>;
   for (const sectionKey of [
+    "productsSection",
     "prototypesSection",
     "prototypesViewAll",
     "projectsSection",
@@ -521,7 +576,7 @@ export function validateSite(data: unknown): asserts data is SiteContent {
   const arch = root.archive as Record<string, unknown>;
   assertNonEmptyString(arch.backToPortfolio, "archive.backToPortfolio", ctx);
 
-  for (const k of ["prototypesArchive", "projectsArchive"] as const) {
+  for (const k of ["prototypesArchive", "productsArchive", "projectsArchive"] as const) {
     const a = root[k] as Record<string, unknown>;
     assertNonEmptyString(a.sidebarTitle, `${k}.sidebarTitle`, ctx);
     assertNonEmptyString(a.sidebarSubtitle, `${k}.sidebarSubtitle`, ctx);
@@ -535,10 +590,15 @@ export function validateSite(data: unknown): asserts data is SiteContent {
   assertNonEmptyString(aes.eyebrow, "prototypesEmptyState.eyebrow", ctx);
   assertNonEmptyString(aes.title, "prototypesEmptyState.title", ctx);
 
+  const pes = root.productsEmptyState as Record<string, unknown>;
+  assertNonEmptyString(pes.eyebrow, "productsEmptyState.eyebrow", ctx);
+  assertNonEmptyString(pes.title, "productsEmptyState.title", ctx);
+
   const labels = root.labels as Record<string, unknown>;
   const labelKeys: (keyof SiteContent["labels"])[] = [
     "tryIt",
     "tryItPrototypes",
+    "tryItProducts",
     "viewArchitecture",
     "sequenceDiagram",
     "architectureModalTitle",
@@ -552,6 +612,7 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     "expandSidebar",
     "projectImagePlaceholder",
     "backToPrototypes",
+    "backToProducts",
     "backToProjects",
     "projectsCarouselPrevious",
     "projectsCarouselNext",

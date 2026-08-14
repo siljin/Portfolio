@@ -26,6 +26,15 @@
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --dur-reveal: 600ms;
 
+  /* Type scale. One ratio (~1.25) and one shared viewport coefficient, so the
+     hierarchy holds its proportions at every width instead of reshuffling.
+     Previously nine large sizes (80/76/64/56/48/46/42/40/36) competed with no
+     ratio between them, and .contact-title outranked .hero-name. */
+  --fs-display: clamp(38px, 4.6vw, 58px);
+  --fs-title: clamp(28px, 3.2vw, 38px);
+  --fs-section: clamp(24px, 2.6vw, 31px);
+  --fs-subtitle: clamp(19px, 2vw, 22px);
+
   /* Detail-block accents. JSON names a hue ("mint"); components apply it
      through a single class hook, so markup never names a colour. Surfaces are
      light enough that --ink on them clears WCAG AA by a wide margin. --blue
@@ -302,7 +311,7 @@ body {
   position: relative;
   background: var(--dark);
   border-radius: 32px;
-  padding: 44px 52px;
+  padding: 34px 40px;
   overflow: hidden;
   color: #e6ebf5;
   max-width: var(--max);
@@ -413,7 +422,7 @@ body {
 .hero-name {
   font-family: var(--font-fraunces);
   font-weight: 500;
-  font-size: clamp(44px, 6.5vw, 76px);
+  font-size: var(--fs-display);
   line-height: 0.98;
   letter-spacing: -0.04em;
   color: #ffffff;
@@ -568,7 +577,7 @@ body {
   font-family: var(--font-fraunces);
   font-style: italic;
   font-weight: 400;
-  font-size: 120px;
+  font-size: 66px;
   line-height: 1;
   color: #ffffff;
   letter-spacing: -0.04em;
@@ -616,7 +625,7 @@ body {
 
 .poem-mark {
   font-family: var(--font-fraunces);
-  font-size: 56px;
+  font-size: 26px;
   color: rgba(96, 165, 250, 0.18);
   line-height: 1;
   margin-bottom: 8px;
@@ -736,7 +745,7 @@ section.block {
 .section-title {
   font-family: var(--font-fraunces);
   font-weight: 500;
-  font-size: clamp(40px, 5vw, 56px);
+  font-size: var(--fs-section);
   line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--ink);
@@ -1223,7 +1232,7 @@ section.block {
 }
 
 .projects-content {
-  padding: 44px 46px;
+  padding: 34px 38px;
   overflow-y: auto;
 }
 
@@ -1244,7 +1253,7 @@ section.block {
 .projects-content-title {
   font-family: var(--font-fraunces);
   font-weight: 600;
-  font-size: 48px;
+  font-size: var(--fs-section);
   line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--ink);
@@ -1356,7 +1365,7 @@ section.block {
 .projects-metric-value {
   font-family: var(--font-fraunces);
   font-weight: 600;
-  font-size: 42px;
+  font-size: 28px;
   color: var(--blue);
   letter-spacing: -0.02em;
   line-height: 1;
@@ -1487,7 +1496,7 @@ section.block {
 }
 
 .prototype-detail-title {
-  font-size: clamp(42px, 5vw, 64px);
+  font-size: var(--fs-title);
   line-height: 0.98;
   margin-bottom: 16px;
   max-width: 720px;
@@ -1816,7 +1825,7 @@ section.block {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  min-height: 340px;
   background: var(--bg);
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -2196,6 +2205,101 @@ section.block {
 }
 
 /* Projects section */
+/* Shipped products: the heavier band, so the top-tier section reads first even
+   before you reach the copy. Prototypes keep the lighter subtle fill below. */
+.products-band {
+  background:
+    radial-gradient(120% 100% at 50% 0%, var(--accent-sky-surface) 0%, transparent 70%),
+    var(--bg-subtle);
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  position: relative;
+  z-index: 1;
+}
+
+/* Status chip — the products section's answer to the prototypes' metric chip. */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  font-family: var(--font-jetbrains);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  padding: 5px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.status-chip__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.status-chip--live {
+  color: var(--accent-mint-ink);
+  background: var(--accent-mint-surface);
+  border: 1px solid var(--accent-mint-border);
+}
+
+/* Only the live chip animates, because it is the only one a visitor can go and
+   use right now. */
+.status-chip--live .status-chip__dot {
+  animation: status-pulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-chip--live .status-chip__dot {
+    animation: none;
+  }
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+
+.status-chip--production {
+  color: var(--accent-sky-ink);
+  background: var(--accent-sky-surface);
+  border: 1px solid var(--accent-sky-border);
+}
+
+/* Reach chips sit between the status and the stack tags: how far it runs
+   matters more than what it is built with. */
+.tag--usage {
+  color: var(--accent-lilac-ink);
+  background: var(--accent-lilac-surface);
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+/* Back link and status chip share one row on a product detail page. */
+.productPageRail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.productPageRail .projectPageBack {
+  margin-bottom: 0;
+}
+
 .prototypes-band {
   background: var(--bg-subtle);
   border-top: 1px solid var(--line-soft);
@@ -2373,7 +2477,7 @@ section.block {
 .contact-title {
   font-family: var(--font-fraunces);
   font-weight: 500;
-  font-size: clamp(48px, 7vw, 80px);
+  font-size: var(--fs-title);
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--ink);
@@ -2639,7 +2743,7 @@ footer {
   }
 
   .project-card {
-    min-height: 360px;
+    min-height: 300px;
   }
 
   .project-body {
@@ -2789,7 +2893,7 @@ footer {
   }
 
   .projects-content-title {
-    font-size: 36px;
+    font-size: 26px;
   }
 
   .detail-category-badge {
@@ -2817,7 +2921,7 @@ footer {
   }
 
   .prototype-detail-title {
-    font-size: 40px;
+    font-size: 28px;
     line-height: 1.02;
   }
 
@@ -2899,7 +3003,7 @@ footer {
 
 .projectPage h1 {
   font-family: var(--font-fraunces);
-  font-size: 48px;
+  font-size: var(--fs-title);
   font-weight: 600;
   color: var(--ink);
   margin-bottom: 18px;
@@ -2967,7 +3071,7 @@ footer {
 .projectPageActions {
   display: flex;
   align-items: center;
-  /* Wraps: an prototype with both an architecture and a sequence diagram
+  /* Wraps: a prototype with both an architecture and a sequence diagram
      shows two buttons, which overflowed a 390px viewport on one line. */
   flex-wrap: wrap;
   gap: 12px;
@@ -3040,7 +3144,7 @@ footer {
   right: 20px;
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: 20px;
   color: var(--muted);
   cursor: pointer;
   padding: 4px 8px;
@@ -3056,7 +3160,7 @@ footer {
 
 .modalTitle {
   font-family: var(--font-fraunces);
-  font-size: 28px;
+  font-size: 19px;
   font-weight: 600;
   color: var(--ink);
   margin-bottom: 24px;
@@ -3217,6 +3321,46 @@ footer {
   background: var(--bg);
   border-top: 1px solid var(--line-soft);
   font-style: italic;
+}
+
+/* Bleed variant: no frame at all. The artwork is the panel, so it carries its
+   own background and fills the column it sits in. */
+.detail-preview--bleed {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 14px;
+  /* Capped so the artwork sits beside the hero copy rather than towering over
+     it; it still centres in whatever column it is given. */
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+/* Beside a hero, the artwork hangs from the bottom of the row so its base lines
+   up with the hero's call-to-action rather than floating above it. */
+.detail-columns .detail-preview--bleed {
+  align-self: end;
+}
+
+.detail-preview--bleed:hover {
+  box-shadow: none;
+}
+
+.detail-preview--bleed .detail-preview__body {
+  background: transparent;
+  padding: 0;
+  height: auto;
+  display: block;
+}
+
+.detail-preview--bleed .detail-preview__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  max-height: none;
 }
 
 /* Bare variant: holistic / non-website image. No browser chrome, tighter frame, centered. */
@@ -3479,7 +3623,7 @@ footer {
 .detail-hero__title {
   font-family: var(--font-fraunces), Georgia, serif;
   font-weight: 600;
-  font-size: clamp(34px, 3.4vw, 46px);
+  font-size: var(--fs-title);
   line-height: 1.06;
   letter-spacing: -0.02em;
   margin-bottom: 16px;
@@ -4005,7 +4149,7 @@ footer {
    (0,1,0), which pinned the hero to a fixed 48px and broke its fluid scale on
    small screens. Restate at matching specificity. */
 .projectPage .detail-hero__title {
-  font-size: clamp(30px, 3.4vw, 46px);
+  font-size: var(--fs-title);
   line-height: 1.06;
   margin-bottom: 16px;
 }

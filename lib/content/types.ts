@@ -14,7 +14,8 @@ export type DetailBlock =
   | { kind: "lede"; text: string }
   | { kind: "heading"; text: string }
   | { kind: "tagRow"; tags: string[] }
-  | { kind: "previewPane"; image: string; url?: string; caption?: string; chrome?: "browser" | "none" }
+  // `chrome: "bleed"` drops the frame entirely — image only, filling its column.
+  | { kind: "previewPane"; image: string; url?: string; caption?: string; chrome?: "browser" | "none" | "bleed" }
   | { kind: "metaStrip"; cells: { label: string; value: string }[] }
   | { kind: "cta"; label: string; href: string; note?: string }
   | { kind: "columns"; ratio?: ColumnsRatio; items: DetailBlock[] }
@@ -99,6 +100,44 @@ export type PrototypeContent = {
   detail?: DetailContent;
 };
 
+/**
+ * Shipped products carry a status chip instead of the prototypes' metric pair:
+ * the distinguishing claim is that they are in real use, not that they hit a
+ * number. `live` renders as a pulsing dot, `production` as a steady one.
+ */
+export type ProductStatusTone = "live" | "production";
+
+export type ProductStatus = {
+  label: string;
+  tone: ProductStatusTone;
+};
+
+/**
+ * A shipped product: the same block-driven detail page as a prototype, plus
+ * the real-use signals (`status`, `usedBy`), and without the required cover art
+ * or metric pair, which these do not all have yet.
+ */
+export type ProductContent = {
+  slug: string;
+  id: string;
+  eyebrow: string;
+  title: string;
+  descriptor: string;
+  tag: string;
+  status: ProductStatus;
+  /**
+   * Reach of the product, shown as chips on the card — deliberately a count
+   * ("4 products") rather than customer names, which are confidential.
+   */
+  usedBy?: string[];
+  coverSrc?: string;
+  /** `contain` keeps square or tall artwork whole in the 16:9 card slot. */
+  coverFit?: "cover" | "contain";
+  tryItUrl?: string;
+  /** Products are written entirely as blocks; there is no prose-section fallback. */
+  detail: DetailContent;
+};
+
 export type PortfolioSection = {
   title: string;
   paragraphs: string[];
@@ -169,6 +208,7 @@ export type ProjectsArchiveCopy = ArchiveSidebarCopy & {
 export type SiteLabels = {
   tryIt: string;
   tryItPrototypes: string;
+  tryItProducts: string;
   viewArchitecture: string;
   sequenceDiagram: string;
   architectureModalTitle: string;
@@ -182,6 +222,7 @@ export type SiteLabels = {
   expandSidebar: string;
   projectImagePlaceholder: string;
   backToPrototypes: string;
+  backToProducts: string;
   backToProjects: string;
   projectsCarouselPrevious: string;
   projectsCarouselNext: string;
@@ -203,6 +244,7 @@ export type SiteContent = {
   };
   metadata: {
     prototypeDetailTitleSeparator: string;
+    productDetailTitleSeparator: string;
     fallbackProjectListTitle: string;
   };
   nav: {
@@ -228,6 +270,7 @@ export type SiteContent = {
     meta: HeroMetaRow[];
   };
   home: {
+    productsSection: HomeSectionBlock;
     prototypesSection: HomeSectionBlock;
     prototypesViewAll: ViewAllCard;
     projectsSection: HomeSectionBlock;
@@ -236,8 +279,13 @@ export type SiteContent = {
     backToPortfolio: string;
   };
   prototypesArchive: ArchiveSidebarCopy;
+  productsArchive: ArchiveSidebarCopy;
   projectsArchive: ProjectsArchiveCopy;
   prototypesEmptyState: {
+    eyebrow: string;
+    title: string;
+  };
+  productsEmptyState: {
     eyebrow: string;
     title: string;
   };

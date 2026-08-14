@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title: `${project.title}${site.metadata.prototypeDetailTitleSeparator}${site.identity.fullName}`,
     description: project.descriptor,
-    // This is the canonical address for an prototype. `/prototypes?id=…`
+    // This is the canonical address for a prototype. `/prototypes?id=…`
     // redirects here rather than serving the same content at a second URL.
     alternates: { canonical: `/prototypes/${project.slug}/` },
   };

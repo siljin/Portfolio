@@ -8,7 +8,7 @@ import { MetaStripBlock } from "@/components/detail/blocks/MetaStripBlock";
 import { PreviewPaneBlock } from "@/components/detail/blocks/PreviewPaneBlock";
 import { IconAction } from "@/components/ui/IconAction";
 import {
-  getPrototypePrimaryCtaLabel,
+  getPrimaryCtaLabel,
   getPublicEyebrow,
   hasUsableHref,
 } from "@/lib/content/display";
@@ -106,7 +106,7 @@ export function PrototypeDetailPanel({
   const category = project.category?.trim();
   const eyebrow = getPublicEyebrow(project.eyebrow);
   const showPrimaryCta = hasUsableHref(project.tryItUrl);
-  const primaryCtaLabel = getPrototypePrimaryCtaLabel(
+  const primaryCtaLabel = getPrimaryCtaLabel(
     detailBlocks,
     labels.tryItPrototypes,
   );

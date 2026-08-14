@@ -3,7 +3,7 @@ import { getSite } from "@/lib/site";
 import { HomeCarousel } from "@/components/HomeCarousel";
 import { HomeCard } from "@/components/HomeCard";
 import { Reveal } from "@/components/Reveal";
-import { getPrototypePrimaryCtaLabel } from "@/lib/content/display";
+import { getPrimaryCtaLabel } from "@/lib/content/display";
 
 export function Prototypes() {
   const allPrototypes = getProjects();
@@ -44,7 +44,7 @@ export function Prototypes() {
                 metricLabel={app.metricLabel}
                 detailHref={`/prototypes/${app.slug}/`}
                 actionHref={app.tryItUrl}
-                actionLabel={getPrototypePrimaryCtaLabel(
+                actionLabel={getPrimaryCtaLabel(
                   app.detail?.blocks,
                   labels.tryItPrototypes,
                 )}

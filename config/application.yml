@@ -23,3 +23,7 @@ urls:
   resume: ${RESUME_URL:-https://drive.google.com/file/d/1LX175lj78ZXR3jjjPOFQYOcEg830SIzS/view?usp=drive_link}
   # Public GitHub profile, surfaced in the footer.
   github: ${GITHUB_URL:-https://github.com/siljin}
+  # Live URL for the Lettersly riddle game. Product content refers to it as the
+  # `${GAME_URL}` token, so the address lives here once instead of being pasted
+  # into every call to action.
+  game: ${GAME_URL:-https://lettersly.com}

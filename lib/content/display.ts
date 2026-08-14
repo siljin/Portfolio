@@ -31,7 +31,7 @@ export function normalizeCtaLabel(label: string) {
     .replace(/^View the deck$/i, "View Deck");
 }
 
-export function getPrototypePrimaryCtaLabel(
+export function getPrimaryCtaLabel(
   blocks: DetailBlock[] | undefined,
   fallback: string,
 ) {

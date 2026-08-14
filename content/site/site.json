@@ -10,15 +10,17 @@
     "linkedIn": "https://www.linkedin.com/in/siljin-sebastian"
   },
   "seo": {
-    "defaultDescription": "Portfolio: projects, AI prototypes, and how I ship outcomes for users and teams."
+    "defaultDescription": "Portfolio: shipped products, AI prototypes, projects, and how I ship outcomes for users and teams."
   },
   "metadata": {
     "prototypeDetailTitleSeparator": " — ",
+    "productDetailTitleSeparator": " — ",
     "fallbackProjectListTitle": "Project"
   },
   "nav": {
     "links": [
       { "label": "Home", "href": "/" },
+      { "label": "Products", "href": "/products" },
       { "label": "Prototypes", "href": "/prototypes" },
       { "label": "Projects", "href": "/projects" },
       { "label": "Contact", "href": "#contact" }
@@ -54,6 +56,12 @@
     ]
   },
   "home": {
+    "productsSection": {
+      "eyebrow": "Product",
+      "titleBeforeEm": "Shipped ",
+      "titleEmphasis": "products.",
+      "description": "Systems that are live, in real use, and driving outcomes."
+    },
     "prototypesSection": {
       "eyebrow": "Builder",
       "titleBeforeEm": "AI ",
@@ -80,6 +88,10 @@
     "sidebarTitle": "Prototypes",
     "sidebarSubtitle": "Select to explore"
   },
+  "productsArchive": {
+    "sidebarTitle": "Products",
+    "sidebarSubtitle": "Select to explore"
+  },
   "projectsArchive": {
     "sidebarTitle": "Case Studies",
     "sidebarSubtitle": "Select to explore",
@@ -90,9 +102,14 @@
     "eyebrow": "Select a project",
     "title": "Choose from the list"
   },
+  "productsEmptyState": {
+    "eyebrow": "Select a product",
+    "title": "Choose from the list"
+  },
   "labels": {
     "tryIt": "Try It",
     "tryItPrototypes": "Try it",
+    "tryItProducts": "Play today's riddle",
     "viewArchitecture": "View Architecture",
     "sequenceDiagram": "Sequence Diagram",
     "architectureModalTitle": "Architecture Diagram",
@@ -106,6 +123,7 @@
     "expandSidebar": "Expand sidebar",
     "projectImagePlaceholder": "Screenshot / Mockup",
     "backToPrototypes": "← Back to prototypes",
+    "backToProducts": "← Back to products",
     "backToProjects": "← Back to projects",
     "projectsCarouselPrevious": "Scroll projects left",
     "projectsCarouselNext": "Scroll projects right"

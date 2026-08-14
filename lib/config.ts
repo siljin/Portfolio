@@ -17,6 +17,8 @@ export type AppConfig = {
   urls: {
     resume: string;
     github: string;
+    /** Live URL for the riddle game; product CTAs resolve `${GAME_URL}` to this. */
+    game: string;
   };
 };
 
@@ -90,6 +92,7 @@ function assertAppConfig(c: unknown): asserts c is AppConfig {
   if (!urls) throw new Error("config/application.yml: `urls` block is required");
   assertString(urls.resume, "urls.resume");
   assertString(urls.github, "urls.github");
+  assertString(urls.game, "urls.game");
 }
 
 let cached: AppConfig | null = null;
