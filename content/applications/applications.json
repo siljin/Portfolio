@@ -4,8 +4,8 @@
     "id": "prior-auth",
     "eyebrow": "P. 01",
     "title": "Prior Authorization Workflow",
-    "descriptor": "Agentic AI system to automate insurance prior authorization requests—reducing manual effort and improving approval turnaround.",
-    "tag": "Agentic Workflow · RAG · MCP · OpenAI",
+    "descriptor": "Agentic AI system that turns a free-text prior authorization request into a policy-grounded approve, deny, or pend decision—with low-confidence cases routed to a clinician.",
+    "tag": "Agentic Workflow · RAG · MCP · Dify",
     "category": "AI Agent · Healthcare",
     "metric": "—",
     "metricLabel": "—",
@@ -22,29 +22,81 @@
       {
         "title": "What I built",
         "paragraphs": [
-          "Designed and implemented an agentic AI workflow using Dify that orchestrates multiple specialized agents: a data extraction agent that parses patient records, a requirements agent that maps insurance policies to needed documentation, a clinical evidence agent that summarizes relevant medical research, and a submission agent that compiles and formats the final request. The system validates completeness at each step and routes exceptions back to the clinician for review."
+          "Built an agentic workflow on Dify that structures a free-text request into fields, retrieves the governing payer CPT policy, gathers medical-necessity and step-therapy evidence through MCP tool calls, and issues an approve, deny, or pend decision with a confidence score.",
+          "Two gates keep it honest. A completeness check stops underspecified requests before any clinical reasoning runs, returning the specific missing fields. A confidence gate withholds any decision scoring below 8 out of 10, routing it to a clinician with a documented action checklist instead of issuing it automatically."
         ]
       },
       {
         "title": "Outcome",
         "paragraphs": [
-          "Reduced prior auth submission time from 2–3 hours to 15–20 minutes per request. Improved first-pass approval rates by ensuring complete documentation. Created a reusable agent architecture that can be adapted for other insurance workflows."
+          "The workflow produces a policy-grounded recommendation with cited evidence, not a submitted authorization—a human remains responsible for the filing. The agent architecture is reusable for other payer and coverage-determination workflows."
         ]
       }
     ],
     "detail": {
       "blocks": [
-        { "kind": "lede", "text": "An agentic Dify workflow that automates insurance prior authorization — orchestrating four specialized agents (extraction, requirements mapping, clinical evidence, submission) to compress a 2–3 hour clinician task into 15–20 minutes." },
-        { "kind": "tagRow", "tags": ["Agentic Workflow", "RAG", "MCP", "OpenAI", "Dify"] },
-        { "kind": "previewPane", "image": "/images/projects/prior-auth-card-vivid.svg", "url": "udify.app/workflow/Nd1XsLQUc9O6QoVp", "caption": "Multi-agent prior-auth workflow on Dify." },
-        { "kind": "heading", "text": "By the numbers" },
-        { "kind": "metaStrip", "cells": [
-          { "label": "Before",  "value": "2–3 hours / request" },
-          { "label": "After",   "value": "15–20 minutes" },
-          { "label": "Agents",  "value": "4 specialized" },
-          { "label": "Routing", "value": "Exceptions → clinician" }
+        { "kind": "columns", "ratio": "1-3", "items": [
+          { "kind": "pageHero",
+            "badge": "Workflow",
+            "title": "Prior Authorization Workflow",
+            "body": "Agentic workflow that turns a free-text prior authorization request into a policy-grounded approve, deny, or pend decision — with low-confidence cases routed to a clinician.",
+            "cta": { "label": "Try Workflow", "href": "https://udify.app/workflow/Nd1XsLQUc9O6QoVp" }
+          },
+          { "kind": "workflowDiagram",
+            "title": "Workflow Architecture",
+            "fullscreen": true,
+            "inputs": { "label": "Inputs", "items": [
+              { "icon": "hash",        "label": "Age" },
+              { "icon": "hash",        "label": "ICD-10 Code" },
+              { "icon": "hash",        "label": "CPT Code" },
+              { "icon": "shieldCheck", "label": "Insurance" },
+              { "icon": "fileText",    "label": "Clinical Notes" }
+            ]},
+            "nodes": [
+              { "icon": "cpu",       "title": "Intake Structurer",       "body": "Parses the free-text request into structured fields and flags what is missing", "accent": "mint" },
+              { "icon": "gitBranch", "title": "all fields present?",     "body": "Completeness Route — incomplete requests leave the pipeline here", "accent": "neutral", "role": "gate" },
+              { "icon": "database",  "title": "Policy Retrieval",        "body": "Searches payer CPT policy documents for the governing criteria", "accent": "lilac" },
+              { "icon": "network",   "title": "Clinical Evidence Agent", "body": "Calls MCP tools to gather medical-necessity and step-therapy evidence", "accent": "sky" },
+              { "icon": "scale",     "title": "Decision Engine",         "body": "Returns approve, deny, or pend with a 0–10 confidence score", "accent": "peach" },
+              { "icon": "gitBranch", "title": "confidence ≥ 8?",         "body": "Confidence Route — anything less goes to a clinician", "accent": "neutral", "role": "gate" }
+            ],
+            "outputs": [
+              { "icon": "alertTriangle", "title": "Incomplete Request", "caption": "Missing fields listed with resubmission steps. No clinical reasoning runs.", "tone": "warn" },
+              { "icon": "checkCircle",   "title": "Decision Report",    "caption": "Criteria table, evidence citations, action items", "tone": "success" },
+              { "icon": "userCheck",     "title": "Pending Review",     "caption": "Clinician checklist and resubmission pathway. Never auto-issued.", "tone": "warn" }
+            ],
+            "branches": [
+              { "from": 1, "to": 0, "label": "No · missing fields" },
+              { "from": 5, "to": 2, "label": "No · confidence < 8" }
+            ],
+            "legend": [
+              { "style": "solid",  "label": "Automated flow" },
+              { "style": "gate",   "label": "Decision gate" },
+              { "style": "dashed", "label": "Conditional route" },
+              { "style": "person", "label": "Human in the loop" }
+            ]
+          }
         ]},
-        { "kind": "cta", "label": "Try the workflow", "href": "https://udify.app/workflow/Nd1XsLQUc9O6QoVp", "note": "Hosted on Dify — no signup." }
+        { "kind": "statStrip", "cells": [
+          { "icon": "fileText",    "value": "5 Inputs",   "label": "Structured intake" },
+          { "icon": "layers",      "value": "4 Stages",   "label": "Retrieval → decision" },
+          { "icon": "gitBranch",   "value": "2 Gates",    "label": "Completeness & confidence" },
+          { "icon": "checkCircle", "value": "3 Outcomes", "label": "Approve, deny, pend" }
+        ]},
+        { "kind": "columns", "ratio": "1-1", "items": [
+          { "kind": "featurePanel", "title": "Key Components", "items": [
+            { "icon": "box",       "title": "Dify Workflow Engine",   "body": "Orchestration and routing" },
+            { "icon": "database",  "title": "Payer Policy Retrieval", "body": "RAG over CPT policy datasets" },
+            { "icon": "network",   "title": "MCP Tool Calling",       "body": "Clinical evidence gathering" },
+            { "icon": "userCheck", "title": "Confidence Gating",      "body": "Clinician in the loop" }
+          ]},
+          { "kind": "featurePanel", "title": "Security & Safety", "items": [
+            { "icon": "userCheck",  "title": "Confidence-gated review", "body": "Scores below 8 are never auto-issued" },
+            { "icon": "quote",      "title": "Source citations",        "body": "Evidence list on every report" },
+            { "icon": "filter",     "title": "Completeness gate",       "body": "Underspecified requests stop early" },
+            { "icon": "listChecks", "title": "Decision support",        "body": "Recommends; a human submits" }
+          ]}
+        ]}
       ]
     }
   },
@@ -90,6 +142,12 @@
     ],
     "detail": {
       "blocks": [
+        { "kind": "pageHero",
+          "badge": "Leadership",
+          "title": "MBA Tech Club Platform",
+          "body": "Led organizational expansion and digital presence as Chief of Staff at McCombs MBA Tech Club, positioning it as a premier resource for MBA students pursuing careers in technology.",
+          "cta": { "label": "Visit the site", "href": "https://mbatechclub.netlify.app" }
+        },
         { "kind": "lede", "text": "Designed and shipped the club's first official site — a single home for recruiting, executive operations, and the four-pillar curriculum (Product, GTM, Tech Ops, Business Development)." },
         { "kind": "tagRow", "tags": ["Web Development", "Claude Code", "Netlify", "AMS"] },
         { "kind": "previewPane", "image": "/images/applications/mbatechclub/tech-club.png", "chrome": "none", "caption": "A snapshot of the club — programming, leadership, and the four-pillar curriculum at a glance." },
@@ -154,6 +212,11 @@
     ],
     "detail": {
       "blocks": [
+        { "kind": "pageHero",
+          "badge": "Workflow",
+          "title": "AI Ticket Triage System",
+          "body": "Automated support ticket classification and routing using LLM-powered triage — reducing manual decision time from 5–10 minutes to under 2 seconds."
+        },
         { "kind": "lede", "text": "An LLM-powered triage system that classifies, scores, and routes incoming Zendesk tickets in under 2 seconds — replacing 5–10 minutes of manual decision-making with a 3-tier confidence-based router and an auto-drafted response for the agent to review." },
         { "kind": "tagRow", "tags": ["Issue Triage", "Zendesk", "Webhook", "Claude", "Express"] },
         { "kind": "previewPane", "image": "/images/applications/ai-ticket-triage-card.svg", "chrome": "none", "caption": "AI-assisted ticket intake, classification, and routing." },
@@ -198,17 +261,66 @@
     ],
     "detail": {
       "blocks": [
-        { "kind": "lede", "text": "A Dify-orchestrated diagnostic agent that fuses patient inputs, ADA criteria, and live clinical evidence into a single risk score — with a confidence threshold that routes high-conviction cases to a patient report and low-conviction ones back to the physician with specific next tests." },
-        { "kind": "tagRow", "tags": ["Agentic Workflow", "RAG", "MCP", "Gemini", "Dify"] },
-        { "kind": "previewPane", "image": "/images/projects/diabetes-diagnosis.svg", "url": "udify.app/workflow/A32PxMNwfQoqZrxN", "caption": "Live workflow on Dify — submit a patient profile and watch the agents reason." },
-        { "kind": "heading", "text": "What's inside" },
-        { "kind": "metaStrip", "cells": [
-          { "label": "Domain",    "value": "Clinical decision support" },
-          { "label": "Reasoning", "value": "Multi-agent + rules engine" },
-          { "label": "Sources",   "value": "ADA guidelines + RAG retrieval" },
-          { "label": "Output",    "value": "Structured JSON + branching report" }
+        { "kind": "pageHero",
+          "badge": "Workflow",
+          "title": "Type 2 Diabetes Risk Assessment",
+          "body": "Clinical decision support that scores Type 2 Diabetes risk from patient data using deterministic ADA criteria, grounds it in retrieved guidance and live evidence, and withholds any conclusion it is not confident enough to make.",
+          "cta": { "label": "Try Workflow", "href": "https://udify.app/workflow/A32PxMNwfQoqZrxN" }
+        },
+        { "kind": "workflowDiagram",
+          "title": "Workflow Architecture",
+          "fullscreen": true,
+          "inputs": { "label": "Inputs", "items": [
+            { "icon": "hash",        "label": "Age" },
+            { "icon": "user",        "label": "Gender" },
+            { "icon": "stethoscope", "label": "Symptoms" },
+            { "icon": "fileText",    "label": "Medical History" },
+            { "icon": "users",       "label": "Social Factors" }
+          ]},
+          "nodes": [
+            { "icon": "cpu",       "title": "Intake Structurer",       "body": "Extracts labs, history and social factors into structured fields, flagging what is missing", "accent": "mint" },
+            { "icon": "scale",     "title": "Risk Calculator",         "body": "Deterministic score from HbA1c, fasting glucose, BMI, age, family history and social factors", "accent": "lilac" },
+            { "icon": "database",  "title": "Guideline Retrieval",     "body": "Retrieves the ADA guidance matching the computed risk band", "accent": "sky" },
+            { "icon": "network",   "title": "Clinical Evidence Agent", "body": "Calls MCP tools for supporting evidence, interactions and next-step guidance", "accent": "peach" },
+            { "icon": "sparkles",  "title": "Reasoning Engine",        "body": "Synthesises a diagnosis with a 0–10 confidence score and a physician checklist", "accent": "rose" },
+            { "icon": "gitBranch", "title": "complete & confident?",   "body": "One route with three exits: missing data, confident, or not confident enough", "accent": "neutral", "role": "gate" }
+          ],
+          "outputs": [
+            { "icon": "alertTriangle", "title": "Needs More Data",   "caption": "Asks for the missing labs and restarts the assessment", "tone": "warn" },
+            { "icon": "checkCircle",   "title": "Diagnostic Report", "caption": "Risk factors, social determinants, ADA citations, next steps", "tone": "success" },
+            { "icon": "userCheck",     "title": "Provisional Report","caption": "States the uncertainty and lists the tests that would resolve it", "tone": "warn" }
+          ],
+          "branches": [
+            { "from": 5, "to": 0, "label": "No · data missing" },
+            { "from": 5, "to": 2, "label": "No · confidence < 8" }
+          ],
+          "legend": [
+            { "style": "solid",  "label": "Automated flow" },
+            { "style": "gate",   "label": "Decision gate" },
+            { "style": "dashed", "label": "Conditional route" },
+            { "style": "person", "label": "Human in the loop" }
+          ]
+        },
+        { "kind": "statStrip", "cells": [
+          { "icon": "fileText",    "value": "5 Inputs",   "label": "Patient profile" },
+          { "icon": "layers",      "value": "5 Stages",   "label": "Score → evidence → reasoning" },
+          { "icon": "gitBranch",   "value": "1 Gate",     "label": "Data and confidence" },
+          { "icon": "checkCircle", "value": "3 Outcomes", "label": "Report, provisional, more data" }
         ]},
-        { "kind": "cta", "label": "Try the workflow", "href": "https://udify.app/workflow/A32PxMNwfQoqZrxN", "note": "Hosted on Dify — no signup." }
+        { "kind": "columns", "ratio": "1-1", "items": [
+          { "kind": "featurePanel", "title": "Key Components", "items": [
+            { "icon": "box",      "title": "Dify Workflow Engine",     "body": "Orchestration and routing" },
+            { "icon": "scale",    "title": "Deterministic Risk Scorer","body": "Python rules over ADA criteria" },
+            { "icon": "database", "title": "ADA Guideline Retrieval",  "body": "RAG over clinical guidance" },
+            { "icon": "network",  "title": "MCP Evidence Agent",       "body": "Live evidence and interactions" }
+          ]},
+          { "kind": "featurePanel", "title": "Security & Safety", "items": [
+            { "icon": "userCheck",  "title": "Confidence-gated review", "body": "Below 8 of 10 never issues a conclusion" },
+            { "icon": "quote",      "title": "Source citations",        "body": "ADA guideline citations on every report" },
+            { "icon": "scale",      "title": "Deterministic scoring",   "body": "The risk band is computed by rules, not the model" },
+            { "icon": "listChecks", "title": "Decision support",        "body": "Assists a physician; it does not diagnose" }
+          ]}
+        ]}
       ]
     }
   }

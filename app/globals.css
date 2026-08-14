@@ -25,6 +25,32 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --dur-reveal: 600ms;
+
+  /* Detail-block accents. JSON names a hue ("mint"); components apply it
+     through a single class hook, so markup never names a colour. Surfaces are
+     light enough that --ink on them clears WCAG AA by a wide margin. --blue
+     stays the only primary-action colour; these are surface tints only. */
+  --accent-mint-surface: #eefaf3;
+  --accent-mint-border: #cfeadd;
+  --accent-mint-ink: #0f766e;
+  --accent-lilac-surface: #f3f0fe;
+  --accent-lilac-border: #ddd6f3;
+  --accent-lilac-ink: #6d28d9;
+  --accent-sky-surface: #eff6ff;
+  --accent-sky-border: #d3e3fb;
+  --accent-sky-ink: #1d4ed8;
+  --accent-peach-surface: #fef3e8;
+  --accent-peach-border: #f7ddc0;
+  --accent-peach-ink: #c2620a;
+  --accent-rose-surface: #fef2f4;
+  --accent-rose-border: #f8d6dd;
+  --accent-rose-ink: #be123c;
+  --accent-neutral-surface: #ffffff;
+  --accent-neutral-border: var(--line);
+  --accent-neutral-ink: var(--muted);
+
+  --detail-gap: 22px;
+  --detail-radius: 14px;
 }
 
 html {
@@ -3412,3 +3438,567 @@ footer {
     border-top: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DETAIL BLOCKS
+   Styles for the JSON-driven blocks in components/detail/blocks/. Any
+   application page composes these from content/applications/applications.json.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── columns: recursive two-up container ── */
+.detail-columns {
+  display: grid;
+  gap: var(--detail-gap);
+  align-items: start;
+  margin-bottom: var(--detail-gap);
+}
+.detail-columns--1-1 { grid-template-columns: 1fr 1fr; }
+.detail-columns--1-2 { grid-template-columns: minmax(280px, 1fr) minmax(0, 2fr); }
+.detail-columns--1-3 { grid-template-columns: minmax(270px, 1fr) minmax(0, 3.1fr); }
+.detail-columns--2-1 { grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); }
+
+/* ── pageHero ── */
+.detail-hero { padding: 14px 6px 0; }
+.detail-hero__badge {
+  display: inline-block;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: var(--blue-ghost);
+  border: 1px solid var(--blue-soft);
+  padding: 5px 11px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+}
+.detail-hero__title {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(34px, 3.4vw, 46px);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.detail-hero__body {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 46ch;
+  margin-bottom: 26px;
+}
+.detail-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 21px;
+  border-radius: 9px;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.28);
+  transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out), background 0.22s;
+}
+.detail-hero__cta:hover {
+  background: var(--blue-bright);
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 20px -6px rgba(37, 99, 235, 0.5);
+}
+
+/* ── shared card shell ── */
+.detail-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--detail-radius);
+  box-shadow: 0 1px 2px rgba(10, 14, 26, 0.035);
+}
+.detail-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px 0;
+}
+.detail-card__title {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+.detail-card .iconBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 6px 11px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.detail-card .iconBtn:hover {
+  color: var(--blue);
+  border-color: var(--blue-soft);
+  background: var(--blue-ghost);
+}
+
+/* ── workflowDiagram ──
+   One grid drives the rail, the gate labels, the branch connectors and the
+   exit cards, so an exit lines up with its gate by grid placement rather than
+   by measuring the DOM. Rows: 1 rail · 2 gate labels · 3 stem · 4 bus · 5 exits */
+.wf { padding: 20px 22px 18px; }
+.wf__scroll { overflow-x: auto; padding-bottom: 4px; }
+.wf__rail {
+  display: grid;
+  min-width: min-content;
+  grid-template-rows: auto 20px 16px 0 auto;
+}
+
+.wf__node {
+  grid-row: 1;
+  border-radius: 11px;
+  padding: 14px 11px;
+  text-align: center;
+  border: 1px solid var(--accent-neutral-border);
+  background: var(--accent-neutral-surface);
+  transition: transform 0.28s var(--ease-out), box-shadow 0.28s var(--ease-out);
+}
+.wf__node:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px -12px rgba(10, 14, 26, 0.28);
+}
+.wf__node .wf__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 10px;
+  background: #fff;
+}
+.wf__step {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  color: var(--muted-soft);
+  display: block;
+  margin-bottom: 3px;
+}
+.wf__name { font-size: 12.5px; font-weight: 600; line-height: 1.3; margin-bottom: 6px; }
+.wf__desc { font-size: 11px; color: var(--muted); line-height: 1.42; }
+
+.wf__node--mint  { background: var(--accent-mint-surface);  border-color: var(--accent-mint-border); }
+.wf__node--lilac { background: var(--accent-lilac-surface); border-color: var(--accent-lilac-border); }
+.wf__node--sky   { background: var(--accent-sky-surface);   border-color: var(--accent-sky-border); }
+.wf__node--peach { background: var(--accent-peach-surface); border-color: var(--accent-peach-border); }
+.wf__node--rose  { background: var(--accent-rose-surface);  border-color: var(--accent-rose-border); }
+.wf__node--mint  .wf__icon { border: 1px solid var(--accent-mint-border);  color: var(--accent-mint-ink); }
+.wf__node--lilac .wf__icon { border: 1px solid var(--accent-lilac-border); color: var(--accent-lilac-ink); }
+.wf__node--sky   .wf__icon { border: 1px solid var(--accent-sky-border);   color: var(--accent-sky-ink); }
+.wf__node--peach .wf__icon { border: 1px solid var(--accent-peach-border); color: var(--accent-peach-ink); }
+.wf__node--rose  .wf__icon { border: 1px solid var(--accent-rose-border);  color: var(--accent-rose-ink); }
+.wf__node--neutral .wf__icon { border: 1px solid var(--line); color: var(--muted); }
+
+/* end caps: inputs and the spine's output */
+.wf__cap {
+  grid-row: 1;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 13px 11px;
+  background: #fff;
+  text-align: center;
+}
+.wf__capLabel {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted-soft);
+  margin-bottom: 11px;
+}
+.wf__capList { display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.wf__capItem { display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--ink-soft); }
+.wf__capItem svg { flex: none; color: var(--muted); }
+.wf__cap--out .wf__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 9px;
+  background: var(--accent-mint-surface);
+  border: 1px solid var(--accent-mint-border);
+  color: var(--accent-mint-ink);
+}
+.wf__cap--out .wf__name { margin-bottom: 4px; }
+.wf__capCaption { font-size: 10.5px; color: var(--muted-soft); }
+
+/* connectors */
+.wf__conn { grid-row: 1; display: grid; place-items: center; }
+.wf__arrow { width: 24px; height: 10px; stroke: var(--muted-soft); }
+
+/* decision gate: a diamond, the flowchart symbol for a branch */
+.wf__gateCell { grid-row: 1; display: grid; place-items: center; }
+.wf__gate {
+  width: 30px;
+  height: 30px;
+  transform: rotate(45deg);
+  border-radius: 5px;
+  background: #fff;
+  border: 1.5px dashed var(--muted);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  transition: border-color 0.25s var(--ease-out), background 0.25s var(--ease-out);
+}
+.wf__gate svg { transform: rotate(-45deg); }
+.wf__gateCell:hover .wf__gate { border-color: var(--blue); background: var(--blue-ghost); color: var(--blue); }
+/* The label may overflow its fixed-width track; the track cannot stretch. */
+.wf__gateLabel {
+  grid-row: 2;
+  justify-self: center;
+  align-self: start;
+  white-space: nowrap;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 9.5px;
+  color: var(--muted);
+  background: var(--bg);
+  padding: 0 4px;
+  z-index: 3;
+}
+
+/* branch connectors: stem down from the gate, horizontal bus across the cards
+   that gate feeds, riser up from each card to the bus. Handles a gate with any
+   number of branches without measuring anything. */
+.wf__stem {
+  grid-row: 3;
+  justify-self: center;
+  width: 0;
+  border-left: 1.5px dashed var(--muted-soft);
+}
+.wf__bus {
+  grid-row: 4;
+  height: 0;
+  border-top: 1.5px dashed var(--muted-soft);
+}
+
+/* exit cards */
+.wf__exit {
+  grid-row: 5;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  border: 1px dashed var(--line);
+  background: var(--bg-subtle);
+  border-radius: 11px;
+  padding: 13px 15px;
+  margin: 20px 7px 0;
+}
+.wf__exit::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -20px;
+  height: 20px;
+  width: 0;
+  border-left: 1.5px dashed var(--muted-soft);
+}
+.wf__exit::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--muted-soft);
+  border-bottom: 1.5px solid var(--muted-soft);
+  transform: rotate(45deg) translate(-3px, -3px);
+}
+.wf__exit .wf__icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  background: var(--accent-peach-surface);
+  border: 1px solid var(--accent-peach-border);
+  color: var(--accent-peach-ink);
+}
+.wf__exit--success .wf__icon {
+  background: var(--accent-mint-surface);
+  border-color: var(--accent-mint-border);
+  color: var(--accent-mint-ink);
+}
+.wf__exit--neutral .wf__icon {
+  background: var(--bg);
+  border-color: var(--line);
+  color: var(--muted);
+}
+.wf__exitBody { min-width: 0; }
+.wf__exitTag {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 9px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted-soft);
+  display: block;
+  margin-bottom: 3px;
+}
+.wf__exitTitle { font-size: 12.5px; font-weight: 600; margin-bottom: 3px; }
+.wf__exitCaption { font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+/* legend */
+.wf__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-soft);
+}
+.wf__legendItem { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--muted); }
+.wf__legend-solid { width: 32px; height: 0; border-top: 1.5px solid var(--muted-soft); }
+.wf__legend-dashed { width: 32px; height: 0; border-top: 1.5px dashed var(--muted-soft); }
+.wf__legend-gate {
+  width: 13px;
+  height: 13px;
+  transform: rotate(45deg);
+  border-radius: 2px;
+  border: 1.5px dashed var(--muted);
+}
+.wf__legend-person {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted-soft);
+}
+
+/* list mode: hidden until the rail no longer fits */
+.wf__list { display: none; }
+.wf__listGroup { margin-bottom: 16px; }
+.wf__listLabel {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted-soft);
+  margin-bottom: 9px;
+}
+.wf__listRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+  background: #fff;
+}
+.wf__listRow .wf__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  background: #fff;
+}
+.wf__listRow--mint  { background: var(--accent-mint-surface);  border-color: var(--accent-mint-border); }
+.wf__listRow--lilac { background: var(--accent-lilac-surface); border-color: var(--accent-lilac-border); }
+.wf__listRow--sky   { background: var(--accent-sky-surface);   border-color: var(--accent-sky-border); }
+.wf__listRow--peach { background: var(--accent-peach-surface); border-color: var(--accent-peach-border); }
+.wf__listRow--rose  { background: var(--accent-rose-surface);  border-color: var(--accent-rose-border); }
+.wf__listRow--mint  .wf__icon { border: 1px solid var(--accent-mint-border);  color: var(--accent-mint-ink); }
+.wf__listRow--lilac .wf__icon { border: 1px solid var(--accent-lilac-border); color: var(--accent-lilac-ink); }
+.wf__listRow--sky   .wf__icon { border: 1px solid var(--accent-sky-border);   color: var(--accent-sky-ink); }
+.wf__listRow--peach .wf__icon { border: 1px solid var(--accent-peach-border); color: var(--accent-peach-ink); }
+.wf__listRow--rose  .wf__icon { border: 1px solid var(--accent-rose-border);  color: var(--accent-rose-ink); }
+.wf__listRow--gate { border-style: dashed; background: var(--bg-subtle); }
+.wf__listRow--gate .wf__icon { border: 1px dashed var(--muted-soft); color: var(--muted); }
+.wf__listRow--out-success .wf__icon {
+  border: 1px solid var(--accent-mint-border);
+  background: var(--accent-mint-surface);
+  color: var(--accent-mint-ink);
+}
+.wf__listRow--out-warn .wf__icon {
+  border: 1px solid var(--accent-peach-border);
+  background: var(--accent-peach-surface);
+  color: var(--accent-peach-ink);
+}
+.wf__listRow--out-neutral .wf__icon { border: 1px solid var(--line); color: var(--muted); }
+.wf__listChips { display: flex; flex-wrap: wrap; gap: 7px; }
+.wf__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 5px 10px;
+  background: #fff;
+}
+.wf__chip svg { color: var(--muted); }
+
+/* ── statStrip ── */
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  border: 1px solid var(--line);
+  border-radius: var(--detail-radius);
+  background: var(--bg);
+  box-shadow: 0 1px 2px rgba(10, 14, 26, 0.035);
+  margin-bottom: var(--detail-gap);
+  overflow: hidden;
+}
+.detail-stats__cell { display: flex; align-items: center; gap: 14px; padding: 20px 22px; }
+.detail-stats__cell + .detail-stats__cell { border-left: 1px solid var(--line-soft); }
+.detail-stats__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: var(--blue-ghost);
+  border: 1px solid var(--blue-soft);
+  color: var(--blue);
+}
+.detail-stats__text { display: block; }
+.detail-stats__value { display: block; font-size: 16px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; }
+.detail-stats__label { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ── featurePanel ── */
+.detail-panel { padding: 20px 22px 22px; }
+.detail-panel__title {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 600;
+  font-size: 16.5px;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+.detail-panel__grid { display: grid; gap: 0; }
+.detail-panel__grid--2 { grid-template-columns: repeat(2, 1fr); }
+.detail-panel__grid--3 { grid-template-columns: repeat(3, 1fr); }
+.detail-panel__grid--4 { grid-template-columns: repeat(4, 1fr); }
+.detail-panel__item { padding: 0 15px; }
+.detail-panel__item:first-child { padding-left: 0; }
+.detail-panel__item:last-child { padding-right: 0; }
+.detail-panel__item + .detail-panel__item { border-left: 1px solid var(--line-soft); }
+.detail-panel__item svg { color: var(--ink-soft); margin-bottom: 9px; }
+.detail-panel__itemTitle { font-size: 12.5px; font-weight: 600; line-height: 1.32; margin-bottom: 5px; }
+.detail-panel__itemBody { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+
+/* modal body, for the diagram's fullscreen view */
+.modalBodyContainer { margin-top: 8px; overflow: auto; }
+
+/* ── responsive ──
+   The diagram gets its own breakpoint: the rail needs roughly 860px of inner
+   width, so waiting for the layout breakpoint at 900px would leave a band
+   where it scrolls horizontally. */
+@media (max-width: 1180px) {
+  .detail-columns--1-2,
+  .detail-columns--1-3 { grid-template-columns: 1fr; }
+  .detail-hero__body { max-width: 62ch; }
+}
+@media (max-width: 980px) {
+  .wf__scroll { display: none; }
+  .wf__list { display: block; }
+}
+@media (max-width: 900px) {
+  .detail-columns--1-1,
+  .detail-columns--2-1 { grid-template-columns: 1fr; }
+  .detail-panel__grid--2,
+  .detail-panel__grid--3,
+  .detail-panel__grid--4 { grid-template-columns: 1fr; }
+  .detail-panel__item { padding: 14px 0; }
+  .detail-panel__item + .detail-panel__item { border-left: none; border-top: 1px solid var(--line-soft); }
+  .detail-panel__item svg { margin-bottom: 6px; }
+  .detail-stats__cell + .detail-stats__cell { border-left: none; border-top: 1px solid var(--line-soft); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wf__node:hover { transform: none; }
+  .detail-hero__cta:hover { transform: none; }
+}
+
+/* A block-composed detail page needs the full page width for its diagram and
+   two-up rows, but its prose must stay at a readable measure. The article goes
+   wide; the narrative sections underneath keep the old 840px column. */
+.projectPage--blocks {
+  max-width: var(--max);
+  padding: 40px 32px 90px;
+}
+.projectPage--blocks .projectPageSection {
+  max-width: 74ch;
+}
+.projectPage--blocks .detail-blocks > *:last-child {
+  margin-bottom: 0;
+}
+.projectPage--blocks .projectPageActions {
+  margin-top: 32px;
+}
+
+/* The archive panel is a narrow column inside a wide viewport, so a
+   viewport media query cannot catch it. Force the diagram's list presentation
+   by container instead — the rail would otherwise overflow the panel. */
+.application-detail-body .wf__scroll { display: none; }
+.application-detail-body .wf__list { display: block; }
+.application-detail-body .detail-stats { grid-template-columns: repeat(2, 1fr); }
+.application-detail-body .detail-panel__grid { grid-template-columns: 1fr; }
+.application-detail-body .detail-panel__item { padding: 14px 0; }
+.application-detail-body .detail-panel__item + .detail-panel__item {
+  border-left: none;
+  border-top: 1px solid var(--line-soft);
+}
+
+/* `.projectPage h1` (specificity 0,1,1) outranks `.detail-hero__title`
+   (0,1,0), which pinned the hero to a fixed 48px and broke its fluid scale on
+   small screens. Restate at matching specificity. */
+.projectPage .detail-hero__title {
+  font-size: clamp(30px, 3.4vw, 46px);
+  line-height: 1.06;
+  margin-bottom: 16px;
+}
+
+/* Fullscreen diagram view. The default modal is sized for an image; a rail
+   needs the width or "Fullscreen" would still scroll horizontally. */
+.modalContent--wide {
+  max-width: min(1460px, 95vw);
+  width: min(1460px, 95vw);
+}
+.modalContent--wide .wf { padding: 8px 0 0; }
+.modalContent--wide .wf__list { display: none; }
+.modalContent--wide .wf__scroll { display: block; }
+
+/* The rail sets min-width:min-content so its tracks never crush. Without an
+   explicit min-width:0 on the chain above it, that intrinsic width propagates
+   outward and widens the page instead of being clipped, which html's
+   overflow-x:hidden then silently masks. These three rules make
+   .wf__scroll actually behave as the scroll container it claims to be, so a
+   diagram wider than its column scrolls locally rather than breaking the page.
+   This also means the rail/list breakpoint no longer has to be tuned per
+   diagram width. */
+.detail-card { min-width: 0; }
+.wf { min-width: 0; }
+.wf__scroll { min-width: 0; max-width: 100%; }
+
+/* `body` is a grid container, so this article is a grid item and its
+   automatic minimum size is min-content — the diagram rail's intrinsic width
+   was therefore stretching the page instead of being clipped by
+   .wf__scroll. min-width:0 lets the item shrink so the rail scrolls locally. */
+.projectPage--blocks { min-width: 0; }
+
+/* min-width:0 alone is not enough: with width:auto this grid item is sized by
+   fit-content, whose floor is min-content — so the rail still widened it. A
+   definite width makes the article take its grid column exactly, and the
+   overflow then lands in .wf__scroll where it belongs. */
+.projectPage--blocks { width: 100%; }

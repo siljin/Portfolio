@@ -37,11 +37,30 @@ function getFirstBlock<K extends DetailKind>(
   );
 }
 
+/**
+ * `pageHero` is the detail route's title block. This panel renders its own
+ * hero from `project.title` / `descriptor`, so keeping it would duplicate the
+ * heading. It is dropped rather than promoted.
+ */
+const PANEL_SKIPPED_KINDS = new Set<DetailKind>(["pageHero"]);
+
+/**
+ * A `columns` block is a page-width layout. In this narrow panel its children
+ * are unwrapped and rendered in source order, so a two-up row does not squeeze
+ * into half a sidebar.
+ */
+function flattenColumns(blocks: DetailBlock[]): DetailBlock[] {
+  return blocks.flatMap((block) =>
+    block.kind === "columns" ? flattenColumns(block.items) : [block]
+  );
+}
+
 function getBodyBlocks(blocks: DetailBlock[]) {
   const skipped: Partial<Record<DetailKind, boolean>> = {};
   const promotedKinds = new Set<DetailKind>(["tagRow", "metaStrip", "previewPane"]);
 
-  return blocks.filter((block) => {
+  return flattenColumns(blocks).filter((block) => {
+    if (PANEL_SKIPPED_KINDS.has(block.kind)) return false;
     if (promotedKinds.has(block.kind) && !skipped[block.kind]) {
       skipped[block.kind] = true;
       return false;

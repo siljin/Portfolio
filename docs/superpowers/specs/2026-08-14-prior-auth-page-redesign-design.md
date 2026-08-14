@@ -1,8 +1,10 @@
-# Prior Authorization Page Redesign — Design Spec
+# Application Page Redesign — Design Spec
+
+Covers the prior authorization and Type 2 diabetes application pages.
 
 Date: 2026-08-14
 Branch: `enhance`
-Status: awaiting review
+Status: implemented
 
 ## Goal
 
@@ -486,8 +488,101 @@ empty, so verification is:
   existing content. If all applications eventually migrate, `metaStrip` can be
   retired in a later change.
 
+## The diabetes application
+
+`lib/workflows/Diabetes Diagnosis.yml` is the second consumer, and it exercises
+parts of the schema prior auth does not.
+
+### Its real graph
+
+Thirteen nodes, **one** three-way gate, three terminal outputs:
+
+```
+User Input (Age, Gender, Symptoms, Medical History, Social Characteristics)
+  → JSON Structurer            (llm, gemini)
+  → Risk Level Calculator      (code — deterministic 0–100 score)
+  → Knowledge Retrieval        (knowledge-retrieval, ADA guidelines)
+  → Clinical Evidence Reviewer (agent, MCP SSE function calling)
+  → Clinical Reasoning Engine  (llm — diagnosis + confidence 0–10)
+  → IF/ELSE
+      ├── data insufficient  → Need more info (human-input) → Output
+      ├── confidence 8–10    → Report Formatter   → Output 2
+      └── confidence < 8     → Report Formatter 2 → Output 3
+```
+
+Two differences from prior auth drove schema and layout work:
+
+- **One gate owns two branches.** The connector therefore cannot be a single
+  riser per gate. It is drawn as **stem → bus → per-card riser**: a stem drops
+  from the gate, a horizontal bus spans every exit card that gate feeds, and
+  each card raises a riser to the bus. This covers 1..N branches per gate with
+  no measurement, and replaced the one-riser-per-gate approach.
+- **Five stages, not four.** A fifth accent (`rose`) was added, and the page
+  gives the diagram full width instead of placing it beside the hero — which is
+  the point of the block system: the same blocks compose differently per page.
+
+### Its page composition
+
+`pageHero` full width → `workflowDiagram` full width → `statStrip` →
+`columns` 1-1 with the two `featurePanel`s → prose sections. Prior auth keeps
+the side-by-side `columns` 1-3 hero because four stages fit beside it.
+
+Its existing copy was already accurate (it correctly named Gemini and
+described the branching), so only the diagram, stats and panels were added.
+
+## What implementation changed
+
+Four things the design did not anticipate, all found by measuring the built
+pages rather than by reading the code:
+
+1. **`.projectPage` is an 840px prose column.** The block composition needs the
+   full page width, so `.projectPage--blocks` widens the article while the
+   prose sections keep a 74ch measure.
+2. **`body` is a grid container.** The article is therefore a grid item whose
+   automatic minimum size is min-content, so the diagram rail's intrinsic width
+   stretched the whole page — masked by the existing `html { overflow-x:
+   hidden }`. `min-width: 0` was not sufficient: with `width: auto` the item is
+   sized by fit-content, whose floor is still min-content. It needs a definite
+   `width: 100%`. With that, the rail scrolls inside `.wf__scroll` as intended
+   and the rail/list breakpoint no longer has to be tuned per diagram width.
+3. **`.projectPage h1` (specificity 0,1,1) outranks `.detail-hero__title`
+   (0,1,0)**, pinning the hero to a fixed 48px and breaking its fluid scale on
+   mobile. Restated at matching specificity.
+4. **The archive panel needs container-scoped rules, not media queries.** It is
+   a narrow column inside a wide viewport, so `@media` cannot catch it;
+   `.application-detail-body` descendant rules force the diagram's list
+   presentation there.
+
+Also: the fullscreen modal needed `.modalContent--wide`, since the default
+modal is sized for an image and would have made "Fullscreen" scroll.
+
+## Verification performed
+
+`npm install`, `npm run build` (all four detail routes generated, so every
+validator accepted the content and the exhaustive switch compiled) and
+`npm run lint` (clean) all pass.
+
+Measured in a real browser against the dev server:
+
+- Prior auth at 1440px: rail fits exactly (917 = 917), gate stems align with
+  gate centres, each bus covers its exit card, one `h1`, prose intact.
+- Diabetes at 1440px: 5 stages numbered 01–05 with 5 distinct accents, one
+  gate, one bus spanning both exits, spine terminating at Diagnostic Report.
+- 1000px: no page overflow; rail scrolls locally (1028 inside 875).
+- 768px and 375px: list mode, no horizontal overflow, both gates present as
+  dashed rows, hero title scales to 30px.
+- Fullscreen: renders live JSX rather than an image, fits exactly (1288 =
+  1288), closes on Escape, leaves one rail on the page.
+- Archive panel at `?id=prior-auth` and `?id=diabetes-risk`: `pageHero`
+  skipped so no duplicate heading, `columns` flattened, list presentation, no
+  overflow.
+- Regression: `ai-ticket-triage` and `mba-tech-club` detail pages render their
+  titles from their new `pageHero` blocks, keep their existing blocks, images
+  load, and the architecture / sequence diagram buttons still work.
+
 ## Process
 
 Per the request: spec → static HTML mockup → feedback applied to the spec →
-re-review. Implementation begins only after the mockup is certified
-satisfactory.
+re-review, then implementation. The prior auth mockup was reviewed and its
+gate treatment revised (dashed diamond with a spelled-out condition, exits
+aligned under their gates) before implementation began.

@@ -1,5 +1,9 @@
 /** Type-only definitions for JSON under `content/`. Runtime checks live in `validate.ts` / `loaders.ts`. */
 
+import type { AccentName, DetailIconName } from "@/components/detail/iconRegistry";
+
+export type { AccentName, DetailIconName };
+
 /**
  * Detail-page visual blocks. Each item in `detail.blocks[]` is one of these
  * discriminated shapes; the renderer in `components/detail/renderBlock.tsx`
@@ -12,7 +16,58 @@ export type DetailBlock =
   | { kind: "tagRow"; tags: string[] }
   | { kind: "previewPane"; image: string; url?: string; caption?: string; chrome?: "browser" | "none" }
   | { kind: "metaStrip"; cells: { label: string; value: string }[] }
-  | { kind: "cta"; label: string; href: string; note?: string };
+  | { kind: "cta"; label: string; href: string; note?: string }
+  | { kind: "columns"; ratio?: ColumnsRatio; items: DetailBlock[] }
+  | { kind: "pageHero"; badge?: string; title: string; body?: string; cta?: { label: string; href: string } }
+  | { kind: "statStrip"; cells: StatCell[] }
+  | { kind: "featurePanel"; title: string; columns?: 2 | 3 | 4; items: FeatureItem[] }
+  | {
+      kind: "workflowDiagram";
+      title: string;
+      fullscreen?: boolean;
+      inputs?: { label: string; items: { icon: DetailIconName; label: string }[] };
+      nodes: WorkflowDiagramNode[];
+      outputs: WorkflowOutput[];
+      branches?: WorkflowBranch[];
+      legend?: { style: "solid" | "dashed" | "gate" | "person"; label: string }[];
+    };
+
+export type ColumnsRatio = "1-1" | "1-2" | "1-3" | "2-1";
+
+export type StatCell = { icon: DetailIconName; value: string; label: string };
+
+export type FeatureItem = { icon: DetailIconName; title: string; body?: string };
+
+/**
+ * A diagram node is either a numbered pipeline `stage` or an unnumbered
+ * `gate` — a decision point that can divert flow out of the pipeline.
+ * `role` defaults to `"stage"`.
+ */
+export type WorkflowDiagramNode = {
+  icon: DetailIconName;
+  title: string;
+  body?: string;
+  accent: AccentName;
+  role?: "stage" | "gate";
+};
+
+export type WorkflowOutput = {
+  icon: DetailIconName;
+  title: string;
+  caption?: string;
+  tone?: "success" | "warn" | "neutral";
+};
+
+/**
+ * Connects a gate to an output it diverts to. `from` indexes `nodes`, `to`
+ * indexes `outputs`. `validate.ts` range-checks both, requires `from` to point
+ * at a `role: "gate"` node, and requires exactly one output to be left
+ * unreferenced — that one is the pipeline's own terminus.
+ *
+ * A single gate may own several branches (a three-way route is one gate with
+ * two branches plus the spine).
+ */
+export type WorkflowBranch = { from: number; to: number; label: string };
 
 export type DetailContent = {
   blocks: DetailBlock[];
