@@ -4,19 +4,19 @@ import Link from "next/link";
 import { Linkedin, Mail, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { getSite } from "@/lib/site";
 
+/**
+ * Give an item an `href` to render it as a real link to its own URL, or leave
+ * it out and pass `onSelect` to swap content in place.
+ *
+ * The href is data rather than a `hrefFor` callback because these archives are
+ * built by Server Components, and a function cannot cross that boundary.
+ */
 export type ArchiveSidebarItem = {
   id: string;
   title: string;
+  href?: string;
 };
 
-/**
- * Supply `hrefFor` to render entries as real links that navigate to their own
- * URL, or `onSelect` to swap content in place.
- *
- * The applications archive uses `hrefFor` so the address bar always matches
- * what is on screen and every entry is deep-linkable; the case study archive
- * still selects in place.
- */
 type ArchiveSidebarProps = {
   title: string;
   items: ArchiveSidebarItem[];
@@ -25,7 +25,6 @@ type ArchiveSidebarProps = {
   listId: string;
   onToggleExpand: () => void;
   onSelect?: (id: string) => void;
-  hrefFor?: (id: string) => string;
 };
 
 export function ArchiveSidebar({
@@ -36,7 +35,6 @@ export function ArchiveSidebar({
   listId,
   onToggleExpand,
   onSelect,
-  hrefFor,
 }: ArchiveSidebarProps) {
   const { contact, labels, urls } = getSite();
   const ToggleIcon = isExpanded ? PanelLeftClose : PanelLeftOpen;
@@ -79,9 +77,9 @@ export function ArchiveSidebar({
 
           return (
             <li key={item.id} className="projects-item">
-              {hrefFor ? (
+              {item.href ? (
                 <Link
-                  href={hrefFor(item.id)}
+                  href={item.href}
                   className={className}
                   aria-label={item.title}
                   aria-current={isActive ? "page" : undefined}

@@ -356,6 +356,7 @@ export function validatePortfolioProject(
   const ctx = `projects[${index}]`;
   if (typeof item !== "object" || item === null) throw new Error(`${ctx}: expected object`);
   const o = item as Record<string, unknown>;
+  assertNonEmptyString(o.slug, "slug", ctx);
   assertNonEmptyString(o.id, "id", ctx);
   assertNonEmptyString(o.eyebrow, "eyebrow", ctx);
   assertNonEmptyString(o.title, "title", ctx);
@@ -551,6 +552,7 @@ export function validateSite(data: unknown): asserts data is SiteContent {
     "expandSidebar",
     "projectImagePlaceholder",
     "backToApplications",
+    "backToProjects",
     "projectsCarouselPrevious",
     "projectsCarouselNext",
   ];

@@ -4,7 +4,8 @@ import {
   getProjectSlugs,
   getProjects,
 } from "@/lib/applications";
-import { ApplicationsArchiveShell } from "@/components/applications/ApplicationsArchiveShell";
+import { ArchiveShell } from "@/components/archive/ArchiveShell";
+import { getCompactApplicationTitle } from "@/lib/content/display";
 import { getSite } from "@/lib/site";
 import ClientDetail from "./ClientDetail";
 
@@ -35,9 +36,20 @@ export default async function ProjectPage({ params }: PageProps) {
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
+  const { applicationsArchive } = getSite();
+
   return (
-    <ApplicationsArchiveShell projects={getProjects()} selectedId={project.id}>
+    <ArchiveShell
+      title={applicationsArchive.sidebarTitle}
+      items={getProjects().map((item) => ({
+        id: item.id,
+        title: getCompactApplicationTitle(item.title),
+        href: `/applications/${item.slug}/`,
+      }))}
+      selectedId={project.id}
+      listId="applications-sidebar-list"
+    >
       <ClientDetail project={project} />
-    </ApplicationsArchiveShell>
+    </ArchiveShell>
   );
 }

@@ -105,6 +105,8 @@ export type PortfolioSection = {
 };
 
 export type PortfolioProjectContent = {
+  /** Canonical URL segment: a case study lives at `/projects/<slug>/`. */
+  slug: string;
   id: string;
   eyebrow: string;
   title: string;
@@ -180,6 +182,7 @@ export type SiteLabels = {
   expandSidebar: string;
   projectImagePlaceholder: string;
   backToApplications: string;
+  backToProjects: string;
   projectsCarouselPrevious: string;
   projectsCarouselNext: string;
 };

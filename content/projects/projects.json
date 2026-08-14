@@ -1,5 +1,6 @@
 [
   {
+    "slug": "rcm-market-strategy",
     "id": "waystar",
     "eyebrow": "P. 01",
     "title": "RCM Market Strategy",
@@ -9,7 +10,12 @@
     "metric1Label": "TAM analyzed",
     "metric2": "5",
     "metric2Label": "ranked strategic moves",
-    "tags": ["Healthcare", "Strategy", "AI", "Market Analysis"],
+    "tags": [
+      "Healthcare",
+      "Strategy",
+      "AI",
+      "Market Analysis"
+    ],
     "deckUrl": "https://canva.link/2evsijkxqxbff5s",
     "imageSrc": "/images/projects/Waystar-Logo.png",
     "sections": [
@@ -48,23 +54,69 @@
     ],
     "detail": {
       "blocks": [
-        { "kind": "lede", "text": "Market-level strategic assessment of the $23B U.S. Revenue Cycle Management landscape — mapping the value chain across eight integrated stages, scoring competitive moats, and producing five ranked moves with a defined 2026–2028 action window." },
-        { "kind": "tagRow", "tags": ["Healthcare", "Strategy", "AI", "Market Analysis"] },
-        { "kind": "previewPane", "image": "/images/projects/Waystar-Logo.png", "url": "canva.link/2evsijkxqxbff5s", "caption": "Strategy deck — value chain, Porter's Five Forces, ranked recommendations." },
-        { "kind": "heading", "text": "Scope & framing" },
-        { "kind": "metaStrip", "cells": [
-          { "label": "TAM",         "value": "$23B U.S. RCM" },
-          { "label": "Value chain", "value": "8 integrated stages" },
-          { "label": "Competitors", "value": "Epic · Optum · R1 · AKASA + 4" },
-          { "label": "Deliverable", "value": "5 ranked moves" }
-        ]},
-        { "kind": "heading", "text": "Top recommendation" },
-        { "kind": "lede", "text": "Ship Denial Insights into PreBill in 1H 2026 and scale payer-calibrated prebill scoring as the primary moat — before Epic Payer Platform scales past 25 national payers, the window the analysis identifies as 2026–2028." },
-        { "kind": "cta", "label": "View the deck", "href": "https://canva.link/2evsijkxqxbff5s", "note": "Full executive strategy presentation." }
+        {
+          "kind": "lede",
+          "text": "Market-level strategic assessment of the $23B U.S. Revenue Cycle Management landscape — mapping the value chain across eight integrated stages, scoring competitive moats, and producing five ranked moves with a defined 2026–2028 action window."
+        },
+        {
+          "kind": "tagRow",
+          "tags": [
+            "Healthcare",
+            "Strategy",
+            "AI",
+            "Market Analysis"
+          ]
+        },
+        {
+          "kind": "previewPane",
+          "image": "/images/projects/Waystar-Logo.png",
+          "url": "canva.link/2evsijkxqxbff5s",
+          "caption": "Strategy deck — value chain, Porter's Five Forces, ranked recommendations."
+        },
+        {
+          "kind": "heading",
+          "text": "Scope & framing"
+        },
+        {
+          "kind": "metaStrip",
+          "cells": [
+            {
+              "label": "TAM",
+              "value": "$23B U.S. RCM"
+            },
+            {
+              "label": "Value chain",
+              "value": "8 integrated stages"
+            },
+            {
+              "label": "Competitors",
+              "value": "Epic · Optum · R1 · AKASA + 4"
+            },
+            {
+              "label": "Deliverable",
+              "value": "5 ranked moves"
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "Top recommendation"
+        },
+        {
+          "kind": "lede",
+          "text": "Ship Denial Insights into PreBill in 1H 2026 and scale payer-calibrated prebill scoring as the primary moat — before Epic Payer Platform scales past 25 national payers, the window the analysis identifies as 2026–2028."
+        },
+        {
+          "kind": "cta",
+          "label": "View the deck",
+          "href": "https://canva.link/2evsijkxqxbff5s",
+          "note": "Full executive strategy presentation."
+        }
       ]
     }
   },
   {
+    "slug": "costco-growth-strategy",
     "id": "costco",
     "eyebrow": "P. 02",
     "title": "Costco Growth Strategy",
@@ -74,7 +126,12 @@
     "metric1Label": "revenue analyzed",
     "metric2": "4",
     "metric2Label": "growth initiatives",
-    "tags": ["Retail", "Strategy", "Competitive Analysis", "Growth"],
+    "tags": [
+      "Retail",
+      "Strategy",
+      "Competitive Analysis",
+      "Growth"
+    ],
     "deckUrl": "https://canva.link/6oovgj01p12b40n",
     "imageSrc": "/images/projects/costco-logo.png",
     "sections": [
@@ -108,23 +165,69 @@
     ],
     "detail": {
       "blocks": [
-        { "kind": "lede", "text": "A full-stack strategic analysis of a $249B retailer at an inflection point — pairing Porter's Five Forces, PESTEL, value chain, and VRIO with bottom-up financial breakdown of the FY2025 10-K to surface four prioritized growth vectors." },
-        { "kind": "tagRow", "tags": ["Retail", "Strategy", "Competitive Analysis", "Growth"] },
-        { "kind": "previewPane", "image": "/images/projects/costco-logo.png", "url": "canva.link/6oovgj01p12b40n", "caption": "Strategy deck — frameworks, competitive map, ranked initiatives." },
-        { "kind": "heading", "text": "Scale of the analysis" },
-        { "kind": "metaStrip", "cells": [
-          { "label": "Revenue",      "value": "$249B FY2025" },
-          { "label": "Membership $", "value": "51% of operating profit" },
-          { "label": "E-commerce",   "value": "~7% (vs. 15–18% at Walmart)" },
-          { "label": "Output",       "value": "4 growth initiatives" }
-        ]},
-        { "kind": "heading", "text": "Growth vectors" },
-        { "kind": "lede", "text": "Accelerate digital + app investment, selective APAC expansion, pilot urban small-format warehouses (~40K sq ft / 1,500 SKUs), and bring last-mile delivery in-house to reduce Instacart dependency." },
-        { "kind": "cta", "label": "View the deck", "href": "https://canva.link/6oovgj01p12b40n", "note": "Full strategic analysis with financial model." }
+        {
+          "kind": "lede",
+          "text": "A full-stack strategic analysis of a $249B retailer at an inflection point — pairing Porter's Five Forces, PESTEL, value chain, and VRIO with bottom-up financial breakdown of the FY2025 10-K to surface four prioritized growth vectors."
+        },
+        {
+          "kind": "tagRow",
+          "tags": [
+            "Retail",
+            "Strategy",
+            "Competitive Analysis",
+            "Growth"
+          ]
+        },
+        {
+          "kind": "previewPane",
+          "image": "/images/projects/costco-logo.png",
+          "url": "canva.link/6oovgj01p12b40n",
+          "caption": "Strategy deck — frameworks, competitive map, ranked initiatives."
+        },
+        {
+          "kind": "heading",
+          "text": "Scale of the analysis"
+        },
+        {
+          "kind": "metaStrip",
+          "cells": [
+            {
+              "label": "Revenue",
+              "value": "$249B FY2025"
+            },
+            {
+              "label": "Membership $",
+              "value": "51% of operating profit"
+            },
+            {
+              "label": "E-commerce",
+              "value": "~7% (vs. 15–18% at Walmart)"
+            },
+            {
+              "label": "Output",
+              "value": "4 growth initiatives"
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "Growth vectors"
+        },
+        {
+          "kind": "lede",
+          "text": "Accelerate digital + app investment, selective APAC expansion, pilot urban small-format warehouses (~40K sq ft / 1,500 SKUs), and bring last-mile delivery in-house to reduce Instacart dependency."
+        },
+        {
+          "kind": "cta",
+          "label": "View the deck",
+          "href": "https://canva.link/6oovgj01p12b40n",
+          "note": "Full strategic analysis with financial model."
+        }
       ]
     }
   },
   {
+    "slug": "calibr-health",
     "id": "calibr",
     "eyebrow": "P. 03",
     "title": "Calibr Health",
@@ -134,7 +237,12 @@
     "metric1Label": "seed round pitched",
     "metric2": "$1.2B",
     "metric2Label": "SAM targeted",
-    "tags": ["Healthcare AI", "Venture", "Product", "Pitch"],
+    "tags": [
+      "Healthcare AI",
+      "Venture",
+      "Product",
+      "Pitch"
+    ],
     "deckUrl": "https://canva.link/ksxfzu8zyevp5u4",
     "sections": [
       {
@@ -176,25 +284,83 @@
     ],
     "detail": {
       "blocks": [
-        { "kind": "lede", "text": "Designed and pitched a fictional AI-powered behavioral health startup to real venture capitalists — a triage and care management platform targeting 50–200 provider virtual clinics in a $1.2B SAM." },
-        { "kind": "tagRow", "tags": ["Healthcare AI", "Venture", "Product", "Pitch"] },
-        { "kind": "heading", "text": "The pitch" },
-        { "kind": "metaStrip", "cells": [
-          { "label": "Raise",     "value": "$3.5M seed @ $12M pre" },
-          { "label": "Runway",    "value": "18 months to $5M ARR" },
-          { "label": "Target",    "value": "15 paying clinics" },
-          { "label": "Unit econ", "value": "$25K CAC · $1.2M LTV (48×)" }
-        ]},
-        { "kind": "heading", "text": "The product" },
-        { "kind": "lede", "text": "Predictive AI generates a 0–100 daily risk score per patient (updated every 6 hours, flagging deterioration 5–7 days before crisis). A Generative AI layer provides 24/7 crisis chat, real-time session summaries, and care-recommendation drafts — every score surfaces its top three drivers; clinician retains final authority." },
-        { "kind": "heading", "text": "Technical roadmap" },
-        { "kind": "metaStrip", "cells": [
-          { "label": "Phase 1", "value": "Rules-based scoring · Month 1" },
-          { "label": "Phase 2", "value": "XGBoost/LightGBM · AUROC ≥0.80 · Month 6" },
-          { "label": "Phase 3", "value": "Whisper + OpenSMILE audio · Month 12" },
-          { "label": "Infra",   "value": "HIPAA AWS GovCloud · <$1 PMPM" }
-        ]},
-        { "kind": "cta", "label": "View the deck", "href": "https://canva.link/ksxfzu8zyevp5u4", "note": "Full pitch deck — product, model, GTM, financials." }
+        {
+          "kind": "lede",
+          "text": "Designed and pitched a fictional AI-powered behavioral health startup to real venture capitalists — a triage and care management platform targeting 50–200 provider virtual clinics in a $1.2B SAM."
+        },
+        {
+          "kind": "tagRow",
+          "tags": [
+            "Healthcare AI",
+            "Venture",
+            "Product",
+            "Pitch"
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "The pitch"
+        },
+        {
+          "kind": "metaStrip",
+          "cells": [
+            {
+              "label": "Raise",
+              "value": "$3.5M seed @ $12M pre"
+            },
+            {
+              "label": "Runway",
+              "value": "18 months to $5M ARR"
+            },
+            {
+              "label": "Target",
+              "value": "15 paying clinics"
+            },
+            {
+              "label": "Unit econ",
+              "value": "$25K CAC · $1.2M LTV (48×)"
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "The product"
+        },
+        {
+          "kind": "lede",
+          "text": "Predictive AI generates a 0–100 daily risk score per patient (updated every 6 hours, flagging deterioration 5–7 days before crisis). A Generative AI layer provides 24/7 crisis chat, real-time session summaries, and care-recommendation drafts — every score surfaces its top three drivers; clinician retains final authority."
+        },
+        {
+          "kind": "heading",
+          "text": "Technical roadmap"
+        },
+        {
+          "kind": "metaStrip",
+          "cells": [
+            {
+              "label": "Phase 1",
+              "value": "Rules-based scoring · Month 1"
+            },
+            {
+              "label": "Phase 2",
+              "value": "XGBoost/LightGBM · AUROC ≥0.80 · Month 6"
+            },
+            {
+              "label": "Phase 3",
+              "value": "Whisper + OpenSMILE audio · Month 12"
+            },
+            {
+              "label": "Infra",
+              "value": "HIPAA AWS GovCloud · <$1 PMPM"
+            }
+          ]
+        },
+        {
+          "kind": "cta",
+          "label": "View the deck",
+          "href": "https://canva.link/ksxfzu8zyevp5u4",
+          "note": "Full pitch deck — product, model, GTM, financials."
+        }
       ]
     }
   }

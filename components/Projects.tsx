@@ -47,7 +47,7 @@ export function Projects() {
               description={project.desc}
               metric={project.metric1}
               metricLabel={project.metric1Label}
-              detailHref={`/projects?id=${project.id}`}
+              detailHref={`/projects/${project.slug}/`}
               actionHref={project.deckUrl}
               actionLabel={labels.viewDeck}
             />

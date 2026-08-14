@@ -4043,3 +4043,11 @@ footer {
    definite width makes the article take its grid column exactly, and the
    overflow then lands in .wf__scroll where it belongs. */
 .projectPage--blocks { width: 100%; }
+
+/* Back link inside an archive's content column, where the surrounding <main>
+   already supplies the page padding. */
+.projectPageBack--archive {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
