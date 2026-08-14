@@ -74,9 +74,11 @@ export default function ClientDetail({ project }: { project: Project }) {
       {project.sections.map((s) => (
         <section key={s.title} className="projectPageSection">
           <h2>{s.title}</h2>
-          {s.paragraphs.map((p, i) => (
-            <p key={`${s.title}-${i}`}>{p}</p>
-          ))}
+          <div className="projectPageSection__body">
+            {s.paragraphs.map((p, i) => (
+              <p key={`${s.title}-${i}`}>{p}</p>
+            ))}
+          </div>
         </section>
       ))}
 

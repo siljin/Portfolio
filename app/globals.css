@@ -2967,6 +2967,9 @@ footer {
 .projectPageActions {
   display: flex;
   align-items: center;
+  /* Wraps: an application with both an architecture and a sequence diagram
+     shows two buttons, which overflowed a 390px viewport on one line. */
+  flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 42px;
   margin-top: 30px;
@@ -3944,8 +3947,41 @@ footer {
   max-width: var(--max);
   padding: 40px 32px 90px;
 }
+/* The narrative sections sit under full-width blocks. Capping the whole
+   section at a readable measure left it as a narrow column hugging the left
+   edge with ~600px of dead space beside it. Instead the heading moves into a
+   left rail and only the paragraphs keep the measure, so the section uses the
+   page width while the line length stays readable. */
 .projectPage--blocks .projectPageSection {
-  max-width: 74ch;
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(150px, 230px) minmax(0, 72ch);
+  column-gap: 56px;
+  align-items: start;
+  padding-top: 34px;
+  border-top: 1px solid var(--line-soft);
+  margin-top: 34px;
+}
+.projectPage--blocks .projectPageSection h2 {
+  margin-bottom: 0;
+  font-size: 19px;
+  position: sticky;
+  top: 24px;
+}
+.projectPage--blocks .projectPageSection__body > p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .projectPage--blocks .projectPageSection {
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+    padding-top: 26px;
+    margin-top: 26px;
+  }
+  .projectPage--blocks .projectPageSection h2 {
+    position: static;
+  }
 }
 .projectPage--blocks .detail-blocks > *:last-child {
   margin-bottom: 0;
