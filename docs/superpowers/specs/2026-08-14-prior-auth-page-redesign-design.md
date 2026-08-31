@@ -1,6 +1,6 @@
-# Application Page Redesign — Design Spec
+# Prototype Page Redesign — Design Spec
 
-Covers the prior authorization and Type 2 diabetes application pages.
+Covers the prior authorization and Type 2 diabetes prototype pages.
 
 Date: 2026-08-14
 Branch: `enhance`
@@ -8,13 +8,13 @@ Status: implemented
 
 ## Goal
 
-Rebuild the prior authorization application detail page to match the target
+Rebuild the prior authorization prototype detail page to match the target
 design: a two-column hero, a horizontal multi-agent workflow diagram, a
 four-cell stat strip, and two side-by-side feature panels.
 
 The redesign is delivered as **new block kinds in the existing JSON-driven
-detail block system**, not as a bespoke page. Every other application page can
-adopt any of these elements by editing `content/applications/applications.json`
+detail block system**, not as a bespoke page. Every other prototype page can
+adopt any of these elements by editing `content/prototypes/prototypes.json`
 alone, with no component work.
 
 ## Scope
@@ -27,17 +27,17 @@ In scope:
 - Rewriting `prior-auth-workflow`'s `detail.blocks` to the new composition.
 - Correcting inaccurate copy on the prior auth entry (see "Corrections to
   existing copy") so the page matches the workflow it describes.
-- Adding a `pageHero` block to the other three applications so the detail
+- Adding a `pageHero` block to the other three prototypes so the detail
   route keeps rendering their titles.
-- Making the detail route (`app/applications/[slug]/ClientDetail.tsx`) render
+- Making the detail route (`app/prototypes/[slug]/ClientDetail.tsx`) render
   `detail.blocks`, which it does not do today.
 
 Out of scope:
 
-- Redesigning the archive list view at `/applications?id=…`. It shares the
+- Redesigning the archive list view at `/prototypes?id=…`. It shares the
   block array, so new kinds must degrade cleanly there, but its layout is
   unchanged.
-- Migrating the other three applications' full compositions. They gain only a
+- Migrating the other three prototypes' full compositions. They gain only a
   `pageHero`. In particular, building a `workflowDiagram` for
   `diabetes-risk` from `lib/workflows/Diabetes Diagnosis.yml` is deferred to a
   follow-up, though the block is designed to accept it.
@@ -48,7 +48,7 @@ Out of scope:
 ## Existing architecture (as found)
 
 - **Router:** Next 15.5 App Router, React 19, TypeScript.
-- **Content:** `content/applications/applications.json`. Prior auth is
+- **Content:** `content/prototypes/prototypes.json`. Prior auth is
   `slug: "prior-auth-workflow"`, `id: "prior-auth"`, with `tryItUrl` pointing
   at the hosted Dify workflow.
 - **Block system:** `lib/content/types.ts:9-15` defines the `DetailBlock`
@@ -56,8 +56,8 @@ Out of scope:
   with a `never` guard at `:36-39`, so a new union member fails to compile
   until a case is added. `lib/content/validate.ts:38-82` validates each kind at
   import time.
-- **Consumers:** `components/applications/ApplicationDetailPanel.tsx:190`
-  renders blocks. `app/applications/[slug]/ClientDetail.tsx` does **not** — it
+- **Consumers:** `components/prototypes/PrototypeDetailPanel.tsx:190`
+  renders blocks. `app/prototypes/[slug]/ClientDetail.tsx` does **not** — it
   hand-renders the hero and prose, and reads blocks only to derive a CTA label
   (`:20-23`).
 - **Styling:** one global stylesheet, `app/globals.css`, with CSS custom
@@ -128,7 +128,7 @@ Added to the union in `lib/content/types.ts`:
 
 where `type AccentName = "mint" | "lilac" | "sky" | "peach" | "neutral"`.
 
-`metaStrip` is retained unchanged for the other applications. `statStrip` is
+`metaStrip` is retained unchanged for the other prototypes. `statStrip` is
 its icon-bearing sibling; the two are not merged because `metaStrip` has no
 icon field and adding a required one would break existing content.
 
@@ -242,7 +242,7 @@ diagram-modal buttons currently in `projectPageActions` are retained below the
 back link, since they depend on `architectureDiagram` / `sequenceDiagram`
 fields rather than block content.
 
-Consequence: the other three applications (`mba-tech-club`,
+Consequence: the other three prototypes (`mba-tech-club`,
 `togetherwork-triage`, `diabetes-risk`) would lose their titles on the detail
 route. Each therefore gains a `pageHero` block reproducing its current
 `title`, `descriptor`, and try-it CTA. This is JSON-only work and doubles as
@@ -289,7 +289,7 @@ row; and the three outcomes become a trailing group.
 
 ### 9. Archive panel behavior
 
-`ApplicationDetailPanel` renders the same block array and already has a
+`PrototypeDetailPanel` renders the same block array and already has a
 promotion/skip mechanism at `:40-51` (`getBodyBlocks`). It is extended so
 `pageHero` is skipped there — the panel renders its own hero from
 `project.title` / `descriptor`, and rendering both would duplicate it.
@@ -305,10 +305,10 @@ set of rules.
 `lib/workflows/Prior Authorization Workflow.yml` is the Dify export of the
 running workflow and is authoritative for what the page may claim.
 `lib/workflows/Diabetes Diagnosis.yml` is the equivalent export for the
-`diabetes-risk` application, which makes it a real second consumer for the
+`diabetes-risk` prototype, which makes it a real second consumer for the
 `workflowDiagram` block rather than a hypothetical one.
 
-The diagram content is **hand-authored into `applications.json`, informed by
+The diagram content is **hand-authored into `prototypes.json`, informed by
 the YAML** — not generated from it. Dify graphs contain plumbing nodes
 (routers, formatters, code steps) that would make a portfolio diagram noisy,
 so the display stages are a curated read of the real graph. The trade-off is
@@ -340,14 +340,14 @@ The workflow **produces a decision report; it does not submit anything to a
 payer.** Three places currently claim otherwise or are inaccurate, and all are
 corrected in this change:
 
-- `applications.json:25` ("a submission agent that compiles and formats the
+- `prototypes.json:25` ("a submission agent that compiles and formats the
   final request") — rewritten to describe the retrieval → evidence → decision
   pipeline and the two gates.
-- `applications.json:8` and `:38` — "OpenAI" is wrong; every LLM node is
+- `prototypes.json:8` and `:38` — "OpenAI" is wrong; every LLM node is
   `langgenius/gemini/google`. Per decision, the vendor name is dropped rather
   than swapped, so the tags become `Agentic Workflow · RAG · MCP · Dify` and
   remain true if the model changes.
-- `applications.json:7` `descriptor` — "automates insurance prior
+- `prototypes.json:7` `descriptor` — "automates insurance prior
   authorization requests" is softened to reflect decision support rather than
   end-to-end submission.
 
@@ -439,13 +439,13 @@ Modified:
 - `lib/content/validate.ts` — five validator branches; `columns` recurses;
   icon names and accent names checked against their allowlists
 - `components/detail/renderBlock.tsx` — five cases
-- `app/applications/[slug]/ClientDetail.tsx` — render blocks; drop the
+- `app/prototypes/[slug]/ClientDetail.tsx` — render blocks; drop the
   hand-written hero
-- `components/applications/ApplicationDetailPanel.tsx` — skip `pageHero`;
+- `components/prototypes/PrototypeDetailPanel.tsx` — skip `pageHero`;
   narrow-column container class
 - `components/DiagramModal.tsx` — optional `children`
 - `app/globals.css` — accent tokens plus styles for the five blocks
-- `content/applications/applications.json` — prior auth recomposed; three
+- `content/prototypes/prototypes.json` — prior auth recomposed; three
   siblings gain a `pageHero`
 
 ## Verification
@@ -459,10 +459,10 @@ empty, so verification is:
    validators at import, so malformed JSON, unknown icon names, and unknown
    accent names all fail the build.
 2. `npm run lint`.
-3. Visual comparison of `/applications/prior-auth-workflow` against the target
+3. Visual comparison of `/prototypes/prior-auth-workflow` against the target
    design at desktop, 900px, and 375px widths.
-4. Regression check that `/applications?id=…` and the detail routes for the
-   other three applications still render correctly.
+4. Regression check that `/prototypes?id=…` and the detail routes for the
+   other three prototypes still render correctly.
 5. Keyboard traversal of the diagram's Fullscreen control and the modal's
    focus trap and Escape handling.
 
@@ -473,7 +473,7 @@ empty, so verification is:
   narrow-column presentation, but it is the most likely source of a visual
   regression and is explicitly covered in verification step 4.
 - **Removing the hand-written hero from `ClientDetail`** affects all four
-  applications at once. Mitigated by adding `pageHero` to every application in
+  prototypes at once. Mitigated by adding `pageHero` to every prototype in
   the same change; verification step 4 covers it.
 - **Diagram content can drift from the workflow.** The diagram is
   hand-authored, so editing the Dify workflow will not update the page. The
@@ -485,10 +485,10 @@ empty, so verification is:
   facts. If measurement data exists, the original cells can be restored.
 - **`statStrip` alongside `metaStrip`** leaves two similar kinds in the union.
   Accepted deliberately: merging them would require a breaking edit to
-  existing content. If all applications eventually migrate, `metaStrip` can be
+  existing content. If all prototypes eventually migrate, `metaStrip` can be
   retired in a later change.
 
-## The diabetes application
+## The diabetes prototype
 
 `lib/workflows/Diabetes Diagnosis.yml` is the second consumer, and it exercises
 parts of the schema prior auth does not.
@@ -550,7 +550,7 @@ pages rather than by reading the code:
    mobile. Restated at matching specificity.
 4. **The archive panel needs container-scoped rules, not media queries.** It is
    a narrow column inside a wide viewport, so `@media` cannot catch it;
-   `.application-detail-body` descendant rules force the diagram's list
+   `.prototype-detail-body` descendant rules force the diagram's list
    presentation there.
 
 Also: the fullscreen modal needed `.modalContent--wide`, since the default

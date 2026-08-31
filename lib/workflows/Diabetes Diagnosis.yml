@@ -1,0 +1,1375 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#E0F2FE'
+  icon_type: emoji
+  mode: workflow
+  name: Diabetes Diagnosis
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/gemini:0.9.4@9127fda25bd652152a418514dd05c2e88e17883fbf625650f2a8ba2808adf8b9
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        knowledge_file_size_limit: 15
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1772661210280--1772683955219-target
+      source: '1772661210280'
+      sourceHandle: source
+      target: '1772683955219'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1772683955219--1772684016886-target
+      source: '1772683955219'
+      sourceHandle: source
+      target: '1772684016886'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: agent
+        targetType: llm
+      id: 1772684071861--1772684173712-target
+      source: '1772684071861'
+      sourceHandle: source
+      target: '1772684173712'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: if-else
+      id: 1772684173712-source-1772684187919-target
+      source: '1772684173712'
+      sourceHandle: source
+      target: '1772684187919'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: human-input
+      id: 1772684187919-true-1772686982509-target
+      source: '1772684187919'
+      sourceHandle: 'true'
+      target: '1772686982509'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: human-input
+        targetType: end
+      id: 1772686982509-information-1772686855424-target
+      source: '1772686982509'
+      sourceHandle: information
+      target: '1772686855424'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: human-input
+        targetType: end
+      id: 1772686982509-__timeout-1772686855424-target
+      source: '1772686982509'
+      sourceHandle: __timeout
+      target: '1772686855424'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1772684187919-0ec7ae18-4e68-4257-b4fd-71d73dbf4c87-1772687129251-target
+      source: '1772684187919'
+      sourceHandle: 0ec7ae18-4e68-4257-b4fd-71d73dbf4c87
+      target: '1772687129251'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1772687129251--1772687254369-target
+      source: '1772687129251'
+      sourceHandle: source
+      target: '1772687254369'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1772684187919-false-1772687305528-target
+      source: '1772684187919'
+      sourceHandle: 'false'
+      target: '1772687305528'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1772687305528-source-1772687443410-target
+      source: '1772687305528'
+      sourceHandle: source
+      target: '1772687443410'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: knowledge-retrieval
+      id: 1772684016886-source-1773022165423-target
+      source: '1772684016886'
+      sourceHandle: source
+      target: '1773022165423'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: agent
+      id: 1773022165423-source-1772684071861-target
+      source: '1773022165423'
+      sourceHandle: source
+      target: '1772684071861'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - hint: ''
+          label: Age
+          max_length: 50
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: Age
+        - default: ''
+          hint: ''
+          label: Gender
+          max_length: 50
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: Gender
+        - default: ''
+          hint: ''
+          label: Symptoms
+          max_length: 800
+          options: []
+          placeholder: ''
+          required: false
+          type: paragraph
+          variable: Symptoms
+        - default: ''
+          hint: ''
+          label: Medical History
+          max_length: 1000
+          options: []
+          placeholder: ''
+          required: false
+          type: paragraph
+          variable: Medical_History
+        - default: ''
+          hint: ''
+          label: Social Characteristics (income, smoking status, race, family history)
+          max_length: 1000
+          options: []
+          placeholder: ''
+          required: false
+          type: paragraph
+          variable: Social_Characteristics
+      height: 213
+      id: '1772661210280'
+      position:
+        x: 0
+        y: 133
+      positionAbsolute:
+        x: 0
+        y: 133
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-3.1-flash-lite-preview
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: 03cb3f84-7f7a-4af5-b57e-58f2228b59f4
+          role: system
+          text: "Your response must contain ONLY the JSON object. Do not repeat or\
+            \ echo the patient input. Do not include any text before or after the\
+            \ JSON.\n\nYou are a medical data extractor. Convert patient input into\
+            \ the exact JSON structure below. Return ONLY valid JSON — no commentary,\
+            \ no markdown.\n\n{\n  \"age\": <integer or null>,\n  \"gender\": \"<string\
+            \ or null>\",\n  \"symptoms\": [\"<string>\"],\n  \"medical_history\"\
+            : {\n    \"conditions\": [\"<string>\"],\n    \"medications\": [\"<string>\"\
+            ],\n    \"labs\": {\n      \"hba1c\": <float or null>,\n      \"fasting_glucose\"\
+            : <float or null>,\n      \"ldl\": <float or null>,\n      \"hdl\": <float\
+            \ or null>,\n      \"bp_systolic\": <integer or null>,\n      \"bp_diastolic\"\
+            : <integer or null>,\n      \"bmi\": <float or null>\n    },\n    \"family_history\"\
+            : [\"<string>\"]\n  },\n  \"sdoh\": {\n    \"income_level\": \"<low/medium/high\
+            \ or null>\",\n    \"food_security\": \"<secure/insecure or null>\",\n\
+            \    \"exercise\": \"<string or null>\",\n    \"smoking\": \"<never/former/current\
+            \ or null>\",\n    \"alcohol\": \"<string or null>\",\n    \"other\":\
+            \ [\"<string>\"]\n  },\n  \"missing_critical_fields\": [\"<list only:\
+            \ hba1c, fasting_glucose, bmi, bp — if absent>\"]\n}\n\nRules:\n- If a\
+            \ field is not mentioned or cannot be inferred, set it to null. Empty\
+            \ lists should remain as [].\n- Never guess or fabricate values. Only\
+            \ extract what the patient explicitly states.\n- Extract lab values written\
+            \ informally. For example, \"my A1C was 7.2\" should become hba1c: 7.2.\n\
+            - If input is irrelevant or outside medical scope, ignore it and set affected\
+            \ fields to null.\n- Always return the complete JSON structure even if\
+            \ every field is null."
+        - id: 27290349-ab24-4388-b47d-c712c0529b8a
+          role: user
+          text: 'Age: {{#1772661210280.Age#}}
+
+            Gender: {{#1772661210280.Gender#}}
+
+            Symptoms: {{#1772661210280.Symptoms#}}
+
+            Medical History: {{#1772661210280.Medical_History#}}
+
+            Social Characteristics: {{#1772661210280.Social_Characteristics#}}'
+        selected: false
+        title: JSON Structurer
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1772683955219'
+      position:
+        x: -6.284074122771727
+        y: 425.42522343007977
+      positionAbsolute:
+        x: -6.284074122771727
+        y: 425.42522343007977
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        code: "import json\nimport re\n\ndef main(structured_json: str) -> dict:\n\
+          \n    try:\n        # Handle escaped newlines and whitespace\n        cleaned\
+          \ = structured_json.encode().decode('unicode_escape') if '\\\\n' in structured_json\
+          \ else structured_json\n        \n        # Strip markdown fences if present\n\
+          \        cleaned = re.sub(r\"```json|```\", \"\", cleaned).strip()\n   \
+          \     \n        # Extract just the JSON object if extra text is present\n\
+          \        match = re.search(r'\\{.*\\}', cleaned, re.DOTALL)\n        if\
+          \ match:\n            cleaned = match.group()\n        \n        data =\
+          \ json.loads(cleaned)\n\n    except Exception as e:\n        # Try direct\
+          \ parse as fallback\n        try:\n            match = re.search(r'\\{.*\\\
+          }', structured_json, re.DOTALL)\n            if match:\n               \
+          \ data = json.loads(match.group())\n            else:\n                raise\
+          \ ValueError(\"No JSON found\")\n        except Exception:\n           \
+          \ return {\n                \"numeric_risk_score\": 0,\n               \
+          \ \"risk_category\": \"unknown\",\n                \"sufficient_data\":\
+          \ \"no\",\n                \"missing_fields\": str(e)\n            }\n\n\
+          \    labs = data.get(\"medical_history\", {}).get(\"labs\", {})\n    history\
+          \ = data.get(\"medical_history\", {})\n    sdoh = data.get(\"sdoh\", {})\n\
+          \    missing = data.get(\"missing_critical_fields\", [])\n\n    critical\
+          \ = [\"hba1c\", \"fasting_glucose\", \"bmi\", \"bp_systolic\"]\n    if all(f\
+          \ in missing for f in critical):\n        return {\n            \"numeric_risk_score\"\
+          : 0,\n            \"risk_category\": \"insufficient_data\",\n          \
+          \  \"sufficient_data\": \"no\",\n            \"missing_fields\": \", \"\
+          .join(missing)\n        }\n\n    score = 0\n\n    hba1c = labs.get(\"hba1c\"\
+          )\n    if hba1c is not None:\n        if hba1c >= 6.5:\n            score\
+          \ += 40\n        elif hba1c >= 5.7:\n            score += 20\n\n    glucose\
+          \ = labs.get(\"fasting_glucose\")\n    if glucose is not None:\n       \
+          \ if glucose >= 126:\n            score += 30\n        elif glucose >= 100:\n\
+          \            score += 15\n\n    bmi = labs.get(\"bmi\")\n    if bmi is not\
+          \ None:\n        if bmi >= 30:\n            score += 10\n        elif bmi\
+          \ >= 25:\n            score += 5\n\n    age = data.get(\"age\")\n    if\
+          \ age is not None:\n        if age >= 45:\n            score += 5\n\n  \
+          \  family = history.get(\"family_history\", [])\n    family_text = \" \"\
+          .join(family).lower()\n    if \"diabetes\" in family_text or \"diabetic\"\
+          \ in family_text:\n        score += 8\n\n    if sdoh.get(\"food_security\"\
+          ) == \"insecure\":\n        score += 4\n    if sdoh.get(\"smoking\") ==\
+          \ \"current\":\n        score += 3\n    exercise = sdoh.get(\"exercise\"\
+          , \"\")\n    if exercise and any(word in exercise.lower() for word in [\"\
+          never\", \"sedentary\", \"none\", \"no exercise\", \"rarely\"]):\n     \
+          \   score += 4\n\n    score = min(score, 100)\n\n    if score >= 60:\n \
+          \       risk_category = \"high\"\n    elif score >= 30:\n        risk_category\
+          \ = \"moderate\"\n    else:\n        risk_category = \"low\"\n\n    return\
+          \ {\n        \"numeric_risk_score\": score,\n        \"risk_category\":\
+          \ risk_category,\n        \"sufficient_data\": \"yes\",\n        \"missing_fields\"\
+          : \", \".join(missing) if missing else \"none\"\n    }"
+        code_language: python3
+        outputs:
+          missing_fields:
+            children: null
+            type: string
+          numeric_risk_score:
+            children: null
+            type: number
+          risk_category:
+            children: null
+            type: string
+          sufficient_data:
+            children: null
+            type: string
+        selected: false
+        title: Risk Level Calculator
+        type: code
+        variables:
+        - value_selector:
+          - '1772683955219'
+          - text
+          value_type: string
+          variable: structured_json
+      height: 52
+      id: '1772684016886'
+      position:
+        x: -12.568148245543384
+        y: 612.0389418545963
+      positionAbsolute:
+        x: -12.568148245543384
+        y: 612.0389418545963
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        agent_parameters:
+          instruction:
+            type: constant
+            value: 'You are a clinical evidence retrieval specialist supporting a
+              Type 2 Diabetes risk assessment. You are NOT diagnosing the patient
+              — you are gathering relevant clinical evidence to support a downstream
+              diagnostic reasoning model.
+
+
+              Focus your research on:
+
+              1. ADA 2024/2025 diagnostic criteria and thresholds for Type 2 Diabetes
+
+              2. Clinical significance of the specific lab values present in the patient
+              data
+
+              3. How the patient''s SDOH factors (food insecurity, smoking, exercise,
+              income) impact T2D risk
+
+              4. Any relevant drug interactions based on the patient''s current medications
+
+              5. Recommended next steps and tests per current clinical guidelines
+
+
+              When referencing clinical criteria or guidelines, always cite the specific
+              source document and section. For example: "According to ADA Standards
+              of Care 2026, Section 1..." Include the exact threshold or recommendation
+              being referenced.
+
+
+              Be concise. Return only clinically relevant findings. Do not repeat
+              the patient data back. Structure your output as clear numbered findings
+              with a source reference for each.'
+          maximum_iterations:
+            type: constant
+            value: 3
+          mcp_servers_config:
+            type: constant
+            value: '{}'
+          model:
+            type: constant
+            value:
+              completion_params: {}
+              mode: chat
+              model: gemini-3.1-flash-lite-preview
+              model_type: llm
+              provider: langgenius/gemini/google
+              type: model-selector
+          query:
+            type: constant
+            value: 'Patient Data: {{#1772683955219.text#}}
+
+              Risk score: {{#1772684016886.numeric_risk_score#}} out of 100
+
+              Relevant Clinical Guidelines: {{#1773022165423.result#}}
+
+              Retrieve the most relevant clinical evidence to support a type 2 diabetes
+              diagnostic assessment for this patient.'
+          tools:
+            type: constant
+            value: []
+        agent_strategy_label: FunctionCalling (Support MCP Tools)
+        agent_strategy_name: mcp_sse_function_calling
+        agent_strategy_provider_name: junjiem/mcp_see_agent/mcp_see_agent
+        meta:
+          minimum_dify_version: null
+          version: 0.0.1
+        output_schema: {}
+        plugin_unique_identifier: junjiem/mcp_see_agent:0.2.4@82caf96890992e9dec2c43c3fac82bfce8bd18a41de7c2b6948151b2d7f7b7a2
+        selected: false
+        title: Clinical Evidence Reviewer
+        tool_node_version: '2'
+        type: agent
+      height: 136
+      id: '1772684071861'
+      position:
+        x: 337.5984479343382
+        y: 232.0447643368215
+      positionAbsolute:
+        x: 337.5984479343382
+        y: 232.0447643368215
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-3.1-flash-lite-preview
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: d2b2d2f6-b866-4f82-9b55-2e4faf02b6a7
+          role: system
+          text: "You are a clinical decision support AI assisting licensed physicians\
+            \ with Type 2 Diabetes risk assessment. You do not replace doctors. Your\
+            \ role is to synthesize patient data and clinical evidence into a structured\
+            \ diagnostic output.\n\nYou must be conservative in your reasoning. When\
+            \ uncertain, lower your confidence score and expand the physician checklist.\
+            \ Never fabricate lab values or clinical findings. Only reason from what\
+            \ is explicitly provided to you.\n\nReturn ONLY this exact JSON structure\
+            \ with no commentary or markdown:\n\n{\n  \"diagnosis\": <0 or 1>,\n \
+            \ \"condition\": \"Type 2 Diabetes\",\n  \"confidence\": <integer 0-10>,\n\
+            \  \"confidence_rationale\": \"<one sentence explaining why this confidence\
+            \ level was chosen>\",\n  \"key_risk_factors\": [\"<specific finding from\
+            \ patient data>\"],\n  \"sdoh_flags\": [\"<relevant social determinant\
+            \ and its clinical significance>\"],\n  \"supporting_evidence\": [{\"\
+            finding\": \"<string>\", \"source\": \"<guideline or reference>\"}],\n\
+            \  \"contradicting_factors\": [\"<factors that reduce suspicion>\"],\n\
+            \  \"doctor_checklist\": [\"<specific test or exam the physician should\
+            \ order, most urgent first>\"],\n  \"disclaimer\": \"This is AI-assisted\
+            \ clinical decision support only. Not a diagnosis. Must be reviewed by\
+            \ a licensed physician.\"\n}\n\nRules:\n- diagnosis 1 means high risk\
+            \ or probable Type 2 Diabetes. diagnosis 0 means low risk or unlikely.\n\
+            - confidence 8-10 means strong evidence. 5-7 means moderate evidence with\
+            \ some uncertainty. Below 5 means insufficient data to reason confidently.\n\
+            - Always cite at least one specific lab value from the patient data in\
+            \ supporting_evidence if available.\n- Always include at least one SDOH\
+            \ flag if social data is present.\n- doctor_checklist must always have\
+            \ at least three items even for high confidence cases.\nWhen populating\
+            \ supporting_evidence, always include the specific ADA guideline section\
+            \ or document that supports each finding. Format as: {\"finding\": \"\
+            <clinical finding>\", \"source\": \"ADA Standards of Care 2026, Section\
+            \ X\"} or cite any other source retrieved. Never leave source as generic\
+            \ — always name the specific document and section."
+        - id: 8fb5b1d5-916b-49c1-8364-6373926f2642
+          role: user
+          text: 'Patient data: {{#1772683955219.text#}}
+
+            ADA rule-based risk: {{#1772684016886.numeric_risk_score#}} out of 100
+
+            Risk category: {{#1772684016886.risk_category#}}
+
+            Clinical Evidence: {{#1772684071861.text#}}
+
+            Synthesize all of the above and return the diagnostic JSON.'
+        selected: false
+        title: Clinical Reasoning Engine
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1772684173712'
+      position:
+        x: 337.5984479343382
+        y: 612.0389418545963
+      positionAbsolute:
+        x: 337.5984479343382
+        y: 612.0389418545963
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: d836a513-01b6-4c84-9506-8845d95bbd67
+            value: 'no'
+            varType: string
+            variable_selector:
+            - '1772684016886'
+            - sufficient_data
+          id: 'true'
+          logical_operator: and
+        - case_id: 0ec7ae18-4e68-4257-b4fd-71d73dbf4c87
+          conditions:
+          - comparison_operator: contains
+            id: 0a024778-0b9f-4128-80b0-1d7501e2fb20
+            value: '"confidence": 8'
+            varType: string
+            variable_selector:
+            - '1772684173712'
+            - text
+          - comparison_operator: contains
+            id: 5f8bea87-21c7-453a-9a87-3f148916ecca
+            value: '"confidence": 9'
+            varType: string
+            variable_selector:
+            - '1772684173712'
+            - text
+          - comparison_operator: contains
+            id: 690644f0-3f49-4974-8477-c6b9bd5b78c5
+            value: '"confidence": 10'
+            varType: string
+            variable_selector:
+            - '1772684173712'
+            - text
+          id: 0ec7ae18-4e68-4257-b4fd-71d73dbf4c87
+          logical_operator: or
+        selected: false
+        title: IF/ELSE
+        type: if-else
+      height: 320
+      id: '1772684187919'
+      position:
+        x: 751.7215675370088
+        y: 256.834526351445
+      positionAbsolute:
+        x: 751.7215675370088
+        y: 256.834526351445
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        outputs:
+        - value_selector:
+          - '1772686982509'
+          - __rendered_content
+          value_type: string
+          variable: result
+        selected: false
+        title: Output
+        type: end
+      height: 88
+      id: '1772686855424'
+      position:
+        x: 1420.2689204426533
+        y: 117.90974679840411
+      positionAbsolute:
+        x: 1420.2689204426533
+        y: 117.90974679840411
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        delivery_methods:
+        - enabled: true
+          id: c8e6bc6c-3d6f-497b-9c8f-1bb1c8249dd0
+          type: webapp
+        form_content: 'We were unable to complete a full Type 2 Diabetes risk assessment
+          with the information provided. We will need to restart your assessment
+
+
+          To receive a more accurate assessment, please restart and include as many
+          of the following as possible:
+
+
+          - HbA1c (your 3-month average blood sugar %)
+
+          - Fasting glucose (blood sugar level after fasting for 8 hours)
+
+          - BMI (calculated from your height and weight)
+
+          - Blood pressure reading
+
+
+          Please consult your physician directly if you have any immediate health
+          concerns.'
+        inputs: []
+        selected: false
+        timeout: 3
+        timeout_unit: day
+        title: Need more info
+        type: human-input
+        user_actions:
+        - button_style: default
+          id: information
+          title: 'Restart '
+      height: 164
+      id: '1772686982509'
+      position:
+        x: 1080.2740011494304
+        y: 93.50269130025714
+      positionAbsolute:
+        x: 1080.2740011494304
+        y: 93.50269130025714
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-3.1-flash-lite-preview
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: 1c7b6d1a-88f2-4288-85db-f1e2b8c5d78e
+          role: system
+          text: 'You are a medical report formatter. Your job is to convert a raw
+            clinical JSON diagnostic result into a clear, compassionate, and easy-to-understand
+            report for both the patient and their physician.
+
+
+            The report must be warm and non-alarming in tone while remaining clinically
+            accurate. Never use jargon without explanation. Always include the disclaimer
+            at the end.
+
+
+            Format the report exactly like this:
+
+
+            ## Type 2 Diabetes Risk Assessment
+
+
+            **Diagnostic Prediction:** LIKELY HAS TYPE 2 DIABETES or UNLIKELY TO HAVE
+            TYPE 2 DIABETES
+
+            **Confidence Level:** X out of 10
+
+
+            ---
+
+
+            ## What This Means
+
+            [2-3 sentences explaining the prediction in plain English that a non-medical
+            person can understand]
+
+
+            ---
+
+
+            ## Key Risk Factors Identified
+
+            [Bulleted list of the specific risk factors found in the patient data]
+
+
+            ---
+
+
+            ## Social Factors Affecting Your Risk
+
+            [Bulleted list of SDOH flags and a one sentence explanation of how each
+            affects diabetes risk]
+
+
+            ---
+
+
+            ## Supporting Clinical Evidence
+
+            [Numbered list of findings with guideline references]
+
+            In the Supporting Clinical Evidence section, present each citation clearly
+            with the full source name and section. For example: "ADA Standards of
+            Care 2026, Section 1 — HbA1c ≥ 6.5% meets diagnostic threshold for Type
+            2 Diabetes." Make citations readable for a non-medical audience while
+            keeping them specific enough for a physician to verify.
+
+            ---
+
+
+            ## Protective Factors
+
+            [Bulleted list of contradicting or protective factors — things working
+            in the patient''s favor]
+
+
+            ---
+
+
+            ## Your Physician Should Check
+
+            [Ordered list of tests and exams, most urgent first, written clearly so
+            the patient understands what to ask their doctor for]
+
+
+            ---
+
+
+            ## Important Disclaimer
+
+            This report is generated by an AI-assisted clinical decision support tool
+            and does not constitute a medical diagnosis. All findings must be reviewed
+            and confirmed by a licensed physician before any clinical decisions are
+            made.'
+        - id: ac438228-e9b9-48a2-ab3f-b44b2902f4bf
+          role: user
+          text: 'Clinical Reasoning: {{#1772684173712.text#}}
+
+            Risk Score: {{#1772684016886.numeric_risk_score#}} out of 100
+
+            Risk category: {{#1772684016886.risk_category#}}'
+        selected: false
+        title: Report Formatter
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1772687129251'
+      position:
+        x: 1080.2740011494304
+        y: 436.55698668903995
+      positionAbsolute:
+        x: 1080.2740011494304
+        y: 436.55698668903995
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        outputs:
+        - value_selector:
+          - '1772687129251'
+          - text
+          value_type: string
+          variable: format
+        selected: false
+        title: Output 2
+        type: end
+      height: 88
+      id: '1772687254369'
+      position:
+        x: 1420.2689204426533
+        y: 431.08406986099044
+      positionAbsolute:
+        x: 1420.2689204426533
+        y: 431.08406986099044
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-3.1-flash-lite-preview
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: 7c0bbe2f-778b-4e39-8032-edf34ad29c60
+          role: system
+          text: 'You are a medical report formatter. Your job is to convert a raw
+            clinical JSON diagnostic result into a clear, compassionate, and easy-to-understand
+            report for both the patient and their physician.
+
+
+            The report must be warm and non-alarming in tone while remaining clinically
+            accurate. Never use jargon without explanation. Always include the disclaimer
+            at the end.
+
+
+            Note that this report is generated from a moderate or low confidence assessment
+            — meaning the available data was insufficient to reach a definitive conclusion.
+            Reflect this honestly but gently in the report.
+
+
+            Format the report exactly like this:
+
+
+            ## Type 2 Diabetes Risk Assessment
+
+
+            **Diagnostic Prediction:** LIKELY HAS TYPE 2 DIABETES or UNLIKELY TO HAVE
+            TYPE 2 DIABETES
+
+            **Confidence Level:** X out of 10
+
+            **Assessment Status:** Inconclusive — Additional Information Required
+
+
+            ---
+
+
+            ## What This Means
+
+            [2-3 sentences explaining the prediction in plain English. Be honest that
+            confidence is limited and why. Do not alarm the patient unnecessarily.]
+
+
+            ---
+
+
+            ## Key Risk Factors Identified
+
+            [Bulleted list of the specific risk factors found in the patient data]
+
+
+            ---
+
+
+            ## Social Factors Affecting Your Risk
+
+            [Bulleted list of SDOH flags and a one sentence explanation of how each
+            affects diabetes risk]
+
+
+            ---
+
+
+            ## Supporting Clinical Evidence
+
+            [Numbered list of findings with guideline references]
+
+            In the Supporting Clinical Evidence section, present each citation clearly
+            with the full source name and section. For example: "ADA Standards of
+            Care 2026, Section 1 — HbA1c ≥ 6.5% meets diagnostic threshold for Type
+            2 Diabetes." Make citations readable for a non-medical audience while
+            keeping them specific enough for a physician to verify.
+
+            ---
+
+
+            ## Protective Factors
+
+            [Bulleted list of contradicting or protective factors — things working
+            in the patient''s favor]
+
+
+            ---
+
+
+            ## Your Physician Should Check
+
+            [Ordered list of tests and exams from the diagnostic output, most urgent
+            first]
+
+
+            ---
+
+
+            ## Additional Tests Needed to Improve Certainty
+
+            [This section is specific to low and moderate confidence cases. List the
+            top 5 additional tests or assessments the physician should order to reach
+            a more definitive diagnosis. For each one explain in plain English why
+            it is needed for this specific patient based on their data and what missing
+            information it would provide.]
+
+
+            ---
+
+
+            ## Important Disclaimer
+
+            This report is generated by an AI-assisted clinical decision support tool
+            and does not constitute a medical diagnosis. All findings must be reviewed
+            and confirmed by a licensed physician before any clinical decisions are
+            made.'
+        - id: 04231134-7824-4b20-bfb2-88a76fdbeba9
+          role: user
+          text: 'Clinical Reasoning: {{#1772684173712.text#}}
+
+            Risk Score: {{#1772684016886.numeric_risk_score#}} out of 100
+
+            Risk Category: {{#1772684016886.risk_category#}}
+
+            Missing fields: {{#1772684016886.missing_fields#}}
+
+
+            Format this into a complete patient and physician facing report.'
+        selected: false
+        title: Report Formatter 2
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1772687305528'
+      position:
+        x: 1080.2740011494304
+        y: 756.9535154072953
+      positionAbsolute:
+        x: 1080.2740011494304
+        y: 756.9535154072953
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        outputs:
+        - value_selector:
+          - '1772687305528'
+          - text
+          value_type: string
+          variable: report
+        selected: false
+        title: Output 3
+        type: end
+      height: 88
+      id: '1772687443410'
+      position:
+        x: 1420.2689204426533
+        y: 761.6204826433034
+      positionAbsolute:
+        x: 1420.2689204426533
+        y: 761.6204826433034
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 165
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Inputs:
+          ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"1)
+          age, 2) gender, 3) symptoms, 4) medical history, 5) social characteristics","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""},{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Output","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":":
+          Report with prediction of whether patient has Type 2 Diabetes and action
+          plan to get better","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 165
+      id: '1772687934234'
+      position:
+        x: -291.42707492065165
+        y: 154
+      positionAbsolute:
+        x: -291.42707492065165
+        y: 154
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 112
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"JSON
+          Structurer: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Structures
+          user input in readable format for the Risk Level Calculator node","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 112
+      id: '1772688037100'
+      position:
+        x: -299.4044321355516
+        y: 425.42522343007977
+      positionAbsolute:
+        x: -299.4044321355516
+        y: 425.42522343007977
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 121
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Risk
+          Level Calculator","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":":
+          Rule-based arguments coded in Python to generate risk category level (low/medium/high)","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ' (1)'
+        type: ''
+        width: 240
+      height: 121
+      id: '17726880690550'
+      position:
+        x: -299.4044321355516
+        y: 589.7567202696515
+      positionAbsolute:
+        x: -299.4044321355516
+        y: 589.7567202696515
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 148
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Clinical
+          Evidence Reviewer","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":":
+          Agent node that can use tools to search medical databases and sources to
+          gather information to diagnose patient with Type 2 Diabetes.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 148
+      id: '1772688154261'
+      position:
+        x: 337.5984479343382
+        y: 63.82455401372344
+      positionAbsolute:
+        x: 337.5984479343382
+        y: 63.82455401372344
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 163
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Clinical
+          Reasoning: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Reasons
+          through both patient inputs and evidence-based clinical information to diagnose
+          the patient with a certain confidence level and supporting sources.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ' (1)'
+        type: ''
+        width: 240
+      height: 163
+      id: '17726881992740'
+      position:
+        x: 337.5984479343382
+        y: 416.35861424765244
+      positionAbsolute:
+        x: 337.5984479343382
+        y: 416.35861424765244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 101
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"IF/ELSE:
+          ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Tailors
+          response based on confidence level provided by the previous reasoning node","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ' (1)'
+        type: ''
+        width: 240
+      height: 101
+      id: '17726882757970'
+      position:
+        x: 751.7215675370088
+        y: 134.54195731839252
+      positionAbsolute:
+        x: 751.7215675370088
+        y: 134.54195731839252
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 164
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Unable
+          to generate report: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"User
+          did not provide enough information to meaningfully make any sort of prediction
+          - Needs to Restart workflow","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ' (1)'
+        type: ''
+        width: 240
+      height: 164
+      id: '17726883189300'
+      position:
+        x: 1080.2740011494304
+        y: -100.58482337102454
+      positionAbsolute:
+        x: 1080.2740011494304
+        y: -100.58482337102454
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 130
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"High
+          confidence pathway","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"
+          - User provided sufficient information and workflow is confident that the
+          patient has/does not have Type 2 Diabetes","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (2)'
+        type: ''
+        width: 240
+      height: 130
+      id: '17726883569610'
+      position:
+        x: 1080.2740011494304
+        y: 281.266217409177
+      positionAbsolute:
+        x: 1080.2740011494304
+        y: 281.266217409177
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 156
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Low/Moderate
+          confidence pathway ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          User provided moderate level of information and workflow has low to moderate
+          confidence that the patient has/does not have Type 2 Diabetes","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (2)'
+        type: ''
+        width: 243
+      height: 156
+      id: '17726884091720'
+      position:
+        x: 1080.2740011494304
+        y: 574.8126107887239
+      positionAbsolute:
+        x: 1080.2740011494304
+        y: 574.8126107887239
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 243
+      zIndex: 0
+    - data:
+        dataset_ids:
+        - 6OklXEYbCVbOdKX4k9TiaXuaVo2d9O3hhO7N+aWuB2uxXGr7x8wPEDCLfiinm4Uo
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          score_threshold: 0.5
+          top_k: 5
+          weights:
+            keyword_setting:
+              keyword_weight: 0
+            vector_setting:
+              embedding_model_name: text-embedding-3-large
+              embedding_provider_name: langgenius/openai/openai
+              vector_weight: 1
+            weight_type: customized
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1772684016886'
+        - risk_category
+        retrieval_mode: multiple
+        selected: false
+        title: Knowledge Retrieval
+        type: knowledge-retrieval
+      height: 90
+      id: '1773022165423'
+      position:
+        x: 337.5984479343382
+        y: -44.63706262399214
+      positionAbsolute:
+        x: 337.5984479343382
+        y: -44.63706262399214
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 152
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Knowledge
+          Retrieval: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Passes
+          2026 American Diabetes Association (ADA) guidelines to the subsequent agent
+          node to compare against the user''s medical information.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 244
+      height: 152
+      id: '1773022650144'
+      position:
+        x: 337.5984479343382
+        y: -212.08319819222072
+      positionAbsolute:
+        x: 337.5984479343382
+        y: -212.08319819222072
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 244
+      zIndex: 0
+    viewport:
+      x: 209.34538790302327
+      y: 311.37919956401583
+      zoom: 0.6697959533607684
+  rag_pipeline_variables: []

@@ -67,6 +67,9 @@ html {
   background: var(--bg);
   min-height: 100%;
   overflow-x: hidden;
+  /* Stop iOS Safari inflating body copy when a phone is rotated to landscape. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -85,6 +88,12 @@ body {
   overflow-x: hidden;
   min-height: 100dvh;
   display: grid;
+  /* The single column must be minmax(0, 1fr), not the implicit `auto`. An auto
+     track is floored by its content's min-content width, and the carousels
+     contain fixed-width card tracks — so on phones the track resolved to the
+     1360px desktop max and every band rendered off-screen, clipped by
+     overflow-x: hidden. minmax(0, ...) lets the column follow the viewport. */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: 1fr auto;
   grid-auto-rows: 0;
 }
@@ -4194,4 +4203,102 @@ footer {
   display: inline-flex;
   align-items: center;
   margin-bottom: 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PHONE / TOUCH
+   Everything above is width-driven. These rules are input- and device-driven:
+   touch target floors, notch insets, and native scroll behaviour on the
+   horizontal rails. Kept last so they win over the width breakpoints.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* A horizontal rail inside a vertically scrolling page: keep an over-swipe at
+   either end of the rail from chaining into the page (or a back-gesture). */
+.projects-home__scroll,
+.wf__scroll {
+  overscroll-behavior-x: contain;
+}
+
+@media (pointer: coarse) {
+  /* 44px minimum touch target (Apple HIG, WCAG 2.5.8). The desktop sizes stay
+     as they are — this only lifts the ones a finger has to hit. */
+  .logo,
+  .nav-resume,
+  .projects-btn,
+  .prototypes-layout .archive-sidebar .projects-btn,
+  .prototypes-layout.is-expanded .archive-sidebar .projects-btn,
+  .archive-sidebar-link,
+  .prototypes-layout.is-expanded .archive-sidebar-link,
+  .prototype-detail-action,
+  .footer-github {
+    min-height: 44px;
+  }
+
+  .archive-sidebar-link,
+  .prototypes-layout.is-expanded .archive-sidebar-link {
+    padding: 0 10px;
+  }
+
+  .footer-github {
+    padding-inline: 12px;
+  }
+
+  /* Back links and the diagram's fullscreen/reset buttons are the two controls
+     a finger reaches for most on a case-study page. */
+  .projectPageBack {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .detail-card .iconBtn {
+    min-height: 44px;
+    padding: 6px 14px;
+  }
+
+  /* Tapping a card should not leave it stuck in its hover-lift state. */
+  .project-card--home-strip:hover {
+    transform: none;
+  }
+}
+
+/* Notch and home-bar insets. env() is 0 on every non-inset device, so these
+   are no-ops elsewhere; the @supports guard keeps older engines on the
+   unprefixed values above. */
+@supports (padding: env(safe-area-inset-left)) {
+  body {
+    padding-top: calc(64px + env(safe-area-inset-top));
+  }
+
+  .nav-inner {
+    padding-top: calc(14px + env(safe-area-inset-top));
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+  }
+
+  .container,
+  .peek,
+  .footer-inner {
+    padding-left: max(28px, env(safe-area-inset-left));
+    padding-right: max(28px, env(safe-area-inset-right));
+  }
+
+  footer {
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  }
+
+  @media (max-width: 900px) {
+    .nav-inner {
+      padding-top: calc(16px + env(safe-area-inset-top));
+      padding-left: max(20px, env(safe-area-inset-left));
+      padding-right: max(20px, env(safe-area-inset-right));
+    }
+
+    .container,
+    .peek,
+    .footer-inner {
+      padding-left: max(20px, env(safe-area-inset-left));
+      padding-right: max(20px, env(safe-area-inset-right));
+    }
+  }
 }

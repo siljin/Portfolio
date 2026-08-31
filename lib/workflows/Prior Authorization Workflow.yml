@@ -1,0 +1,1234 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#EFF1F5'
+  icon_type: emoji
+  mode: workflow
+  name: Prior Authorization Workflow
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/gemini:0.9.2@d7070abc8d521d41489fdbc4760887774fbd4a521f03d191b7af4b146f16ba6f
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1773028177798--1773028261195-target
+      source: '1773028177798'
+      sourceHandle: source
+      target: '1773028261195'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1773028261195--1773028374073-target
+      source: '1773028261195'
+      sourceHandle: source
+      target: '1773028374073'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1773028374073--1773028835697-target
+      source: '1773028374073'
+      sourceHandle: source
+      target: '1773028835697'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1773028835697-true-1773028928513-target
+      source: '1773028835697'
+      sourceHandle: 'true'
+      target: '1773028928513'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1773028928513--1773028988366-target
+      source: '1773028928513'
+      sourceHandle: source
+      target: '1773028988366'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1773028835697-false-1773029783362-target
+      source: '1773028835697'
+      sourceHandle: 'false'
+      target: '1773029783362'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: agent
+      id: 1773029783362--1773029820495-target
+      source: '1773029783362'
+      sourceHandle: source
+      target: '1773029820495'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: agent
+        targetType: llm
+      id: 1773029820495--1773029912081-target
+      source: '1773029820495'
+      sourceHandle: source
+      target: '1773029912081'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: if-else
+      id: 1773029912081--1773030061107-target
+      source: '1773029912081'
+      sourceHandle: source
+      target: '1773030061107'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1773030061107-true-1773030140684-target
+      source: '1773030061107'
+      sourceHandle: 'true'
+      target: '1773030140684'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1773030140684--1773030225449-target
+      source: '1773030140684'
+      sourceHandle: source
+      target: '1773030225449'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1773030061107-false-1773030257515-target
+      source: '1773030061107'
+      sourceHandle: 'false'
+      target: '1773030257515'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1773030257515--1773030304621-target
+      source: '1773030257515'
+      sourceHandle: source
+      target: '1773030304621'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Inputs
+        type: start
+        variables:
+        - default: '44'
+          hint: ''
+          label: Age
+          max_length: 100
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: Age
+        - default: '150.9'
+          hint: ''
+          label: ICD-10 Code
+          max_length: 200
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: ICD10
+        - default: '93306'
+          hint: ''
+          label: CPT Code
+          max_length: 200
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: CPT_Code
+        - default: Aetna
+          hint: ''
+          label: Insurance Provider
+          max_length: 256
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: Insurance_Provider
+        - default: Patient is a 44 year old Asian male who complained of chest pain
+            and shortness of breath
+          hint: ''
+          label: Clinical Notes
+          max_length: 3000
+          options: []
+          placeholder: ''
+          required: false
+          type: paragraph
+          variable: Clinical_Notes
+      height: 213
+      id: '1773028177798'
+      position:
+        x: 105
+        y: 135.2224351484022
+      positionAbsolute:
+        x: 105
+        y: 135.2224351484022
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gemini-flash-lite-latest
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: 38df0255-2d5d-4e0b-b655-3f65cc0e3110
+          role: system
+          text: "Your response must contain ONLY the JSON object. No text before or\
+            \ after it.\n\nYou are a medical prior authorization data extractor. Convert\
+            \ the patient inputs below into this exact JSON structure. Return ONLY\
+            \ valid JSON — no commentary, no markdown.\n\n{\n  \"patient\": {\n  \
+            \  \"age\": <integer or null>,\n    \"insurance_provider\": \"<string\
+            \ or null>\"\n  },\n  \"request\": {\n    \"icd10_code\": \"<string or\
+            \ null>\",\n    \"diagnosis_description\": \"<infer from ICD-10 code if\
+            \ possible, else null>\",\n    \"cpt_code\": \"<string or null>\",\n \
+            \   \"procedure_description\": \"<infer from CPT code if possible, else\
+            \ null>\"\n  },\n  \"clinical_context\": {\n    \"primary_symptoms\":\
+            \ [\"<string>\"],\n    \"duration_of_condition\": \"<string or null>\"\
+            ,\n    \"prior_treatments_tried\": [\"<string>\"],\n    \"relevant_labs\"\
+            : [\"<string>\"],\n    \"physician_justification\": \"<string or null>\"\
+            ,\n    \"urgency\": \"<routine / urgent / emergent or null>\"\n  },\n\
+            \  \"missing_critical_fields\": [\"<list any of: age, icd10_code, cpt_code,\
+            \ clinical_notes — if absent or empty>\"]\n}\n\nRules:\n- Never fabricate\
+            \ clinical values. Only extract what is explicitly stated.\n- Infer ICD-10\
+            \ and CPT descriptions from your medical knowledge.\n- If a field is not\
+            \ mentioned set it to null. Empty arrays stay as [].\n- Always return\
+            \ the complete structure even if every field is null.\n\n- Extract informal\
+            \ descriptions into primary_symptoms. For example \"broken arm from baseball\
+            \ accident\" \n  should become primary_symptoms: [\"arm fracture from\
+            \ traumatic injury\"]. \n  Never leave primary_symptoms empty if clinical\
+            \ notes were provided.\n- If physician_justification is not explicitly\
+            \ stated but clinical notes are present, \n  copy the raw clinical notes\
+            \ text into physician_justification."
+        - id: 054975d3-661a-4cc1-b75d-f232ba34565e
+          role: user
+          text: 'Age: {{#1773028177798.Age#}}
+
+            ICD-10 Diagnoses: {{#1773028177798.ICD10#}}
+
+            CPT Procedure: {{#1773028177798.CPT_Code#}}
+
+            Insurance Provider: {{#1773028177798.Insurance_Provider#}}
+
+            Clinical Notes: {{#1773028177798.Clinical_Notes#}}'
+        selected: false
+        title: Prior Auth Intake Structurer
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1773028261195'
+      position:
+        x: 99
+        y: 473
+      positionAbsolute:
+        x: 99
+        y: 473
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import json\nimport re\n\ndef main(intake_json: str) -> dict:\n\n \
+          \   try:\n        cleaned = re.sub(r\"```json|```\", \"\", intake_json).strip()\n\
+          \        match = re.search(r'\\{.*\\}', cleaned, re.DOTALL)\n        data\
+          \ = json.loads(match.group()) if match else json.loads(cleaned)\n    except\
+          \ Exception as e:\n        return {\n            \"can_proceed\": \"no\"\
+          ,\n            \"missing_summary\": \"Could not parse intake data. Please\
+          \ check inputs.\",\n            \"completeness_score\": 0\n        }\n\n\
+          \    patient  = data.get(\"patient\", {})\n    request  = data.get(\"request\"\
+          , {})\n    clinical = data.get(\"clinical_context\", {})\n\n    has_clinical\
+          \ = (\n        bool(clinical.get(\"physician_justification\")) or\n    \
+          \    bool(clinical.get(\"primary_symptoms\")) or\n        bool(clinical.get(\"\
+          duration_of_condition\")) or\n        bool(clinical.get(\"prior_treatments_tried\"\
+          )) or\n        len(intake_json) > 300\n    )\n\n    checks = {\n       \
+          \ \"Age\":            bool(patient.get(\"age\")),\n        \"ICD-10 code\"\
+          :    bool(request.get(\"icd10_code\")),\n        \"CPT code\":       bool(request.get(\"\
+          cpt_code\")),\n        \"Clinical notes\": has_clinical,\n    }\n\n    failed\
+          \ = [k for k, v in checks.items() if not v]\n    failed = list(dict.fromkeys(failed))\n\
+          \n    score = round((1 - len(failed) / len(checks)) * 100)\n\n    if failed:\n\
+          \        return {\n            \"can_proceed\": \"no\",\n            \"\
+          missing_summary\": \"Missing: \" + \", \".join(failed),\n            \"\
+          completeness_score\": score\n        }\n\n    return {\n        \"can_proceed\"\
+          : \"yes\",\n        \"missing_summary\": \"All required fields present.\"\
+          ,\n        \"completeness_score\": 100\n    }"
+        code_language: python3
+        outputs:
+          can_proceed:
+            children: null
+            type: string
+          completeness_score:
+            children: null
+            type: number
+          missing_summary:
+            children: null
+            type: string
+        selected: false
+        title: Completeness Check
+        type: code
+        variables:
+        - value_selector:
+          - '1773028261195'
+          - text
+          value_type: string
+          variable: intake_json
+      height: 52
+      id: '1773028374073'
+      position:
+        x: 99
+        y: 721
+      positionAbsolute:
+        x: 99
+        y: 721
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 6548e440-ab4b-45f0-bafe-3f69be8dc209
+            value: 'no'
+            varType: string
+            variable_selector:
+            - '1773028374073'
+            - can_proceed
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: Completeness Route
+        type: if-else
+      height: 148
+      id: '1773028835697'
+      position:
+        x: 480.46222831799275
+        y: 413.84792515545104
+      positionAbsolute:
+        x: 480.46222831799275
+        y: 413.84792515545104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gemini-3.1-flash-lite-preview
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: bd62f9c1-a0a0-4d05-8852-4e3ab456f15d
+          role: system
+          text: "You are a prior authorization intake coordinator. A submission is\
+            \ incomplete \nand cannot be processed. Generate a clear, professional,\
+            \ actionable message \nfor the submitting physician explaining exactly\
+            \ what is missing and how to \nresubmit.\n\nFormat your response exactly\
+            \ like this:\n\n## Prior Authorization Submission — Incomplete\n\n**Completeness\
+            \ Score:** {completeness_score}/100\n\n---\n\n## What Is Missing\n[Numbered\
+            \ list of every missing field from missing_summary. For each one \nwrite\
+            \ one sentence explaining why it is required and what it should contain.]\n\
+            \n---\n\n## How to Resubmit\n1. Add the missing information listed above\
+            \ to your submission\n2. Restart the workflow with all fields completed\n\
+            3. Contact your EHR administrator if you need help retrieving records\n\
+            \n---\n\n## Why This Matters\nIncomplete prior authorization submissions\
+            \ are automatically pended or denied \nby payers, causing treatment delays\
+            \ for your patient. Providing complete \ninformation on first submission\
+            \ reduces turnaround time from days to hours."
+        - id: f8a0d6cc-872a-4bf9-b284-4f8dbae7a714
+          role: user
+          text: 'Structured Intake: {{#1773028261195.text#}}
+
+            Missing Fields: {{#1773028374073.missing_summary#}}
+
+            Completeness Score: {{#1773028374073.completeness_score#}}'
+        selected: false
+        title: Missing Info Formatter
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1773028928513'
+      position:
+        x: 840.5307797811413
+        y: 377.1730505471467
+      positionAbsolute:
+        x: 840.5307797811413
+        y: 377.1730505471467
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1773028928513'
+          - text
+          value_type: string
+          variable: needs_info
+        selected: false
+        title: Output
+        type: end
+      height: 88
+      id: '1773028988366'
+      position:
+        x: 1142.5307797811413
+        y: 377.1730505471467
+      positionAbsolute:
+        x: 1142.5307797811413
+        y: 377.1730505471467
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - GeNr4YGm1fKwMz9qzcsS4luQKSpEutkRXTnBUk7vRgcMEPwB9q9Lp4hPnMaSvPF7
+        - ZcMOQgAreXR5Co6HvFncnfN1sr0qWVoSJ1GpbIrlZEDXOixtQTx11xY40MyF5yWk
+        metadata_filtering_mode: automatic
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          top_k: 4
+          weights:
+            keyword_setting:
+              keyword_weight: 0
+            vector_setting:
+              embedding_model_name: text-embedding-3-large
+              embedding_provider_name: langgenius/openai/openai
+              vector_weight: 1
+            weight_type: customized
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1773028261195'
+        - text
+        retrieval_mode: multiple
+        selected: false
+        title: 'AETNA CPT POLICY '
+        type: knowledge-retrieval
+      height: 90
+      id: '1773029783362'
+      position:
+        x: 840.5307797811413
+        y: 654.3201478142604
+      positionAbsolute:
+        x: 840.5307797811413
+        y: 654.3201478142604
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        agent_parameters:
+          instruction:
+            type: constant
+            value: "You are a clinical evidence specialist supporting a prior authorization\
+              \ \ndecision. Search for and summarize the most relevant clinical evidence\
+              \ for \nwhether this procedure is medically necessary for this diagnosis.\n\
+              \nFind:\n1. Clinical guidelines supporting or questioning this procedure\
+              \ for \n   this diagnosis (cite the specific guideline and society)\n\
+              2. Whether Aetna requires precertification for this CPT code based \n\
+              \   on the retrieved policy chunks\n3. Standard of care for this condition\
+              \ — what treatments are typically \n   required before this procedure\
+              \ is approved\n4. Any step therapy or conservative treatment requirements\n\
+              \nReturn a numbered evidence summary. Cite every source specifically."
+          mcp_servers_config:
+            type: constant
+            value: '{}'
+          model:
+            type: constant
+            value:
+              completion_params: {}
+              mode: chat
+              model: gemini-3.1-flash-lite-preview
+              model_type: llm
+              provider: langgenius/gemini/google
+              type: model-selector
+          query:
+            type: constant
+            value: 'Patient intake: {{#1773028261195.text#}}
+
+              Aetna Policy: {{#1773029783362.result#}}'
+        agent_strategy_label: FunctionCalling (Support MCP Tools)
+        agent_strategy_name: mcp_sse_function_calling
+        agent_strategy_provider_name: junjiem/mcp_see_agent/mcp_see_agent
+        meta:
+          minimum_dify_version: null
+          version: 0.0.1
+        output_schema: {}
+        plugin_unique_identifier: junjiem/mcp_see_agent:0.2.4@82caf96890992e9dec2c43c3fac82bfce8bd18a41de7c2b6948151b2d7f7b7a2
+        selected: false
+        title: Clinical Evidence Agent
+        tool_node_version: '2'
+        type: agent
+      height: 136
+      id: '1773029820495'
+      position:
+        x: 1142.5307797811413
+        y: 654.3201478142604
+      positionAbsolute:
+        x: 1142.5307797811413
+        y: 654.3201478142604
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params: {}
+          mode: chat
+          name: gemini-3.1-flash-lite-preview
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: 6b006643-eda5-4780-b6ba-e78cb8d9239c
+          role: system
+          text: "You are an AI-assisted prior authorization decision support system\
+            \ helping \nlicensed payer reviewers. You do not replace human reviewers.\
+            \ Be conservative \n— when uncertain output PEND, never force a binary\
+            \ decision on ambiguous cases.\n\nReturn ONLY this exact JSON. No commentary,\
+            \ no markdown:\n\n{\n  \"decision\": \"APPROVE or DENY or PEND\",\n  \"\
+            confidence\": <integer 0-10>,\n  \"confidence_rationale\": \"<one sentence>\"\
+            ,\n  \"medical_necessity_strength\": \"strong / moderate / weak / insufficient_data\"\
+            ,\n  \"criteria_met\": [\n    {\n      \"criterion\": \"<payer criterion>\"\
+            ,\n      \"evidence\": \"<how patient meets it>\",\n      \"source\":\
+            \ \"<policy or guideline reference>\"\n    }\n  ],\n  \"criteria_failed\"\
+            : [\n    {\n      \"criterion\": \"<payer criterion>\",\n      \"gap\"\
+            : \"<what is missing>\"\n    }\n  ],\n  \"precertification_required\"\
+            : true or false,\n  \"step_therapy_status\": \"satisfied / not_satisfied\
+            \ / not_applicable / unknown\",\n  \"key_supporting_evidence\": [\n  \
+            \  {\n      \"finding\": \"<string>\",\n      \"source\": \"<specific\
+            \ reference>\"\n    }\n  ],\n  \"appeal_vulnerabilities\": [\"<if DENY:\
+            \ grounds that could support appeal>\"],\n  \"pend_requirements\": [\"\
+            <if PEND: exactly what documentation resolves this>\"],\n  \"urgency_flag\"\
+            : \"routine / urgent / emergent\",\n  \"decision_summary\": \"<3 sentences\
+            \ plain English summary>\",\n  \"disclaimer\": \"AI-assisted decision\
+            \ support only. Must be reviewed by a licensed payer reviewer.\"\n}\n\n\
+            Rules:\n- APPROVE only when criteria_met is strong and confidence >= 8\n\
+            - DENY only when criteria_failed is clear and confidence >= 8\n- PEND\
+            \ for everything else — ambiguity always goes to PEND\n- precertification_required\
+            \ should reflect what the Aetna policy chunks say \n  about this specific\
+            \ CPT code\n- Always populate appeal_vulnerabilities even for APPROVE\
+            \ decisions\n- urgency emergent = life-threatening, urgent = deterioration\
+            \ within 72h, \n  routine = everything else"
+        - id: 2cd74280-cb21-454a-b99a-4f936b5d8ddf
+          role: user
+          text: 'Patient Intake: {{#1773028261195.text#}}
+
+            Clinical Evidence: {{#1773029820495.text#}}'
+        selected: false
+        title: Decision-Making LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1773029912081'
+      position:
+        x: 1442.184489885709
+        y: 654.3201478142604
+      positionAbsolute:
+        x: 1442.184489885709
+        y: 654.3201478142604
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: 2ee03da0-aff4-4e27-b7d3-79489132139a
+            value: '"confidence": 8'
+            varType: string
+            variable_selector:
+            - '1773029912081'
+            - text
+          - comparison_operator: contains
+            id: 71045da8-4d3d-41a3-b107-3b6162c58622
+            value: '"confidence": 9'
+            varType: string
+            variable_selector:
+            - '1773029912081'
+            - text
+          - comparison_operator: contains
+            id: aa0707f0-6394-4363-a482-aaafee712682
+            value: '"confidence": 10'
+            varType: string
+            variable_selector:
+            - '1773029912081'
+            - text
+          id: 'true'
+          logical_operator: or
+        selected: false
+        title: Confidence Route
+        type: if-else
+      height: 248
+      id: '1773030061107'
+      position:
+        x: 1746.5307797811413
+        y: 608.0851952706757
+      positionAbsolute:
+        x: 1746.5307797811413
+        y: 608.0851952706757
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-3.1-flash-lite-preview
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: 8c643474-da43-4b6a-a698-e255d9fd7dce
+          role: system
+          text: "You are a prior authorization report formatter. Convert the raw decision\
+            \ \nJSON into a clear, professional report readable by both the treating\
+            \ \nphysician and the payer reviewer. Every claim must be traceable to\
+            \ a source.\n\nFormat the report exactly like this:\n\n## Prior Authorization\
+            \ Decision Report\n\n**Patient Age:** [age]\n**Diagnosis (ICD-10):** [code\
+            \ — description]\n**Requested Procedure (CPT):** [code — description]\n\
+            **Insurance Provider:** [provider]\n**Precertification Required:** Yes\
+            \ / No\n**Decision:** APPROVED or DENIED\n**Confidence Level:** X/10\n\
+            **Urgency:** Routine / Urgent / Emergent\n\n---\n\n## Decision Summary\n\
+            [3 sentences of clear clinical reasoning. State the decision, the primary\
+            \ \nbasis for it, and the key evidence that drove it. No jargon without\
+            \ \nexplanation.]\n\n---\n\n## Payer Criteria Assessment\n| Criterion\
+            \ | Status | Evidence | Source |\n|-----------|--------|----------|--------|\n\
+            [One row per criterion. Status = MET or NOT MET. Be specific in Evidence\
+            \ \ncolumn — reference actual patient data not generic statements.]\n\n\
+            ---\n\n## Step Therapy Compliance\n**Status:** [Satisfied / Not Satisfied\
+            \ / Not Applicable / Unknown]\n[2 sentences. Name the specific prior treatments\
+            \ tried and their outcomes. \nIf not applicable explain why.]\n\n---\n\
+            \n## Supporting Clinical Evidence\n[Numbered list. Format each as: Finding\
+            \ — Source. Minimum 3 items. \nCite specific guidelines, journals, or\
+            \ policy documents.]\n\n---\n\n## Physician Action Items\n[Numbered list\
+            \ of concrete next steps for the treating physician. \nBe specific — not\
+            \ generic advice.]\n\n---\n\n## Appeal Pathway\n[Numbered list of specific\
+            \ grounds for appeal with supporting evidence \nreferences. Include even\
+            \ for APPROVED decisions in case of reversal.]\n\n---\n\n## Disclaimer\n\
+            This report is generated by an AI-assisted prior authorization decision\
+            \ \nsupport tool. It does not constitute a final coverage determination.\
+            \ \nAll decisions must be reviewed and confirmed by a licensed payer reviewer\
+            \ \nbefore communication to the patient or treating physician."
+        - id: db7b9f94-5ca6-482f-a094-81294564333b
+          role: user
+          text: 'Decision JSON: {{#1773029912081.text#}}
+
+            Patient Intake: {{#1773028261195.text#}}
+
+            Format this into a complete prior authorization decision report.'
+        selected: false
+        title: High confidence formatter
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1773030140684'
+      position:
+        x: 2063.8119775346013
+        y: 523.4279525864185
+      positionAbsolute:
+        x: 2063.8119775346013
+        y: 523.4279525864185
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1773030140684'
+          - text
+          value_type: string
+          variable: finalreport
+        selected: false
+        title: Final report
+        type: end
+      height: 88
+      id: '1773030225449'
+      position:
+        x: 2365.8119775346013
+        y: 523.4279525864185
+      positionAbsolute:
+        x: 2365.8119775346013
+        y: 523.4279525864185
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-3.1-flash-lite-preview
+          provider: langgenius/gemini/google
+        prompt_template:
+        - id: f8eb2415-02de-4060-ab3f-be03b63222a2
+          role: system
+          text: "You are a prior authorization report formatter. This report is for\
+            \ a PEND \nor low confidence decision — meaning the available information\
+            \ was \ninsufficient to reach a definitive determination. Be precise about\
+            \ what \nis ambiguous and provide a clear action pathway to resolve it.\n\
+            \nTone: clinical, direct, constructive. The physician needs to know exactly\
+            \ \nwhat to do next to get this approved.\n\nFormat the report exactly\
+            \ like this:\n\n## Prior Authorization — Pending Review\n\n**Patient Age:**\
+            \ [age]\n**Diagnosis (ICD-10):** [code — description]\n**Requested Procedure\
+            \ (CPT):** [code — description]\n**Insurance Provider:** [provider]\n\
+            **Precertification Required:** Yes / No\n**Decision:** PENDING — Additional\
+            \ Information Required\n**Confidence Level:** X/10\n**Urgency:** Routine\
+            \ / Urgent / Emergent\n\n---\n\n## Why This Request Is Pending\n[3-4 sentences.\
+            \ Be specific — name exactly which criteria could not be \nevaluated,\
+            \ which evidence was ambiguous, and what policy gaps exist. \nDo not be\
+            \ vague.]\n\n---\n\n## What Must Be Provided to Reach a Decision\n[Numbered\
+            \ list from pend_requirements. For each item:\n- State exactly what is\
+            \ needed\n- Explain which payer criterion it would satisfy\n- Indicate\
+            \ where to find this information]\n\n---\n\n## Partial Criteria Assessment\n\
+            | Criterion | Status | Notes |\n|-----------|--------|-------|\n[MET criteria\
+            \ from criteria_met and NOT MET / UNKNOWN from criteria_failed]\n\n---\n\
+            \n## Current Supporting Evidence\n[Numbered list of evidence found so\
+            \ far — what supports and what \nchallenges the request. Cite every source\
+            \ specifically.]\n\n---\n\n## Step Therapy Status\n**Status:** [Satisfied\
+            \ / Not Satisfied / Not Applicable / Unknown]\n[2 sentences on prior treatments\
+            \ tried and whether step therapy \nrequirements are fulfilled or still\
+            \ outstanding.]\n\n---\n\n## Resubmission Checklist\n[Checkbox-style list\
+            \ of every action item before resubmitting, \nin priority order. Written\
+            \ so the physician's office can hand \nthis directly to their PA coordinator.]\n\
+            \n---\n\n## Appeal Pathway\n[If this request is subsequently denied, list\
+            \ specific grounds, \nevidence references, and recommended next steps\
+            \ for a successful \nappeal. Include peer-to-peer review guidance if applicable.]\n\
+            \n---\n\n## Disclaimer\nThis report is generated by an AI-assisted prior\
+            \ authorization decision \nsupport tool. It does not constitute a final\
+            \ coverage determination. \nAll decisions must be reviewed and confirmed\
+            \ by a licensed payer reviewer \nbefore communication to the patient or\
+            \ treating physician."
+        - id: 004d42a5-3d8e-4991-ba92-b255a0f89e36
+          role: user
+          text: 'Decision JSON: {{#1773029912081.text#}}
+
+            Intake JSON: {{#1773028261195.text#}}
+
+            Format this into a complete prior authorization pending report with a
+            clear action pathway for the physician.'
+        selected: false
+        title: Low confidence formatter
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1773030257515'
+      position:
+        x: 2063.8119775346013
+        y: 792.5430916935978
+      positionAbsolute:
+        x: 2063.8119775346013
+        y: 792.5430916935978
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1773030257515'
+          - text
+          value_type: string
+          variable: final_report
+        selected: false
+        title: Pending approval report
+        type: end
+      height: 88
+      id: '1773030304621'
+      position:
+        x: 2365.8119775346013
+        y: 792.5430916935978
+      positionAbsolute:
+        x: 2365.8119775346013
+        y: 792.5430916935978
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 113
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Workflow","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"
+          ","type":"text","version":1},{"detail":0,"format":1,"mode":"normal","style":"","text":"Objective","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":":
+          Approve/Deny Prior Authorization Claims","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 113
+      id: '1773030899948'
+      position:
+        x: 105
+        y: -40.99349827404945
+      positionAbsolute:
+        x: 105
+        y: -40.99349827404945
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 133
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"User
+          Inputs: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Enter
+          in patient''s Age, ICD-10 diagnostic code, CPT (Current Procedural Terminology),
+          Insurance Provider, Clinical Notes","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ' (1)'
+        type: ''
+        width: 240
+      height: 133
+      id: '17730309303890'
+      position:
+        x: -145.48273900662764
+        y: 178.75230473171968
+      positionAbsolute:
+        x: -145.48273900662764
+        y: 178.75230473171968
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 139
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Prior
+          Authorization LLM: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Structurers
+          the user inputs into readable format for future LLMs to process.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (2)'
+        type: ''
+        width: 240
+      height: 139
+      id: '17730309785480'
+      position:
+        x: -177.20130651814736
+        y: 448.332880127705
+      positionAbsolute:
+        x: -177.20130651814736
+        y: 448.332880127705
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 168
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Code
+          Node","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":":
+          Assesses how much information user provided and whether there is sufficient
+          information to reasonable argue for approval/denial of the prior authorization
+          claim. ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (3)'
+        type: ''
+        width: 240
+      height: 168
+      id: '17730310214080'
+      position:
+        x: -172.03902985121175
+        y: 686.272742516183
+      positionAbsolute:
+        x: -172.03902985121175
+        y: 686.272742516183
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 139
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Completeness
+          Routing Node: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"If
+          there is too much missing information, then the user has to restart. Else,
+          we continue with the workflow.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (3)'
+        type: ''
+        width: 240
+      height: 139
+      id: '17730310717090'
+      position:
+        x: 480.46222831799275
+        y: 257.61699914889624
+      positionAbsolute:
+        x: 480.46222831799275
+        y: 257.61699914889624
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 139
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Missing
+          Info Formatter: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Describes
+          what information is needed to provide a more reliable, robust output that
+          the physician/payer/patient can use.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (4)'
+        type: ''
+        width: 240
+      height: 139
+      id: '17730311029970'
+      position:
+        x: 840.5307797811413
+        y: 228.1194305978092
+      positionAbsolute:
+        x: 840.5307797811413
+        y: 228.1194305978092
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 153
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Knowledge
+          Base: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Contains
+          Aetna''s CPT policies, codes, and descriptions to help the subsequent LLMs
+          reason about whether the patient is medically fit for the requested procedure.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (5)'
+        type: ''
+        width: 240
+      height: 153
+      id: '17730311365800'
+      position:
+        x: 840.5307797811413
+        y: 484.8031326501244
+      positionAbsolute:
+        x: 840.5307797811413
+        y: 484.8031326501244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 139
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Clinical
+          Evidence Agent: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Aggregates
+          user inputs, the payer policy information, and web search sources to understand
+          guidelines and standard clinical care processes.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (5)'
+        type: ''
+        width: 240
+      height: 139
+      id: '17730312060600'
+      position:
+        x: 1142.5307797811413
+        y: 484.8031326501244
+      positionAbsolute:
+        x: 1142.5307797811413
+        y: 484.8031326501244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 139
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Decision-Making
+          LLM: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Uses
+          all sources of medical information to decide whether the patient is medically
+          fit for the given procedure. Outputs a confidence rating out of 10. ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (6)'
+        type: ''
+        width: 248
+      height: 139
+      id: '17730312727190'
+      position:
+        x: 1442.184489885709
+        y: 484.8031326501244
+      positionAbsolute:
+        x: 1442.184489885709
+        y: 484.8031326501244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 248
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 165
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Confidence
+          Route: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"If
+          the confidence rating is at least 8 out of 10, then the report includes
+          clear recommendations and next steps. Else, the report highlights a checklist
+          of additional tests to run.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (6)'
+        type: ''
+        width: 240
+      height: 165
+      id: '17730313189710'
+      position:
+        x: 1746.5307797811413
+        y: 413.84792515545104
+      positionAbsolute:
+        x: 1746.5307797811413
+        y: 413.84792515545104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 136
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"High
+          Confidence LLM: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Formats
+          a user-friendly report with clear decision supported with evidence-based
+          medical sources.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (6)'
+        type: ''
+        width: 240
+      height: 136
+      id: '17730313721300'
+      position:
+        x: 2068.5014712339175
+        y: 357.92617372159845
+      positionAbsolute:
+        x: 2068.5014712339175
+        y: 357.92617372159845
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: nidhish.nerur@austin.utexas.edu
+        desc: ''
+        height: 139
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"Low
+          Confidence LLM: ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"Formats
+          a user-friendly report with suggested decision along with next steps to
+          help better inform the clinical care team on how to proceed.","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""}],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: '  (6)'
+        type: ''
+        width: 240
+      height: 139
+      id: '17730314205700'
+      position:
+        x: 2063.8119775346013
+        y: 643.0329451676228
+      positionAbsolute:
+        x: 2063.8119775346013
+        y: 643.0329451676228
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    viewport:
+      x: 225.25070214634258
+      y: 128.47747571746288
+      zoom: 0.6795960080466128
+  rag_pipeline_variables: []

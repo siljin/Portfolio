@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { Nav } from "@/components/Nav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -23,6 +23,15 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   display: "swap",
 });
+
+// viewportFit: "cover" is what makes env(safe-area-inset-*) resolve to non-zero
+// on notched iPhones; globals.css pads the nav, gutters, and footer back out of
+// the unsafe areas. Zoom is deliberately left enabled.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = getSite();
